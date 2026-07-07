@@ -11,7 +11,7 @@ import {
   TextActions,
 } from './Components/CardsContainer';
 import {CustomHook} from './Components/CustomHooks';
-import ToolsPage from './Components/ToolsPage';
+import CustomActionsCard from './Components/ToolsPage';
 import reducer from './reducer';
 import {setToast} from './toastHolder';
 
@@ -19,7 +19,19 @@ export function InitialExtensions(lynxAPI: ExtensionRendererApi) {
   lynxAPI.addReducer([{name: 'customActions', reducer}]);
   if (lynxAPI.toast) setToast(lynxAPI.toast);
 
-  lynxAPI.customizePages.tools.add.cardsContainer(ToolsPage);
+  lynxAPI.cards.registerToolsCard?.({
+    id: 'custom-actions',
+    title: 'Custom Actions',
+    description:
+      'Create, customize, and manage custom shortcut cards with your own scripts, ' +
+      'APIs, or shell commands to automate your daily developer workflows.',
+    component: CustomActionsCard,
+    where: 'tools_page',
+  });
+
+  if (!lynxAPI.cards.registerToolsCard) {
+    lynxAPI.customizePages.tools.add.cardsContainer(CustomActionsCard);
+  }
 
   lynxAPI.customizePages.home.add.pinCategory(PinnedActions);
   lynxAPI.customizePages.home.add.recentlyCategory(RecentlyActions);

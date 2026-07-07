@@ -4,12 +4,13 @@ import {Widget6} from '@solar-icons/react-perf/BoldDuotone';
 
 import CustomActionsModal from './Modal/CustomActionsModal';
 
-export default function ToolsPage() {
+export function CustomActionsCard() {
   const state = useOverlayState();
 
   return (
     <>
       <ToolsCard
+        id="custom-actions"
         description={
           'Create, customize, and manage custom shortcut cards with your own scripts, ' +
           'APIs, or shell commands to automate your daily developer workflows.'
@@ -22,3 +23,5 @@ export default function ToolsPage() {
     </>
   );
 }
+
+export default CustomActionsCard;
