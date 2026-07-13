@@ -1,6 +1,15 @@
 {
   "versions": [
     {
+      "version": "0.4.2",
+      "commit": "98ec844",
+      "engines": {
+        "extensionApi": "^2.2.0"
+      },
+      "stage": "early_access",
+      "platforms": ["win32", "linux", "darwin"]
+    },
+    {
       "version": "0.4.1",
       "commit": "a11a6c6",
       "engines": {
@@ -65,6 +74,15 @@
     }
   ],
   "changes": [
+    {
+      "version": "0.4.2",
+      "date": "2026-07-13",
+      "items": [
+        {
+          "📌 Improvements": ["Cards can now be pinned and displayed within home categories."]
+        }
+      ]
+    },
     {
       "version": "0.4.1",
       "date": "2026-06-30",
