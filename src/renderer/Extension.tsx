@@ -2,6 +2,7 @@ import './index.css';
 
 import {ExtensionRendererApi} from '@lynx/plugins/extensions/types/api';
 
+import {SENTRY_DSN} from '../cross/constants';
 import {
   AllActions,
   AudioActions,
@@ -16,6 +17,8 @@ import reducer from './reducer';
 import {setToast} from './toastHolder';
 
 export function InitialExtensions(lynxAPI: ExtensionRendererApi) {
+  lynxAPI.initBrowserSentry(SENTRY_DSN);
+
   lynxAPI.addReducer([{name: 'customActions', reducer}]);
   if (lynxAPI.toast) setToast(lynxAPI.toast);
 

@@ -1,12 +1,15 @@
 import {ExtensionMainApi, MainExtensionUtils} from '@lynx_main/plugins/extensions/types';
 import {ipcMain} from 'electron';
 
+import {SENTRY_DSN} from '../cross/constants';
 import {CustomCard} from '../cross/CrossTypes';
 import {customActionsChannels} from '../cross/CrossUtils';
 import {exportToFile, getCards, importFromFile, setCards} from './Methods/CardsManager';
 import startExecute from './Methods/StartExecute';
 
 export async function initialExtension(lynxApi: ExtensionMainApi, utils: MainExtensionUtils) {
+  lynxApi.initNodeSentry(SENTRY_DSN);
+
   lynxApi.listenForChannels(() => {
     utils.getStorageManager().then(storageManager => {
       ipcMain.handle(customActionsChannels.getCards, () => getCards(storageManager));

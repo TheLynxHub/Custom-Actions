@@ -1,0 +1,2 @@
+export const SENTRY_DSN =
+  'https://60228860c0bb09090539b7157812575c@o4509344104316928.ingest.us.sentry.io/4511891820380160';
