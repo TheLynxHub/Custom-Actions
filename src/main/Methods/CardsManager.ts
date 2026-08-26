@@ -1,4 +1,4 @@
-import StorageManager from '@lynx_main/storage/storageOperations';
+import StorageManager from '@lynx_main/storageSqlite/storageOperations';
 import {dialog} from 'electron';
 import * as fs from 'fs/promises';
 

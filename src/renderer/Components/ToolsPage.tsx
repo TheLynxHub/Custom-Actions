@@ -10,11 +10,11 @@ export function CustomActionsCard() {
   return (
     <>
       <ToolsCard
-        id="custom-actions"
         description={
           'Create, customize, and manage custom shortcut cards with your own scripts, ' +
           'APIs, or shell commands to automate your daily developer workflows.'
         }
+        id="custom-actions"
         onPress={state.open}
         title="Custom Actions"
         icon={<Widget6 className="size-8 text-cyan-500" />}
