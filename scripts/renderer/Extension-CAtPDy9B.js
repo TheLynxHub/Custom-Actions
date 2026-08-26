@@ -1,6 +1,16 @@
-import { i as __toCommonJS, n as __esmMin, r as __exportAll } from "./rolldown-runtime-CL6CfywC.js";
-import { r as importShared } from "./_virtual___federation_fn_import-ChPcBYrR.js";
-import { t as require_jsx_runtime } from "./jsx-runtime-DedqF-TD.js";
+(function() {
+	try {
+		var e = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof globalThis ? globalThis : "undefined" != typeof self ? self : {};
+		e.SENTRY_RELEASE = { id: "17561bda7d32de6a59c60e7229a41d6eb183b31a" };
+		var n = new e.Error().stack;
+		n && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[n] = "cb057ea7-557a-412a-8943-20ba03f367ee", e._sentryDebugIdIdentifier = "sentry-dbid-cb057ea7-557a-412a-8943-20ba03f367ee");
+	} catch (e) {}
+})();
+import { r as importShared } from "./_virtual___federation_fn_import-BRUIZv03.js";
+import { t as require_jsx_runtime } from "./jsx-runtime-CXEOhwld.js";
+//#region extension/src/cross/constants.ts
+var SENTRY_DSN = "https://60228860c0bb09090539b7157812575c@o4509344104316928.ingest.us.sentry.io/4511891820380160";
+//#endregion
 //#region node_modules/lodash-es/_freeGlobal.js
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
@@ -42,8 +52,10 @@ function getRawTag(value) {
 		var unmasked = true;
 	} catch (e) {}
 	var result = nativeObjectToString$1.call(value);
-	if (unmasked) if (isOwn) value[symToStringTag$1] = tag;
-	else delete value[symToStringTag$1];
+	if (unmasked) {
+		if (isOwn) value[symToStringTag$1] = tag;
+		else delete value[symToStringTag$1];
+	}
 	return result;
 }
 //#endregion
@@ -67,7 +79,8 @@ function objectToString(value) {
 //#endregion
 //#region node_modules/lodash-es/_baseGetTag.js
 /** `Object#toString` result references. */
-var nullTag = "[object Null]", undefinedTag = "[object Undefined]";
+var nullTag = "[object Null]";
+var undefinedTag = "[object Undefined]";
 /** Built-in value references. */
 var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : void 0;
 /**
@@ -179,9 +192,10 @@ var isArray$1 = Array.isArray;
 //#endregion
 //#region node_modules/lodash-es/_baseToString.js
 /** Used as references for various `Number` constants. */
-var INFINITY = Infinity;
+var INFINITY = 1 / 0;
 /** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol$1 ? Symbol$1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
+var symbolProto = Symbol$1 ? Symbol$1.prototype : void 0;
+var symbolToString = symbolProto ? symbolProto.toString : void 0;
 /**
 * The base implementation of `_.toString` which doesn't convert nullish
 * values to empty strings.
@@ -231,7 +245,10 @@ function isObject$1(value) {
 //#endregion
 //#region node_modules/lodash-es/isFunction.js
 /** `Object#toString` result references. */
-var asyncTag = "[object AsyncFunction]", funcTag$1 = "[object Function]", genTag = "[object GeneratorFunction]", proxyTag = "[object Proxy]";
+var asyncTag = "[object AsyncFunction]";
+var funcTag$1 = "[object Function]";
+var genTag = "[object GeneratorFunction]";
+var proxyTag = "[object Proxy]";
 /**
 * Checks if `value` is classified as a `Function` object.
 *
@@ -307,7 +324,8 @@ var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 /** Used to detect host constructors (Safari). */
 var reIsHostCtor = /^\[object .+?Constructor\]$/;
 /** Used for built-in method references. */
-var funcProto = Function.prototype, objectProto$2 = Object.prototype;
+var funcProto = Function.prototype;
+var objectProto$2 = Object.prototype;
 /** Used to resolve the decompiled source of functions. */
 var funcToString = funcProto.toString;
 /** Used to check objects for own properties. */
@@ -526,8 +544,30 @@ var isBuffer = (Buffer ? Buffer.isBuffer : void 0) || stubFalse;
 //#endregion
 //#region node_modules/lodash-es/_baseIsTypedArray.js
 /** `Object#toString` result references. */
-var argsTag = "[object Arguments]", arrayTag = "[object Array]", boolTag = "[object Boolean]", dateTag = "[object Date]", errorTag = "[object Error]", funcTag = "[object Function]", mapTag$2 = "[object Map]", numberTag = "[object Number]", objectTag$1 = "[object Object]", regexpTag = "[object RegExp]", setTag$2 = "[object Set]", stringTag = "[object String]", weakMapTag$1 = "[object WeakMap]";
-var arrayBufferTag = "[object ArrayBuffer]", dataViewTag$1 = "[object DataView]", float32Tag = "[object Float32Array]", float64Tag = "[object Float64Array]", int8Tag = "[object Int8Array]", int16Tag = "[object Int16Array]", int32Tag = "[object Int32Array]", uint8Tag = "[object Uint8Array]", uint8ClampedTag = "[object Uint8ClampedArray]", uint16Tag = "[object Uint16Array]", uint32Tag = "[object Uint32Array]";
+var argsTag = "[object Arguments]";
+var arrayTag = "[object Array]";
+var boolTag = "[object Boolean]";
+var dateTag = "[object Date]";
+var errorTag = "[object Error]";
+var funcTag = "[object Function]";
+var mapTag$2 = "[object Map]";
+var numberTag = "[object Number]";
+var objectTag$1 = "[object Object]";
+var regexpTag = "[object RegExp]";
+var setTag$2 = "[object Set]";
+var stringTag = "[object String]";
+var weakMapTag$1 = "[object WeakMap]";
+var arrayBufferTag = "[object ArrayBuffer]";
+var dataViewTag$1 = "[object DataView]";
+var float32Tag = "[object Float32Array]";
+var float64Tag = "[object Float64Array]";
+var int8Tag = "[object Int8Array]";
+var int16Tag = "[object Int16Array]";
+var int32Tag = "[object Int32Array]";
+var uint8Tag = "[object Uint8Array]";
+var uint8ClampedTag = "[object Uint8ClampedArray]";
+var uint16Tag = "[object Uint16Array]";
+var uint32Tag = "[object Uint32Array]";
 /** Used to identify `toStringTag` values of typed arrays. */
 var typedArrayTags = {};
 typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
@@ -724,15 +764,28 @@ function asciiToArray(string) {
 //#endregion
 //#region node_modules/lodash-es/_unicodeToArray.js
 /** Used to compose unicode character classes. */
-var rsAstralRange = "\\ud800-\\udfff", rsComboRange = "\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff", rsVarRange = "\\ufe0e\\ufe0f";
+var rsAstralRange = "\\ud800-\\udfff";
+var rsComboRange = "\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff";
+var rsVarRange = "\\ufe0e\\ufe0f";
 /** Used to compose unicode capture groups. */
-var rsAstral = "[" + rsAstralRange + "]", rsCombo = "[" + rsComboRange + "]", rsFitz = "\\ud83c[\\udffb-\\udfff]", rsModifier = "(?:" + rsCombo + "|" + rsFitz + ")", rsNonAstral = "[^" + rsAstralRange + "]", rsRegional = "(?:\\ud83c[\\udde6-\\uddff]){2}", rsSurrPair = "[\\ud800-\\udbff][\\udc00-\\udfff]", rsZWJ = "\\u200d";
+var rsAstral = "[" + rsAstralRange + "]";
+var rsCombo = "[" + rsComboRange + "]";
+var rsFitz = "\\ud83c[\\udffb-\\udfff]";
+var rsModifier = "(?:" + rsCombo + "|" + rsFitz + ")";
+var rsNonAstral = "[^" + rsAstralRange + "]";
+var rsRegional = "(?:\\ud83c[\\udde6-\\uddff]){2}";
+var rsSurrPair = "[\\ud800-\\udbff][\\udc00-\\udfff]";
+var rsZWJ = "\\u200d";
 /** Used to compose unicode regexes. */
-var reOptMod = rsModifier + "?", rsOptVar = "[" + rsVarRange + "]?", rsOptJoin = "(?:" + rsZWJ + "(?:" + [
+var reOptMod = rsModifier + "?";
+var rsOptVar = "[" + rsVarRange + "]?";
+var rsOptJoin = "(?:" + rsZWJ + "(?:" + [
 	rsNonAstral,
 	rsRegional,
 	rsSurrPair
-].join("|") + ")" + rsOptVar + reOptMod + ")*", rsSeq = rsOptVar + reOptMod + rsOptJoin, rsSymbol = "(?:" + [
+].join("|") + ")" + rsOptVar + reOptMod + ")*";
+var rsSeq = rsOptVar + reOptMod + rsOptJoin;
+var rsSymbol = "(?:" + [
 	rsNonAstral + rsCombo + "?",
 	rsCombo,
 	rsRegional,
@@ -833,10 +886,18 @@ var Set$1 = getNative(root, "Set");
 //#endregion
 //#region node_modules/lodash-es/_getTag.js
 /** `Object#toString` result references. */
-var mapTag$1 = "[object Map]", objectTag = "[object Object]", promiseTag = "[object Promise]", setTag$1 = "[object Set]", weakMapTag = "[object WeakMap]";
+var mapTag$1 = "[object Map]";
+var objectTag = "[object Object]";
+var promiseTag = "[object Promise]";
+var setTag$1 = "[object Set]";
+var weakMapTag = "[object WeakMap]";
 var dataViewTag = "[object DataView]";
 /** Used to detect maps, sets, and weakmaps. */
-var dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map$1), promiseCtorString = toSource(Promise$1), setCtorString = toSource(Set$1), weakMapCtorString = toSource(WeakMap$1);
+var dataViewCtorString = toSource(DataView);
+var mapCtorString = toSource(Map$1);
+var promiseCtorString = toSource(Promise$1);
+var setCtorString = toSource(Set$1);
+var weakMapCtorString = toSource(WeakMap$1);
 /**
 * Gets the `toStringTag` of `value`.
 *
@@ -885,7 +946,8 @@ function compact(array) {
 //#endregion
 //#region node_modules/lodash-es/isEmpty.js
 /** `Object#toString` result references. */
-var mapTag = "[object Map]", setTag = "[object Set]";
+var mapTag = "[object Map]";
+var setTag = "[object Set]";
 /** Used to check objects for own properties. */
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 /**
@@ -1310,7 +1372,7 @@ var objectTraps = {
 		const value = source[prop];
 		if (state.finalized_ || !isDraftable(value)) return value;
 		if (isArrayWithStringProp && state.operationMethod && arrayPlugin?.isMutatingArrayMethod(state.operationMethod) && isArrayIndex(prop)) return value;
-		if (value === peek(state.base_, prop)) {
+		if (value === peek(state.base_, prop) || isRelocatedBaseRef(state, prop, value)) {
 			prepareCopy(state);
 			const childKey = state.type_ === 1 ? +prop : prop;
 			const childDraft = createProxy(state.scope_, value, state, childKey);
@@ -1342,7 +1404,7 @@ var objectTraps = {
 			prepareCopy(state);
 			markChanged(state);
 		}
-		if (state.copy_[prop] === value && (value !== void 0 || prop in state.copy_) || Number.isNaN(value) && Number.isNaN(state.copy_[prop])) return true;
+		if (state.copy_[prop] === value && (value !== void 0 || has(state.copy_, prop, state.type_)) || Number.isNaN(value) && Number.isNaN(state.copy_[prop])) return true;
 		state.copy_[prop] = value;
 		state.assigned_.set(prop, true);
 		handleCrossReference(state, prop, value);
@@ -1396,6 +1458,10 @@ arrayTraps.set = function(state, prop, value) {
 function peek(draft, prop) {
 	const state = draft[DRAFT_STATE];
 	return (state ? latest(state) : draft)[prop];
+}
+function isRelocatedBaseRef(state, prop, value) {
+	if (state.type_ !== 1 || !state.allIndicesReassigned_ || state.assigned_?.get(prop) || !isDraftable(value) || value[DRAFT_STATE]) return false;
+	return state.baseRefs_.has(value);
 }
 function readPropFromProto(state, source, prop) {
 	const desc = getDescriptorFromProto(source, prop);
@@ -1685,20 +1751,22 @@ function createReducer(initialState, mapOrBuilderCallback) {
 		let caseReducers = [actionsMap[action.type], ...finalActionMatchers.filter(({ matcher }) => matcher(action)).map(({ reducer: reducer2 }) => reducer2)];
 		if (caseReducers.filter((cr) => !!cr).length === 0) caseReducers = [finalDefaultCaseReducer];
 		return caseReducers.reduce((previousState, caseReducer) => {
-			if (caseReducer) if (isDraft(previousState)) {
-				const result = caseReducer(previousState, action);
-				if (result === void 0) return previousState;
-				return result;
-			} else if (!isDraftable(previousState)) {
-				const result = caseReducer(previousState, action);
-				if (result === void 0) {
-					if (previousState === null) return previousState;
-					throw Error("A case reducer on a non-draftable value must not return undefined");
-				}
-				return result;
-			} else return produce(previousState, (draft) => {
-				return caseReducer(draft, action);
-			});
+			if (caseReducer) {
+				if (isDraft(previousState)) {
+					const result = caseReducer(previousState, action);
+					if (result === void 0) return previousState;
+					return result;
+				} else if (!isDraftable(previousState)) {
+					const result = caseReducer(previousState, action);
+					if (result === void 0) {
+						if (previousState === null) return previousState;
+						throw Error("A case reducer on a non-draftable value must not return undefined");
+					}
+					return result;
+				} else return produce(previousState, (draft) => {
+					return caseReducer(draft, action);
+				});
+			}
 			return previousState;
 		}, state);
 	}
@@ -2095,6 +2163,7 @@ var browserChannels = {
 	openZoom: "browser:openZoom",
 	openVolume: "browser:openVolume",
 	onZoomChanged: "browser:on-zoom-changed",
+	onActiveWindowChange: "browser:on-active-window-change",
 	onLinkHover: "browser:on-link-hover",
 	resizeLinkPreview: "browser:resize-link-preview",
 	resizeBrowserView: "browser:resize-browser-view",
@@ -2129,7 +2198,8 @@ var browserChannels = {
 	updateTabMuted: "volume:updateTabMuted",
 	onTabVolumeUpdate: "volume:onTabVolumeUpdate",
 	onTabMutedUpdate: "volume:onTabMutedUpdate",
-	onAudioStateChange: "volume:onAudioStateChange"
+	onAudioStateChange: "volume:onAudioStateChange",
+	executeJavaScript: "browser:execute-javascript"
 };
 //#endregion
 //#region src/renderer/shared/ipc/ipcEvents.ts
@@ -2345,10 +2415,10 @@ var browserIpc = {
 	send: {
 		resizeLinkPreview: (width) => lynxIpc.send(browserChannels.resizeLinkPreview, width),
 		resizeBrowserView: (data) => lynxIpc.send(browserChannels.resizeBrowserView, data),
-		createBrowser: (id) => lynxIpc.send(browserChannels.createBrowser, id),
+		createBrowser: (id, options) => lynxIpc.send(browserChannels.createBrowser, id, options),
 		removeBrowser: (id) => lynxIpc.send(browserChannels.removeBrowser, id),
 		loadURL: (id, url) => lynxIpc.send(browserChannels.loadURL, id, url),
-		setVisible: (id, visible) => lynxIpc.send(browserChannels.setVisible, id, visible),
+		setVisible: (id, visible, hideMode) => lynxIpc.send(browserChannels.setVisible, id, visible, hideMode),
 		openFindInPage: (id, customPosition) => lynxIpc.send(browserChannels.openFindInPage, id, customPosition),
 		openZoom: (id, customPosition) => lynxIpc.send(browserChannels.openZoom, id, customPosition),
 		openVolume: (data, customPosition) => lynxIpc.send(browserChannels.openVolume, data, customPosition),
@@ -2381,14 +2451,16 @@ var browserIpc = {
 		onTabVolumeUpdate: (callback) => lynxIpc.on(browserChannels.onTabVolumeUpdate, callback),
 		onTabMutedUpdate: (callback) => lynxIpc.on(browserChannels.onTabMutedUpdate, callback),
 		foundInPage: (callback) => lynxIpc.on(browserChannels.onFoundInPage, callback),
-		onZoomChanged: (callback) => lynxIpc.on(browserChannels.onZoomChanged, callback)
+		onZoomChanged: (callback) => lynxIpc.on(browserChannels.onZoomChanged, callback),
+		activeWindowChanged: (callback) => lynxIpc.on(browserChannels.onActiveWindowChange, callback)
 	},
 	invoke: {
 		clearCache: () => lynxIpc.invoke(browserChannels.clearCache),
 		clearCookies: () => lynxIpc.invoke(browserChannels.clearCookies),
 		getUserAgent: (type) => lynxIpc.invoke(browserChannels.getUserAgent, type),
 		setVolume: (id, volume) => invokeWithSoftTimeout(browserChannels.setVolume, "Volume set operation timed out", id, volume),
-		setMuted: (id, muted) => invokeWithSoftTimeout(browserChannels.setMuted, "Mute set operation timed out", id, muted)
+		setMuted: (id, muted) => invokeWithSoftTimeout(browserChannels.setMuted, "Mute set operation timed out", id, muted),
+		executeJavaScript: (id, script) => lynxIpc.invoke(browserChannels.executeJavaScript, id, script)
 	}
 };
 //#endregion
@@ -2508,7 +2580,7 @@ var cardsSlice = createSlice({
 			if (!state.browserDomReadyIds.includes(action.payload)) state.browserDomReadyIds.push(action.payload);
 		},
 		addRunningEmpty: (state, action) => {
-			const { tabId, type } = action.payload;
+			const { tabId, type, dir } = action.payload;
 			const id = `${tabId}_${type}`;
 			const currentView = type === "browser" ? "browser" : "terminal";
 			state.runningCard.push({
@@ -2518,7 +2590,7 @@ var cardsSlice = createSlice({
 				isEmptyRunning: true
 			});
 			if (type !== "terminal") browserIpc.send.createBrowser(id);
-			if (type !== "browser") ptyIpc.emptyProcess(id);
+			if (type !== "browser") ptyIpc.emptyProcess(id, dir);
 		},
 		addRunningCard: (state, action) => {
 			const { tabId, id } = action.payload;
@@ -2594,7 +2666,7 @@ var cardsActions = cardsSlice.actions;
 cardsSlice.reducer;
 //#endregion
 //#region src/renderer/mainWindow/utils/hooks.tsx
-var { Fragment: Fragment$4, useEffect: useEffect$10, useRef: useRef$12, useState: useState$10 } = await importShared("react");
+var { Fragment: Fragment$4, useEffect: useEffect$10, useState: useState$11 } = await importShared("react");
 /**
 * Hook to check if a card is pinned.
 * @param cardId - The ID of the card to check
@@ -2720,65 +2792,84 @@ function AddBreadcrumb_Renderer(message) {
 	});
 }
 //#endregion
-//#region node_modules/@solar-icons/react-perf/dist/lib/IconBase.mjs
+//#region node_modules/@solar-icons/react/dist/lib/IconBase.mjs
 var import_jsx_runtime = require_jsx_runtime();
 var { forwardRef: e } = await importShared("react");
-var r$18 = e((e, r) => {
-	let { alt: i, color: a = `currentColor`, size: o = `1em`, mirrored: s = !1, children: c, ...l } = e;
+var r$18 = `solar`;
+function i$16(e) {
+	return e[`aria-label`] !== void 0 || e.title !== void 0;
+}
+var a = e(({ alt: e, color: a, size: o, strokeWidth: s, secondaryColor: c, secondaryOpacity: l, iconName: u, isolated: d, children: f, ...p }, m) => {
+	let h = u ? `${r$18} solar-${u}` : r$18, g = p.className, _ = g ? `${h} ${g}` : h, v = !!e || i$16(p), y = { ...p.style ?? {} };
+	if (d && (y[`--solar-secondary-color`] = `initial`, y[`--solar-secondary-opacity`] = `initial`), a !== void 0 && (y.color = a), o !== void 0) {
+		let e = typeof o == `number` ? `${o}px` : o;
+		y.width = e, y.height = e;
+	}
+	s !== void 0 && (y.strokeWidth = String(s)), c && (y[`--solar-secondary-color`] = c), l != null && (y[`--solar-secondary-opacity`] = String(l));
+	let b = o === void 0 ? d ? `24px` : `1em` : void 0, x = o === void 0 ? d ? `24px` : `1em` : void 0;
+	o === void 0 && !d && (`fontSize` in y || (y.fontSize = `var(--solar-size, 24px)`));
+	let S = a === void 0 ? d ? `currentColor` : `var(--solar-color, currentColor)` : void 0, C = s === void 0 ? d ? `1.5` : `var(--solar-stroke-width, 1.5)` : void 0;
 	return (0, import_jsx_runtime.jsxs)(`svg`, {
-		ref: r,
+		ref: m,
 		xmlns: `http://www.w3.org/2000/svg`,
-		width: o,
-		height: o,
-		color: a,
 		fill: `none`,
 		viewBox: `0 0 24 24`,
-		transform: s ? `scale(-1, 1)` : void 0,
-		...l,
-		children: [!!i && (0, import_jsx_runtime.jsx)(`title`, { children: i }), c]
+		...p,
+		className: _,
+		style: Object.keys(y).length > 0 ? y : void 0,
+		width: b,
+		height: x,
+		color: S,
+		strokeWidth: C,
+		...!v && { "aria-hidden": `true` },
+		children: [!!e && (0, import_jsx_runtime.jsx)(`title`, { children: e }), f]
 	});
 });
-r$18.displayName = `IconBase`;
 //#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/ui/Bold/Pin.mjs
+//#region node_modules/@solar-icons/react/dist/icons/bold/pin.mjs
 var { forwardRef: t$17 } = await importShared("react");
-var r$17 = t$17((t, r) => (0, import_jsx_runtime.jsx)(r$18, {
+var r$17 = t$17((t, r) => (0, import_jsx_runtime.jsx)(a, {
 	ref: r,
 	...t,
+	iconName: `pin-bold`,
 	children: (0, import_jsx_runtime.jsx)(`path`, {
 		d: `M19.1835 7.80516L16.2188 4.83755C14.1921 2.8089 13.1788 1.79457 12.0904 2.03468C11.0021 2.2748 10.5086 3.62155 9.5217 6.31506L8.85373 8.1381C8.59063 8.85617 8.45908 9.2152 8.22239 9.49292C8.11619 9.61754 7.99536 9.72887 7.86251 9.82451C7.56644 10.0377 7.19811 10.1392 6.46145 10.3423C4.80107 10.8 3.97088 11.0289 3.65804 11.5721C3.5228 11.8069 3.45242 12.0735 3.45413 12.3446C3.45809 12.9715 4.06698 13.581 5.28476 14.8L6.69935 16.2163L2.22345 20.6964C1.92552 20.9946 1.92552 21.4782 2.22345 21.7764C2.52138 22.0746 3.00443 22.0746 3.30236 21.7764L7.77841 17.2961L9.24441 18.7635C10.4699 19.9902 11.0827 20.6036 11.7134 20.6045C11.9792 20.6049 12.2404 20.5358 12.4713 20.4041C13.0192 20.0914 13.2493 19.2551 13.7095 17.5825C13.9119 16.8472 14.013 16.4795 14.2254 16.1835C14.3184 16.054 14.4262 15.9358 14.5468 15.8314C14.8221 15.593 15.1788 15.459 15.8922 15.191L17.7362 14.4981C20.4 13.4973 21.7319 12.9969 21.9667 11.9115C22.2014 10.826 21.1954 9.81905 19.1835 7.80516Z`,
 		fill: `currentColor`
 	})
 }));
-r$17.displayName = `Pin`;
 //#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/video/Bold/Play.mjs
+//#region node_modules/@solar-icons/react/dist/icons/bold/play.mjs
 var { forwardRef: t$16 } = await importShared("react");
-var r$16 = t$16((t, r) => (0, import_jsx_runtime.jsx)(r$18, {
+var r$16 = t$16((t, r) => (0, import_jsx_runtime.jsx)(a, {
 	ref: r,
 	...t,
+	iconName: `play-bold`,
 	children: (0, import_jsx_runtime.jsx)(`path`, {
 		d: `M21.4086 9.35258C23.5305 10.5065 23.5305 13.4935 21.4086 14.6474L8.59662 21.6145C6.53435 22.736 4 21.2763 4 18.9671L4 5.0329C4 2.72368 6.53435 1.26402 8.59661 2.38548L21.4086 9.35258Z`,
 		fill: `currentColor`
 	})
 }));
-r$16.displayName = `Play`;
 //#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/ui/LineDuotone/Pin.mjs
+//#region node_modules/@solar-icons/react/dist/icons/line-duotone/pin.mjs
 var { forwardRef: t$15 } = await importShared("react");
-var i$15 = t$15((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
+var i$15 = t$15((t, i) => (0, import_jsx_runtime.jsxs)(a, {
 	ref: i,
 	...t,
+	iconName: `pin-line-duotone`,
 	children: [(0, import_jsx_runtime.jsx)(`path`, {
-		d: `M15.9894 4.9502L16.52 4.42014L16.52 4.42014L15.9894 4.9502ZM19.0717 8.03562L18.5411 8.56568L18.5411 8.56568L19.0717 8.03562ZM8.73845 19.429L8.20785 19.9591L8.73845 19.429ZM4.62176 15.3081L5.15236 14.7781L4.62176 15.3081ZM17.567 14.9943L17.3032 14.2922L17.567 14.9943ZM15.6499 15.7146L15.9137 16.4167L15.6499 15.7146ZM8.33227 8.38177L7.62805 8.12375H7.62805L8.33227 8.38177ZM9.02673 6.48636L9.73095 6.74438L9.02673 6.48636ZM5.84512 10.6735L6.04445 11.3965H6.04445L5.84512 10.6735ZM7.30174 10.1351L6.86354 9.52646L6.86354 9.52646L7.30174 10.1351ZM7.6759 9.79038L8.24673 10.2768H8.24673L7.6759 9.79038ZM14.2511 16.3805L14.7421 16.9475L14.7421 16.9475L14.2511 16.3805ZM13.3807 18.2012L12.6575 18.0022V18.0022L13.3807 18.2012ZM13.917 16.7466L13.3076 16.3094L13.3076 16.3094L13.917 16.7466ZM2.71854 12.7552L1.96855 12.76V12.76L2.71854 12.7552ZM2.93053 11.9521L2.28061 11.5778H2.28061L2.93053 11.9521ZM11.3053 21.3431L11.3064 20.5931H11.3064L11.3053 21.3431ZM12.0933 21.1347L11.7216 20.4833L11.7216 20.4833L12.0933 21.1347ZM11.6973 2.03606L11.8589 2.76845L11.6973 2.03606ZM15.4588 5.48026L18.5411 8.56568L19.6023 7.50556L16.52 4.42014L15.4588 5.48026ZM9.26905 18.8989L5.15236 14.7781L4.09116 15.8382L8.20785 19.9591L9.26905 18.8989ZM17.3032 14.2922L15.3861 15.0125L15.9137 16.4167L17.8308 15.6964L17.3032 14.2922ZM9.03649 8.63979L9.73095 6.74438L8.32251 6.22834L7.62805 8.12375L9.03649 8.63979ZM6.04445 11.3965C6.75591 11.2003 7.29726 11.0625 7.73995 10.7438L6.86354 9.52646C6.6906 9.65097 6.46608 9.72428 5.64578 9.95044L6.04445 11.3965ZM7.62805 8.12375C7.3351 8.92332 7.24345 9.14153 7.10507 9.30391L8.24673 10.2768C8.60048 9.86175 8.78237 9.33337 9.03649 8.63979L7.62805 8.12375ZM7.73995 10.7438C7.92704 10.6091 8.09719 10.4523 8.24673 10.2768L7.10507 9.30391C7.03377 9.38757 6.95268 9.46229 6.86354 9.52646L7.73995 10.7438ZM15.3861 15.0125C14.697 15.2714 14.1717 15.4571 13.7601 15.8135L14.7421 16.9475C14.9029 16.8082 15.1193 16.7152 15.9137 16.4167L15.3861 15.0125ZM14.1038 18.4001C14.3291 17.5813 14.4022 17.3569 14.5263 17.1838L13.3076 16.3094C12.9903 16.7517 12.853 17.2919 12.6575 18.0022L14.1038 18.4001ZM13.7601 15.8135C13.5904 15.9605 13.4385 16.1269 13.3076 16.3094L14.5263 17.1838C14.5888 17.0968 14.6612 17.0175 14.7421 16.9475L13.7601 15.8135ZM5.15236 14.7781C4.50623 14.1313 4.06806 13.691 3.78374 13.3338C3.49842 12.9753 3.46896 12.8201 3.46852 12.7505L1.96855 12.76C1.97223 13.3422 2.26135 13.8297 2.6101 14.2679C2.95984 14.7073 3.47123 15.2176 4.09116 15.8382L5.15236 14.7781ZM5.64578 9.95044C4.80056 10.1835 4.10403 10.3743 3.58304 10.5835C3.06349 10.792 2.57124 11.0732 2.28061 11.5778L3.58045 12.3264C3.61507 12.2663 3.717 12.146 4.14187 11.9755C4.56531 11.8055 5.16345 11.6394 6.04445 11.3965L5.64578 9.95044ZM3.46852 12.7505C3.46758 12.6016 3.50623 12.4553 3.58045 12.3264L2.28061 11.5778C2.07362 11.9372 1.96593 12.3452 1.96855 12.76L3.46852 12.7505ZM8.20785 19.9591C8.83172 20.5836 9.34472 21.0987 9.78654 21.4506C10.2271 21.8015 10.718 22.0922 11.3042 22.0931L11.3064 20.5931C11.237 20.593 11.0815 20.5644 10.7211 20.2773C10.3619 19.9912 9.91931 19.5499 9.26905 18.8989L8.20785 19.9591ZM12.6575 18.0022C12.4133 18.8897 12.2463 19.4924 12.0752 19.9188C11.9034 20.3467 11.7822 20.4487 11.7216 20.4833L12.4651 21.7861C12.9741 21.4956 13.2573 21.0004 13.4672 20.4775C13.6777 19.9532 13.8695 19.2516 14.1038 18.4001L12.6575 18.0022ZM11.3042 22.0931C11.7113 22.0937 12.1115 21.9879 12.4651 21.7861L11.7216 20.4833C11.5951 20.5555 11.452 20.5933 11.3064 20.5931L11.3042 22.0931ZM18.5411 8.56568C19.6046 9.63022 20.3403 10.3695 20.7918 10.9788C21.2353 11.5774 21.2864 11.8959 21.2322 12.1464L22.6983 12.4634C22.8882 11.5854 22.5383 10.8162 21.997 10.0857C21.4636 9.36592 20.6306 8.53486 19.6023 7.50556L18.5411 8.56568ZM17.8308 15.6964C19.1922 15.1849 20.2941 14.773 21.0771 14.3384C21.8719 13.8973 22.5084 13.3416 22.6983 12.4634L21.2322 12.1464C21.178 12.3968 21.0002 12.6655 20.3492 13.0268C19.6865 13.3946 18.7113 13.7632 17.3032 14.2922L17.8308 15.6964ZM16.52 4.42014C15.4841 3.3832 14.6481 2.54353 13.9246 2.00638C13.1909 1.46165 12.4175 1.10912 11.5357 1.30367L11.8589 2.76845C12.1086 2.71335 12.4278 2.7633 13.0305 3.21075C13.6434 3.66579 14.3877 4.40801 15.4588 5.48026L16.52 4.42014ZM9.73095 6.74438C10.2526 5.32075 10.6162 4.33403 10.9813 3.66315C11.3403 3.00338 11.6091 2.82357 11.8589 2.76845L11.5357 1.30367C10.6541 1.49819 10.1006 2.14332 9.6637 2.94618C9.23286 3.73793 8.82695 4.85154 8.32251 6.22834L9.73095 6.74438Z`,
-		fill: `currentColor`
+		d: `M2 21.9998L6.65323 17.3418`,
+		stroke: `currentColor`,
+		strokeLinecap: `round`,
+		style: {
+			color: `var(--solar-secondary-color, currentColor)`,
+			opacity: `var(--solar-secondary-opacity, 0.5)`
+		}
 	}), (0, import_jsx_runtime.jsx)(`path`, {
-		opacity: `0.5`,
-		d: `M1.4694 21.4697C1.17666 21.7627 1.1769 22.2376 1.46994 22.5304C1.76298 22.8231 2.23786 22.8229 2.5306 22.5298L1.4694 21.4697ZM7.18383 17.8719C7.47657 17.5788 7.47633 17.1039 7.18329 16.8112C6.89024 16.5185 6.41537 16.5187 6.12263 16.8117L7.18383 17.8719ZM2.5306 22.5298L7.18383 17.8719L6.12263 16.8117L1.4694 21.4697L2.5306 22.5298Z`,
-		fill: `currentColor`
+		d: `M19.0717 8.03562L15.9894 4.9502C13.8824 2.84101 12.8289 1.78641 11.6973 2.03606C10.5658 2.28571 10.0528 3.68593 9.02673 6.48636L8.33227 8.38177C8.05874 9.12835 7.92197 9.50164 7.6759 9.79038C7.56548 9.91994 7.43986 10.0357 7.30174 10.1351C6.99393 10.3567 6.61099 10.4623 5.84512 10.6735C4.11889 11.1494 3.25578 11.3873 2.93053 11.9521C2.78993 12.1962 2.71676 12.4734 2.71854 12.7552C2.72266 13.4071 3.35569 14.0408 4.62176 15.3081L8.73845 19.429C10.0126 20.7044 10.6496 21.3421 11.3053 21.3431C11.5816 21.3435 11.8533 21.2717 12.0933 21.1347C12.663 20.8096 12.9022 19.9401 13.3807 18.2012C13.591 17.4366 13.6962 17.0543 13.917 16.7466C14.0136 16.6119 14.1258 16.489 14.2511 16.3805C14.5373 16.1326 14.9082 15.9933 15.6499 15.7146L17.567 14.9943C20.3365 13.9537 21.7212 13.4335 21.9652 12.3049C22.2093 11.1764 21.1634 10.1295 19.0717 8.03562Z`,
+		stroke: `currentColor`,
+		strokeLinecap: `round`
 	})]
 }));
-i$15.displayName = `Pin`;
 //#endregion
 //#region src/renderer/mainWindow/components/ToolsCard.tsx
 var { Avatar, Button: Button$8, Card: Card$2, Description: Description$2, Label: Label$3 } = await importShared("@heroui/react");
@@ -2840,23 +2931,23 @@ var package_default = {
 	name: "lynxhub",
 	productName: "LynxHub",
 	desktopName: "ai.kindabrazy.lynxhub.desktop",
-	version: "3.5.6",
+	version: "3.6.0",
 	type: "module",
 	description: "Cross-platform, extensible terminal/browser for AI management",
 	main: "./out/main/index.cjs",
 	author: {
-		"name": "KindaBrazy",
+		"name": "TheLynxHub",
 		"email": "kindofbrazy@gmail.com"
 	},
 	repository: {
 		"type": "git",
-		"url": "https://github.com/KindaBrazy/LynxHub"
+		"url": "https://github.com/TheLynxHub/LynxHub"
 	},
 	license: "AGPL-3.0",
-	homepage: "https://github.com/KindaBrazy/LynxHub",
+	homepage: "https://github.com/TheLynxHub/LynxHub",
 	appDetails: {
 		"title": "LynxHub",
-		"buildNumber": 53,
+		"buildNumber": 66,
 		"detailedDescription": "Open-source, cross-platform terminal and browser, designed for managing AI. Highly modular and extensible, it's the all-in-one environment for AI power users.",
 		"moduleApiVersion": "2.1.0",
 		"extensionApiVersion": "2.2.0"
@@ -2868,24 +2959,28 @@ var package_default = {
 		"fix-linter:web": "prettier --write src/renderer --list-different && eslint --fix src/renderer && tailwind-lint --auto --fix",
 		"fix-linter:node": "prettier --write src/main --list-different && eslint --fix src/main",
 		"fix-linter": "prettier --write src --list-different && eslint --fix src && tailwind-lint --auto --fix",
-		"fix-linter-ext": "prettier --write extension --list-different && eslint --fix extension && tailwind-lint --config ./extension/src/renderer/index.css --fix",
+		"fix-linter-ext": "prettier --write extension --list-different && eslint --fix extension",
+		"fix-linter-module": "prettier --write module --list-different && eslint --fix module",
 		"validate:web": "npm run fix-linter:web && npm run typecheck:web",
 		"validate:node": "npm run fix-linter:node && npm run typecheck:node",
 		"validate:ext": "npm run fix-linter-ext && npm run typecheck",
+		"validate:module": "npm run fix-linter-module && npm run typecheck",
 		"validate": "npm run fix-linter && npm run typecheck",
 		"preview": "electron-vite preview --noSandbox",
 		"preview:skip": "electron-vite preview --noSandbox --skipBuild",
 		"dev": "run-script-os",
 		"dev:win32": "electron-vite dev",
 		"dev:default": "electron-vite dev --noSandbox",
+		"dev:win:metrics": "electron-vite dev -- --log-metrics",
+		"dev:test": "electron-vite dev --remote-debugging-port=9222",
 		"prof": "electron-vite dev -w --noSandbox -- --js-flags=\"--prof\"",
 		"dev:srouce": "electron-vite dev -w --noSandbox --sourcemap",
 		"postinstall": "node node_modules/electron/install.js && electron-builder install-app-deps",
 		"build": "electron-vite build",
 		"rebuild": "electron-builder node-gyp-rebuild",
 		"removeDotExtension": "node fixExtension.js",
-		"build:extension": "rimraf extension_out && electron-vite build --config extension/electron.vite.config.ts && npm run removeDotExtension",
-		"build:module": "rimraf module_out && npx --prefix module rolldown --config module/rolldown.config.mjs",
+		"build:extension": "rimraf extension_out && electron-vite build --config extension/electron.vite.config.ts && npm run removeDotExtension && node zipScripts.js extension_out",
+		"build:module": "rimraf module_out && npx --prefix module rolldown --config module/rolldown.config.mjs && node zipScripts.js module_out",
 		"build:unpack": "npm run build && electron-builder --dir --config electron-builder_x64.config.cjs",
 		"build:win_x64": "npm run build && electron-builder --win --config electron-builder_x64.config.cjs --publish never",
 		"build:win_arm": "npm run build && electron-builder --win --config electron-builder_arm.config.cjs --publish never",
@@ -2904,46 +2999,53 @@ var package_default = {
 	dependencies: {
 		"@electron-toolkit/preload": "^3.0.2",
 		"@electron-toolkit/utils": "^4.0.0",
+		"@lynxhub/7zip": "^0.10.1",
 		"@originjs/vite-plugin-federation": "^1.4.1",
-		"@sentry/electron": "^7.15.0",
-		"@sentry/react": "^10.62.0",
-		"axios": "^1.18.1",
+		"@sentry/electron": "^7.17.0",
+		"@sentry/react": "^10.70.0",
+		"axios": "^1.19.0",
+		"better-sqlite3": "^13.0.3",
+		"drizzle-orm": "^0.45.2",
 		"fix-path": "^5.0.0",
-		"fuse.js": "^7.4.2",
+		"fuse.js": "^7.5.0",
 		"graceful-fs": "^4.2.11",
 		"lowdb": "^7.0.1",
-		"node-pty": "^1.2.0-beta.13",
+		"node-pty": "^1.2.0-beta.14",
 		"prism-react-renderer": "^2.4.1",
 		"react-syntax-highlighter": "^16.1.1",
 		"semver": "^7.8.5",
 		"tree-kill": "^1.2.2",
-		"zustand": "^5.0.14"
+		"zustand": "^5.0.15"
 	},
 	devDependencies: {
 		"@electron-toolkit/eslint-config-prettier": "^3.0.0",
 		"@electron-toolkit/tsconfig": "^2.0.0",
 		"@eslint/js": "^10.0.1",
-		"@heroui/react": "^3.2.2",
-		"@heroui/styles": "^3.2.2",
-		"@icons-pack/react-simple-icons": "^13.13.0",
-		"@number-flow/react": "^0.6.1",
+		"@heroui/react": "^3.2.4",
+		"@heroui/styles": "^3.2.4",
+		"@icons-pack/react-simple-icons": "^13.15.1",
+		"@number-flow/react": "^0.6.2",
+		"@react-aria/i18n": "^3.13.1",
+		"@react-aria/ssr": "^3.10.1",
+		"@react-aria/utils": "^3.34.1",
 		"@reduxjs/toolkit": "^2.12.0",
-		"@sentry/vite-plugin": "^5.3.0",
-		"@solar-icons/react-perf": "^2.1.1",
+		"@sentry/vite-plugin": "^5.4.0",
+		"@solar-icons/react": "^2.1.0",
 		"@tailwindcss/typography": "^0.5.20",
-		"@tailwindcss/vite": "^4.3.2",
-		"@types/decompress": "^4.2.7",
+		"@tailwindcss/vite": "^4.3.3",
+		"@types/better-sqlite3": "^9.6.0",
 		"@types/fontfaceobserver": "^2.1.3",
 		"@types/graceful-fs": "^4.1.9",
 		"@types/lodash-es": "^4.17.12",
 		"@types/node": "^24.13.2",
-		"@types/react": "^19.2.17",
-		"@types/react-dom": "^19.2.3",
+		"@types/react": "^19.2.18",
+		"@types/react-dom": "^19.2.4",
 		"@types/react-highlight-words": "^0.20.1",
 		"@types/react-syntax-highlighter": "^15.5.13",
-		"@types/semver": "^7.7.1",
+		"@types/semver": "^7.8.0",
 		"@types/serve-handler": "^6.1.4",
-		"@vitejs/plugin-react": "^6.0.3",
+		"@typescript/native": "npm:typescript@^7.0.2",
+		"@vitejs/plugin-react": "^6.1.0",
 		"@xterm/addon-canvas": "^0.7.0",
 		"@xterm/addon-clipboard": "^0.2.0",
 		"@xterm/addon-fit": "^0.11.0",
@@ -2956,52 +3058,58 @@ var package_default = {
 		"@xterm/addon-webgl": "^0.19.0",
 		"@xterm/xterm": "^6.0.0",
 		"chokidar": "^5.0.0",
-		"decompress": "^4.2.1",
-		"electron": "^43.1.0",
+		"drizzle-kit": "^0.31.10",
+		"electron": "^43.4.0",
 		"electron-builder": "^26.15.3",
 		"electron-dl": "^4.0.0",
 		"electron-log": "^5.4.4",
 		"electron-updater": "^6.8.9",
 		"electron-vite": "^6.0.0-beta.1",
-		"eslint": "^10.6.0",
+		"eslint": "^10.9.0",
 		"eslint-plugin-jsx-a11y": "^6.10.2",
-		"eslint-plugin-perfectionist": "^5.10.0",
+		"eslint-plugin-perfectionist": "^5.10.1",
 		"eslint-plugin-react": "^7.37.5",
 		"eslint-plugin-react-hooks": "^7.1.1",
-		"eslint-plugin-simple-import-sort": "^13.0.0",
+		"eslint-plugin-simple-import-sort": "^14.0.0",
 		"fontfaceobserver": "^2.3.0",
-		"framer-motion": "^12.42.2",
-		"globals": "^17.7.0",
+		"framer-motion": "^13.1.1",
+		"globals": "^17.11.0",
 		"lodash-es": "^4.18.1",
-		"lucide-react": "^1.24.0",
+		"lucide-react": "^1.33.0",
 		"normalize-url": "^9.0.1",
 		"ogl": "^1.0.11",
-		"prettier": "^3.9.5",
-		"react": "^19.2.7",
-		"react-dom": "^19.2.7",
-		"react-error-boundary": "^6.1.2",
+		"prettier": "^3.9.6",
+		"react": "^19.2.8",
+		"react-aria": "^3.51.0",
+		"react-aria-components": "^1.20.0",
+		"react-dom": "^19.2.8",
+		"react-error-boundary": "^6.1.3",
 		"react-highlight-words": "^0.21.0",
-		"react-intersection-observer": "^10.0.3",
+		"react-intersection-observer": "^11.0.0",
 		"react-markdown": "^10.1.0",
 		"react-redux": "^9.3.0",
 		"rehype-highlight": "^7.0.2",
+		"rehype-katex": "^7.0.1",
 		"rehype-raw": "^7.0.0",
 		"rehype-slug": "^6.0.0",
 		"remark-gfm": "^4.0.1",
+		"remark-math": "^6.0.0",
+		"remark-supersub": "^1.0.0",
 		"run-script-os": "^1.1.6",
 		"simple-git": "^3.36.0",
-		"tailwind-lint": "^0.12.0",
-		"tailwindcss": "^4.3.2",
+		"tailwind-lint": "^0.12.1",
+		"tailwindcss": "^4.3.3",
 		"three": "^0.185.1",
-		"typescript": "^6.0.3",
-		"typescript-eslint": "^8.63.0",
-		"vite": "^8.1.4"
+		"typescript": "npm:@typescript/typescript6@^6.0.2",
+		"typescript-eslint": "^8.67.0",
+		"vite": "^8.2.2"
 	},
 	allowScripts: {
 		"electron": true,
 		"esbuild": true,
 		"node-pty": true,
-		"@sentry/cli": true
+		"@sentry/cli": true,
+		"better-sqlite3": true
 	}
 };
 //#endregion
@@ -3026,6 +3134,10 @@ var APP_VERSION_V = `V${APP_VERSION}`;
 `${APP_NAME}${APP_VERSION}`;
 `${APP_NAME}${APP_VERSION_V}`;
 APP_VERSION_V.split("-").map((v) => capitalize(v)).join(" ");
+var GITHUB_ORG = "https://github.com/TheLynxHub";
+`${GITHUB_ORG}`;
+`${GITHUB_ORG}`;
+`${GITHUB_ORG}`;
 /**
 * Page IDs used for navigation.
 */
@@ -3100,13 +3212,15 @@ var tabsSlice = createSlice({
 			const tabIdToRemove = action.payload;
 			const tabIndexToRemove = state.tabs.findIndex((tab) => tab.id === tabIdToRemove);
 			state.tabs = state.tabs.filter((tab) => tab.id !== tabIdToRemove);
-			if (state.activeTab === tabIdToRemove) if (state.tabs.length > 0) {
-				const newActiveTabIndex = Math.min(tabIndexToRemove, state.tabs.length - 1);
-				state.activeTab = state.tabs[newActiveTabIndex].id;
-				state.activePage = state.tabs[newActiveTabIndex].pageID;
-			} else {
-				state.activeTab = defaultTabItem.id;
-				state.activePage = defaultTabItem.pageID;
+			if (state.activeTab === tabIdToRemove) {
+				if (state.tabs.length > 0) {
+					const newActiveTabIndex = Math.min(tabIndexToRemove, state.tabs.length - 1);
+					state.activeTab = state.tabs[newActiveTabIndex].id;
+					state.activePage = state.tabs[newActiveTabIndex].pageID;
+				} else {
+					state.activeTab = defaultTabItem.id;
+					state.activePage = defaultTabItem.pageID;
+				}
 			}
 			if (state.tabs.length <= 0) state.tabs = [defaultTabItem];
 		},
@@ -3190,6 +3304,32 @@ var tabsSlice = createSlice({
 				};
 			}
 			state.activePage = action.payload.pageID;
+		},
+		togglePinTab: (state, action) => {
+			const tabId = action.payload;
+			const tabIndex = state.tabs.findIndex((t) => t.id === tabId);
+			if (tabIndex === -1) return;
+			const currentTab = state.tabs[tabIndex];
+			const nextPinned = !currentTab.isPinned;
+			state.tabs[tabIndex] = {
+				...currentTab,
+				isPinned: nextPinned
+			};
+			const pinned = state.tabs.filter((t) => t.isPinned);
+			const unpinned = state.tabs.filter((t) => !t.isPinned);
+			state.tabs = [...pinned, ...unpinned];
+		},
+		toggleTabIconOnly: (state, action) => {
+			const tabId = action.payload;
+			state.tabs = updateTabById(state.tabs, tabId, (tab) => ({
+				...tab,
+				showIconOnly: !tab.showIconOnly
+			}));
+		},
+		reorderTabs: (state, action) => {
+			const pinned = action.payload.filter((t) => t.isPinned);
+			const unpinned = action.payload.filter((t) => !t.isPinned);
+			state.tabs = [...pinned, ...unpinned];
 		}
 	}
 });
@@ -3243,200 +3383,60 @@ var filesIpc = {
 	isAbsolute: (dir) => lynxIpc.invoke(fileChannels.isAbsolute, dir)
 };
 //#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/arrows-action/BoldDuotone/Export.mjs
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/arrow-left.mjs
 var { forwardRef: t$14 } = await importShared("react");
-var i$14 = t$14((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
+var i$14 = t$14((t, i) => (0, import_jsx_runtime.jsxs)(a, {
 	ref: i,
 	...t,
+	iconName: `arrow-left-bold-duotone`,
 	children: [(0, import_jsx_runtime.jsx)(`path`, {
-		opacity: `0.5`,
-		d: `M4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12L4 12Z`,
-		fill: `currentColor`
-	}), (0, import_jsx_runtime.jsx)(`path`, {
-		fillRule: `evenodd`,
-		clipRule: `evenodd`,
-		d: `M15.5303 7.53033C15.2374 7.82322 14.7626 7.82322 14.4697 7.53033L12.75 5.81066L12.75 14C12.75 14.4142 12.4142 14.75 12 14.75C11.5858 14.75 11.25 14.4142 11.25 14L11.25 5.81066L9.53033 7.53033C9.23744 7.82322 8.76256 7.82322 8.46967 7.53033C8.17678 7.23744 8.17678 6.76256 8.46967 6.46967L11.4697 3.46967C11.7626 3.17678 12.2374 3.17678 12.5303 3.46967L15.5303 6.46967C15.8232 6.76256 15.8232 7.23744 15.5303 7.53033Z`,
-		fill: `currentColor`
-	})]
-}));
-i$14.displayName = `Export`;
-//#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/arrows-action/BoldDuotone/Import.mjs
-var { forwardRef: t$13 } = await importShared("react");
-var i$13 = t$13((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
-	ref: i,
-	...t,
-	children: [(0, import_jsx_runtime.jsx)(`path`, {
-		opacity: `0.5`,
-		d: `M4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12L4 12Z`,
-		fill: `currentColor`
-	}), (0, import_jsx_runtime.jsx)(`path`, {
-		fillRule: `evenodd`,
-		clipRule: `evenodd`,
-		d: `M15.5303 10.4697C15.2374 10.1768 14.7626 10.1768 14.4697 10.4697L12.75 12.1893L12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4L11.25 12.1893L9.53033 10.4697C9.23744 10.1768 8.76256 10.1768 8.46967 10.4697C8.17678 10.7626 8.17678 11.2374 8.46967 11.5303L11.4697 14.5303C11.7626 14.8232 12.2374 14.8232 12.5303 14.5303L15.5303 11.5303C15.8232 11.2374 15.8232 10.7626 15.5303 10.4697Z`,
-		fill: `currentColor`
-	})]
-}));
-i$13.displayName = `Import`;
-//#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/arrows/BoldDuotone/ArrowLeft.mjs
-var { forwardRef: t$12 } = await importShared("react");
-var i$12 = t$12((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
-	ref: i,
-	...t,
-	children: [(0, import_jsx_runtime.jsx)(`path`, {
-		opacity: `0.5`,
 		fillRule: `evenodd`,
 		clipRule: `evenodd`,
 		d: `M20.75 12C20.75 11.5858 20.4142 11.25 20 11.25H10.75V12.75H20C20.4142 12.75 20.75 12.4142 20.75 12Z`,
-		fill: `currentColor`
+		fill: `currentColor`,
+		style: {
+			color: `var(--solar-secondary-color, currentColor)`,
+			opacity: `var(--solar-secondary-opacity, 0.5)`
+		}
 	}), (0, import_jsx_runtime.jsx)(`path`, {
 		d: `M10.75 18C10.75 18.3034 10.5673 18.5768 10.287 18.6929C10.0068 18.809 9.68417 18.7449 9.46967 18.5304L3.46967 12.5304C3.32902 12.3897 3.25 12.1989 3.25 12C3.25 11.8011 3.32902 11.6103 3.46967 11.4697L9.46967 5.46969C9.68417 5.25519 10.0068 5.19103 10.287 5.30711C10.5673 5.4232 10.75 5.69668 10.75 6.00002V18Z`,
 		fill: `currentColor`
 	})]
 }));
-i$12.displayName = `ArrowLeft`;
 //#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/astronomy/BoldDuotone/Earth.mjs
-var { forwardRef: t$11 } = await importShared("react");
-var i$11 = t$11((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/bookmark.mjs
+var { forwardRef: t$13 } = await importShared("react");
+var i$13 = t$13((t, i) => (0, import_jsx_runtime.jsxs)(a, {
 	ref: i,
 	...t,
-	children: [
-		(0, import_jsx_runtime.jsx)(`circle`, {
-			opacity: `0.5`,
-			cx: `12`,
-			cy: `12`,
-			r: `10`,
-			fill: `currentColor`
-		}),
-		(0, import_jsx_runtime.jsx)(`path`, {
-			d: `M8.57516 9.44737C8.3879 7.36316 6.7806 5.42105 6.00035 4.71053L5.56934 4.34189C7.30792 2.88037 9.55133 2 12.0004 2C14.2137 2 16.2592 2.7191 17.9158 3.93642C18.1498 4.64695 17.704 6.13158 17.2359 6.84211C17.0663 7.09947 16.6818 7.41898 16.2602 7.72186C15.3097 8.40477 14.1102 8.74254 13.5004 10C13.326 10.3595 13.3335 10.7108 13.4173 11.0163C13.4776 11.2358 13.5161 11.4745 13.5167 11.708C13.5187 12.4629 12.7552 13.0082 12.0004 13C10.0361 12.9786 8.7502 11.3955 8.57516 9.44737Z`,
-			fill: `currentColor`
-		}),
-		(0, import_jsx_runtime.jsx)(`path`, {
-			d: `M13.4365 18.2761C14.4246 16.414 17.7182 16.414 17.7182 16.414C21.1502 16.3782 21.6138 14.2944 21.9237 13.2412C21.369 17.7226 17.8494 21.2849 13.3885 21.9046C13.0659 21.2256 12.6837 19.6946 13.4365 18.2761Z`,
-			fill: `currentColor`
-		})
-	]
-}));
-i$11.displayName = `Earth`;
-//#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/devices/BoldDuotone/Diskette.mjs
-var { forwardRef: t$10 } = await importShared("react");
-var i$10 = t$10((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
-	ref: i,
-	...t,
-	children: [
-		(0, import_jsx_runtime.jsx)(`path`, {
-			opacity: `0.5`,
-			d: `M20.5355 20.5355C22 19.0711 22 16.714 22 12C22 11.6585 22 11.4878 21.9848 11.3142C21.9142 10.5049 21.586 9.71257 21.0637 9.09034C20.9516 8.95687 20.828 8.83317 20.5806 8.58578L15.4142 3.41944C15.1668 3.17206 15.0431 3.04835 14.9097 2.93631C14.2874 2.414 13.4951 2.08581 12.6858 2.01515C12.5122 2 12.3415 2 12 2C7.28595 2 4.92893 2 3.46447 3.46447C2 4.92893 2 7.28595 2 12C2 16.714 2 19.0711 3.46447 20.5355C4.1485 21.2196 5.02727 21.5841 6.25 21.7784L7.75 21.9313C8.9058 22 10.2996 22 12 22C13.7004 22 15.0942 22 16.25 21.9313L17.75 21.7784C18.9727 21.5841 19.8515 21.2196 20.5355 20.5355Z`,
-			fill: `currentColor`
-		}),
-		(0, import_jsx_runtime.jsx)(`path`, {
-			d: `M7 7.25C6.58579 7.25 6.25 7.58579 6.25 8C6.25 8.41421 6.58579 8.75 7 8.75H13C13.4142 8.75 13.75 8.41421 13.75 8C13.75 7.58579 13.4142 7.25 13 7.25H7Z`,
-			fill: `currentColor`
-		}),
-		(0, import_jsx_runtime.jsx)(`path`, {
-			d: `M13.052 16.25C13.9505 16.25 14.6997 16.2499 15.2945 16.3299C15.9223 16.4143 16.4891 16.6 16.9445 17.0555C17.4 17.5109 17.5857 18.0777 17.6701 18.7055C17.7501 19.3003 17.75 20.0495 17.75 20.948V20.948L17.75 21.7812L16.25 21.9219V21C16.25 20.036 16.2484 19.3884 16.1835 18.9054C16.1214 18.4439 16.0142 18.2464 15.8839 18.1161C15.7536 17.9858 15.5561 17.8786 15.0946 17.8165C14.6116 17.7516 13.964 17.75 13 17.75H11C10.036 17.75 9.38843 17.7516 8.90539 17.8165C8.44393 17.8786 8.24644 17.9858 8.11612 18.1161C7.9858 18.2464 7.87858 18.4439 7.81654 18.9054C7.7516 19.3884 7.75 20.036 7.75 21V21.9258L6.25 21.7773L6.25 20.948V20.948C6.24997 20.0495 6.24995 19.3003 6.32991 18.7055C6.41432 18.0777 6.59999 17.5109 7.05546 17.0555C7.51093 16.6 8.07773 16.4143 8.70552 16.3299C9.3003 16.2499 10.0495 16.25 10.948 16.25H10.948H13.052H13.052Z`,
-			fill: `currentColor`
-		})
-	]
-}));
-i$10.displayName = `Diskette`;
-//#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/files/BoldDuotone/FileCheck.mjs
-var { forwardRef: t$9 } = await importShared("react");
-var i$9 = t$9((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
-	ref: i,
-	...t,
-	children: [
-		(0, import_jsx_runtime.jsx)(`path`, {
-			opacity: `0.5`,
-			fillRule: `evenodd`,
-			clipRule: `evenodd`,
-			d: `M14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V10C2 6.22876 2 4.34315 3.17157 3.17157C4.34315 2 6.23869 2 10.0298 2C10.6358 2 11.1214 2 11.53 2.01666C11.5166 2.09659 11.5095 2.17813 11.5092 2.26057L11.5 5.09497C11.4999 6.19207 11.4998 7.16164 11.6049 7.94316C11.7188 8.79028 11.9803 9.63726 12.6716 10.3285C13.3628 11.0198 14.2098 11.2813 15.0569 11.3952C15.8385 11.5003 16.808 11.5002 17.9051 11.5001L18 11.5001H21.9574C22 12.0344 22 12.6901 22 13.5629V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22Z`,
-			fill: `currentColor`
-		}),
-		(0, import_jsx_runtime.jsx)(`path`, {
-			d: `M10.5606 15.4983C10.8358 15.1887 10.8079 14.7146 10.4983 14.4395C10.1887 14.1643 9.71464 14.1921 9.43945 14.5017L7.33334 16.8711L6.56056 16.0017C6.28538 15.6921 5.81132 15.6643 5.50174 15.9395C5.19215 16.2146 5.16426 16.6887 5.43945 16.9983L6.77278 18.4983C6.91511 18.6584 7.11911 18.75 7.33334 18.75C7.54757 18.75 7.75157 18.6584 7.8939 18.4983L10.5606 15.4983Z`,
-			fill: `currentColor`
-		}),
-		(0, import_jsx_runtime.jsx)(`path`, {
-			d: `M11.5092 2.2601L11.5 5.0945C11.4999 6.1916 11.4998 7.16117 11.6049 7.94269C11.7188 8.78981 11.9803 9.6368 12.6716 10.3281C13.3629 11.0193 14.2098 11.2808 15.057 11.3947C15.8385 11.4998 16.808 11.4997 17.9051 11.4996L21.9574 11.4996C21.9698 11.6552 21.9786 11.821 21.9848 11.9995H22C22 11.732 22 11.5983 21.9901 11.4408C21.9335 10.5463 21.5617 9.52125 21.0315 8.79853C20.9382 8.6713 20.8743 8.59493 20.7467 8.44218C19.9542 7.49359 18.911 6.31193 18 5.49953C17.1892 4.77645 16.0787 3.98536 15.1101 3.3385C14.2781 2.78275 13.862 2.50487 13.2915 2.29834C13.1403 2.24359 12.9408 2.18311 12.7846 2.14466C12.4006 2.05013 12.0268 2.01725 11.5 2.00586L11.5092 2.2601Z`,
-			fill: `currentColor`
-		})
-	]
-}));
-i$9.displayName = `FileCheck`;
-//#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/folders/BoldDuotone/FolderOpen.mjs
-var { forwardRef: t$8 } = await importShared("react");
-var i$8 = t$8((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
-	ref: i,
-	...t,
+	iconName: `bookmark-bold-duotone`,
 	children: [(0, import_jsx_runtime.jsx)(`path`, {
-		fillRule: `evenodd`,
-		clipRule: `evenodd`,
-		d: `M3.35791 12.7787C2.74772 13.7201 2.99956 15.0291 3.50323 17.647C3.8658 19.5316 4.04709 20.4738 4.67523 21.0991C4.8382 21.2614 5.02054 21.4052 5.2186 21.5277C5.98195 21.9999 6.99539 21.9999 9.02227 21.9999H15.9777C18.0046 21.9999 19.0181 21.9999 19.7814 21.5277C19.9795 21.4052 20.1618 21.2614 20.3248 21.0991C20.9529 20.4738 21.1342 19.5316 21.4968 17.647C22.0004 15.0291 22.2523 13.7201 21.6421 12.7787C21.4864 12.5384 21.2943 12.321 21.0721 12.1332C20.2011 11.3975 18.7933 11.3975 15.9777 11.3975H9.02227C6.20667 11.3975 4.79888 11.3975 3.92792 12.1332C3.70566 12.321 3.51363 12.5384 3.35791 12.7787ZM9.69518 17.1806C9.69518 16.7814 10.0376 16.4577 10.4601 16.4577H14.5398C14.9622 16.4577 15.3047 16.7814 15.3047 17.1806C15.3047 17.5798 14.9622 17.9035 14.5398 17.9035H10.4601C10.0376 17.9035 9.69518 17.5798 9.69518 17.1806Z`,
-		fill: `currentColor`
+		d: `M21 11.0975V16.0909C21 19.1875 21 20.7358 20.2659 21.4123C19.9158 21.735 19.4739 21.9377 19.0031 21.9915C18.016 22.1045 16.8633 21.0849 14.5578 19.0458C13.5388 18.1445 13.0292 17.6938 12.4397 17.5751C12.1494 17.5166 11.8506 17.5166 11.5603 17.5751C10.9708 17.6938 10.4612 18.1445 9.44216 19.0458C7.13673 21.0849 5.98402 22.1045 4.99692 21.9915C4.52615 21.9377 4.08421 21.735 3.73411 21.4123C3 20.7358 3 19.1875 3 16.0909V11.0975C3 6.80891 3 4.6646 4.31802 3.3323C5.63604 2 7.75736 2 12 2C16.2426 2 18.364 2 19.682 3.3323C21 4.6646 21 6.80891 21 11.0975Z`,
+		fill: `currentColor`,
+		style: {
+			color: `var(--solar-secondary-color, currentColor)`,
+			opacity: `var(--solar-secondary-opacity, 0.5)`
+		}
 	}), (0, import_jsx_runtime.jsx)(`path`, {
-		opacity: `0.5`,
-		d: `M3.5762 12.4846C3.68271 12.3586 3.80034 12.241 3.92792 12.1332C4.79888 11.3975 6.20667 11.3975 9.02227 11.3975H15.9777C18.7933 11.3975 20.2011 11.3975 21.0721 12.1332C21.2 12.2413 21.3179 12.3592 21.4247 12.4857V9.75579C21.4247 8.84687 21.4247 8.09279 21.3394 7.49156C21.2494 6.85704 21.0531 6.29458 20.5839 5.83245C20.5074 5.75707 20.4266 5.68552 20.342 5.61807C19.8302 5.21023 19.2167 5.04345 18.5222 4.96608C17.8531 4.89155 17.0102 4.89157 15.9769 4.89158L15.6242 4.89158C14.6421 4.89158 14.29 4.88587 13.9711 4.80533C13.7837 4.75802 13.604 4.69195 13.4352 4.60878C13.151 4.46867 12.9033 4.25762 12.2077 3.64132L11.7336 3.22128C11.5345 3.04489 11.3987 2.9245 11.2531 2.81755C10.6284 2.35879 9.86779 2.08132 9.07145 2.01534C8.88602 1.99998 8.6968 1.99999 8.41356 2.00002L8.29714 2.00001C7.65647 1.9999 7.23365 1.99983 6.86652 2.0612C5.26167 2.32947 3.96392 3.45143 3.64782 4.93575C3.57591 5.27344 3.57602 5.66035 3.57619 6.21853L3.5762 12.4846Z`,
+		d: `M9 5.25C8.58579 5.25 8.25 5.58579 8.25 6C8.25 6.41421 8.58579 6.75 9 6.75H15C15.4142 6.75 15.75 6.41421 15.75 6C15.75 5.58579 15.4142 5.25 15 5.25H9Z`,
 		fill: `currentColor`
 	})]
 }));
-i$8.displayName = `FolderOpen`;
 //#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/it/BoldDuotone/Code.mjs
-var { forwardRef: t$7 } = await importShared("react");
-var i$7 = t$7((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/clipboard.mjs
+var { forwardRef: t$12 } = await importShared("react");
+var i$12 = t$12((t, i) => (0, import_jsx_runtime.jsxs)(a, {
 	ref: i,
 	...t,
+	iconName: `clipboard-bold-duotone`,
 	children: [
 		(0, import_jsx_runtime.jsx)(`path`, {
-			d: `M16.4425 7.32787C16.7196 7.01999 17.1938 6.99503 17.5017 7.27213L19.2392 8.83587C19.9756 9.49853 20.5864 10.0482 21.0058 10.5468C21.4468 11.071 21.7603 11.6343 21.7603 12.3296C21.7603 13.0249 21.4468 13.5882 21.0058 14.1124C20.5864 14.611 19.9756 15.1607 19.2392 15.8233L17.5017 17.3871C17.1938 17.6642 16.7196 17.6392 16.4425 17.3313C16.1654 17.0234 16.1904 16.5492 16.4983 16.2721L18.1947 14.7453C18.9826 14.0362 19.5138 13.5558 19.8579 13.1468C20.1882 12.7542 20.2603 12.525 20.2603 12.3296C20.2603 12.1342 20.1882 11.905 19.8579 11.5124C19.5138 11.1034 18.9826 10.623 18.1947 9.91389L16.4983 8.38707C16.1904 8.10997 16.1654 7.63576 16.4425 7.32787Z`,
-			fill: `currentColor`
-		}),
-		(0, import_jsx_runtime.jsx)(`path`, {
-			d: `M7.50178 8.38707C7.80966 8.10997 7.83462 7.63576 7.55752 7.32787C7.28043 7.01999 6.80621 6.99503 6.49833 7.27213L4.76084 8.83587C4.0245 9.49853 3.41369 10.0482 2.99428 10.5468C2.55325 11.071 2.23975 11.6343 2.23975 12.3296C2.23975 13.0249 2.55325 13.5882 2.99428 14.1124C3.41369 14.611 4.02449 15.1607 4.76082 15.8233L6.49833 17.3871C6.80621 17.6642 7.28043 17.6392 7.55752 17.3313C7.83462 17.0234 7.80966 16.5492 7.50178 16.2721L5.80531 14.7453C5.01743 14.0362 4.48623 13.5558 4.14213 13.1468C3.81188 12.7542 3.73975 12.525 3.73975 12.3296C3.73975 12.1342 3.81188 11.905 4.14213 11.5124C4.48623 11.1034 5.01743 10.623 5.80531 9.91389L7.50178 8.38707Z`,
-			fill: `currentColor`
-		}),
-		(0, import_jsx_runtime.jsx)(`path`, {
-			opacity: `0.5`,
-			d: `M14.1816 4.2755C14.5817 4.3827 14.8191 4.79396 14.7119 5.19406L10.7383 20.0238C10.6311 20.4239 10.2198 20.6613 9.81974 20.5541C9.41964 20.4469 9.18221 20.0356 9.28941 19.6355L13.263 4.80583C13.3702 4.40573 13.7815 4.16829 14.1816 4.2755Z`,
-			fill: `currentColor`
-		})
-	]
-}));
-i$7.displayName = `Code`;
-//#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/messages/BoldDuotone/Pen.mjs
-var { forwardRef: t$6 } = await importShared("react");
-var i$6 = t$6((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
-	ref: i,
-	...t,
-	children: [(0, import_jsx_runtime.jsx)(`path`, {
-		opacity: `0.5`,
-		d: `M20.8487 8.71306C22.3844 7.17735 22.3844 4.68748 20.8487 3.15178C19.313 1.61607 16.8231 1.61607 15.2874 3.15178L14.4004 4.03882C14.4125 4.0755 14.4251 4.11268 14.4382 4.15035C14.7633 5.0875 15.3768 6.31601 16.5308 7.47002C17.6848 8.62403 18.9133 9.23749 19.8505 9.56262C19.888 9.57563 19.925 9.58817 19.9615 9.60026L20.8487 8.71306Z`,
-		fill: `currentColor`
-	}), (0, import_jsx_runtime.jsx)(`path`, {
-		d: `M14.4386 4L14.4004 4.03819C14.4125 4.07487 14.4251 4.11206 14.4382 4.14973C14.7633 5.08687 15.3768 6.31538 16.5308 7.4694C17.6848 8.62341 18.9133 9.23686 19.8505 9.56199C19.8876 9.57489 19.9243 9.58733 19.9606 9.59933L11.4001 18.1598C10.823 18.7369 10.5343 19.0255 10.2162 19.2737C9.84082 19.5665 9.43469 19.8175 9.00498 20.0223C8.6407 20.1959 8.25351 20.3249 7.47918 20.583L3.39584 21.9442C3.01478 22.0712 2.59466 21.972 2.31063 21.688C2.0266 21.4039 1.92743 20.9838 2.05445 20.6028L3.41556 16.5194C3.67368 15.7451 3.80273 15.3579 3.97634 14.9936C4.18114 14.5639 4.43213 14.1578 4.7249 13.7824C4.97307 13.4643 5.26165 13.1757 5.83874 12.5986L14.4386 4Z`,
-		fill: `currentColor`
-	})]
-}));
-i$6.displayName = `Pen`;
-//#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/notes/BoldDuotone/Clipboard.mjs
-var { forwardRef: t$5 } = await importShared("react");
-var i$5 = t$5((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
-	ref: i,
-	...t,
-	children: [
-		(0, import_jsx_runtime.jsx)(`path`, {
-			opacity: `0.5`,
 			d: `M21 15.9983V9.99826C21 7.16983 21 5.75562 20.1213 4.87694C19.3529 4.10856 18.175 4.01211 16 4H8C5.82497 4.01211 4.64706 4.10856 3.87868 4.87694C3 5.75562 3 7.16983 3 9.99826V15.9983C3 18.8267 3 20.2409 3.87868 21.1196C4.75736 21.9983 6.17157 21.9983 9 21.9983H15C17.8284 21.9983 19.2426 21.9983 20.1213 21.1196C21 20.2409 21 18.8267 21 15.9983Z`,
-			fill: `currentColor`
+			fill: `currentColor`,
+			style: {
+				color: `var(--solar-secondary-color, currentColor)`,
+				opacity: `var(--solar-secondary-opacity, 0.5)`
+			}
 		}),
 		(0, import_jsx_runtime.jsx)(`path`, {
 			d: `M8 3.5C8 2.67157 8.67157 2 9.5 2H14.5C15.3284 2 16 2.67157 16 3.5V4.5C16 5.32843 15.3284 6 14.5 6H9.5C8.67157 6 8 5.32843 8 4.5V3.5Z`,
@@ -3450,40 +3450,268 @@ var i$5 = t$5((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
 		})
 	]
 }));
-i$5.displayName = `Clipboard`;
 //#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/school/BoldDuotone/Bookmark.mjs
-var { forwardRef: t$4 } = await importShared("react");
-var i$4 = t$4((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/code.mjs
+var { forwardRef: t$11 } = await importShared("react");
+var i$11 = t$11((t, i) => (0, import_jsx_runtime.jsxs)(a, {
 	ref: i,
 	...t,
+	iconName: `code-bold-duotone`,
+	children: [
+		(0, import_jsx_runtime.jsx)(`path`, {
+			d: `M14.1816 4.2755C14.5817 4.3827 14.8191 4.79396 14.7119 5.19406L10.7383 20.0238C10.6311 20.4239 10.2198 20.6613 9.81974 20.5541C9.41964 20.4469 9.18221 20.0356 9.28941 19.6355L13.263 4.80583C13.3702 4.40573 13.7815 4.16829 14.1816 4.2755Z`,
+			fill: `currentColor`,
+			style: {
+				color: `var(--solar-secondary-color, currentColor)`,
+				opacity: `var(--solar-secondary-opacity, 0.5)`
+			}
+		}),
+		(0, import_jsx_runtime.jsx)(`path`, {
+			d: `M16.4425 7.32787C16.7196 7.01999 17.1938 6.99503 17.5017 7.27213L19.2392 8.83587C19.9756 9.49853 20.5864 10.0482 21.0058 10.5468C21.4468 11.071 21.7603 11.6343 21.7603 12.3296C21.7603 13.0249 21.4468 13.5882 21.0058 14.1124C20.5864 14.611 19.9756 15.1607 19.2392 15.8233L17.5017 17.3871C17.1938 17.6642 16.7196 17.6392 16.4425 17.3313C16.1654 17.0234 16.1904 16.5492 16.4983 16.2721L18.1947 14.7453C18.9826 14.0362 19.5138 13.5558 19.8579 13.1468C20.1882 12.7542 20.2603 12.525 20.2603 12.3296C20.2603 12.1342 20.1882 11.905 19.8579 11.5124C19.5138 11.1034 18.9826 10.623 18.1947 9.91389L16.4983 8.38707C16.1904 8.10997 16.1654 7.63576 16.4425 7.32787Z`,
+			fill: `currentColor`
+		}),
+		(0, import_jsx_runtime.jsx)(`path`, {
+			d: `M7.50178 8.38707C7.80966 8.10997 7.83462 7.63576 7.55752 7.32787C7.28043 7.01999 6.80621 6.99503 6.49833 7.27213L4.76084 8.83587C4.0245 9.49853 3.41369 10.0482 2.99428 10.5468C2.55325 11.071 2.23975 11.6343 2.23975 12.3296C2.23975 13.0249 2.55325 13.5882 2.99428 14.1124C3.41369 14.611 4.02449 15.1607 4.76082 15.8233L6.49833 17.3871C6.80621 17.6642 7.28043 17.6392 7.55752 17.3313C7.83462 17.0234 7.80966 16.5492 7.50178 16.2721L5.80531 14.7453C5.01743 14.0362 4.48623 13.5558 4.14213 13.1468C3.81188 12.7542 3.73975 12.525 3.73975 12.3296C3.73975 12.1342 3.81188 11.905 4.14213 11.5124C4.48623 11.1034 5.01743 10.623 5.80531 9.91389L7.50178 8.38707Z`,
+			fill: `currentColor`
+		})
+	]
+}));
+//#endregion
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/copy.mjs
+var { forwardRef: t$10 } = await importShared("react");
+var i$10 = t$10((t, i) => (0, import_jsx_runtime.jsxs)(a, {
+	ref: i,
+	...t,
+	iconName: `copy-bold-duotone`,
 	children: [(0, import_jsx_runtime.jsx)(`path`, {
-		opacity: `0.5`,
-		d: `M21 11.0975V16.0909C21 19.1875 21 20.7358 20.2659 21.4123C19.9158 21.735 19.4739 21.9377 19.0031 21.9915C18.016 22.1045 16.8633 21.0849 14.5578 19.0458C13.5388 18.1445 13.0292 17.6938 12.4397 17.5751C12.1494 17.5166 11.8506 17.5166 11.5603 17.5751C10.9708 17.6938 10.4612 18.1445 9.44216 19.0458C7.13673 21.0849 5.98402 22.1045 4.99692 21.9915C4.52615 21.9377 4.08421 21.735 3.73411 21.4123C3 20.7358 3 19.1875 3 16.0909V11.0975C3 6.80891 3 4.6646 4.31802 3.3323C5.63604 2 7.75736 2 12 2C16.2426 2 18.364 2 19.682 3.3323C21 4.6646 21 6.80891 21 11.0975Z`,
-		fill: `currentColor`
+		d: `M4.17157 3.17157C3 4.34315 3 6.22876 3 10V12C3 15.7712 3 17.6569 4.17157 18.8284C4.78913 19.446 5.6051 19.738 6.79105 19.8761C6.59961 19.0353 6.59961 17.8796 6.59961 16.2167V11.3974C6.59961 8.6712 6.59961 7.3081 7.44314 6.46118C8.28667 5.61426 9.64432 5.61426 12.3596 5.61426H15.2396C16.8915 5.61426 18.0409 5.61426 18.8777 5.80494C18.7403 4.61146 18.4484 3.79154 17.8284 3.17157C16.6569 2 14.7712 2 11 2C7.22876 2 5.34315 2 4.17157 3.17157Z`,
+		fill: `currentColor`,
+		style: {
+			color: `var(--solar-secondary-color, currentColor)`,
+			opacity: `var(--solar-secondary-opacity, 0.5)`
+		}
 	}), (0, import_jsx_runtime.jsx)(`path`, {
-		d: `M9 5.25C8.58579 5.25 8.25 5.58579 8.25 6C8.25 6.41421 8.58579 6.75 9 6.75H15C15.4142 6.75 15.75 6.41421 15.75 6C15.75 5.58579 15.4142 5.25 15 5.25H9Z`,
+		d: `M6.59961 11.3974C6.59961 8.67119 6.59961 7.3081 7.44314 6.46118C8.28667 5.61426 9.64432 5.61426 12.3596 5.61426H15.2396C17.9549 5.61426 19.3125 5.61426 20.1561 6.46118C20.9996 7.3081 20.9996 8.6712 20.9996 11.3974V16.2167C20.9996 18.9429 20.9996 20.306 20.1561 21.1529C19.3125 21.9998 17.9549 21.9998 15.2396 21.9998H12.3596C9.64432 21.9998 8.28667 21.9998 7.44314 21.1529C6.59961 20.306 6.59961 18.9429 6.59961 16.2167V11.3974Z`,
 		fill: `currentColor`
 	})]
 }));
-i$4.displayName = `Bookmark`;
 //#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/settings/BoldDuotone/Widget6.mjs
-var { forwardRef: t$3 } = await importShared("react");
-var i$3 = t$3((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/diskette.mjs
+var { forwardRef: t$9 } = await importShared("react");
+var i$9 = t$9((t, i) => (0, import_jsx_runtime.jsxs)(a, {
 	ref: i,
 	...t,
+	iconName: `diskette-bold-duotone`,
 	children: [
 		(0, import_jsx_runtime.jsx)(`path`, {
-			d: `M2 17.5C2 15.0147 4.01472 13 6.5 13H9.2C9.83006 13 10.1451 13 10.3857 13.1226C10.5974 13.2305 10.7695 13.4026 10.8774 13.6143C11 13.8549 11 14.1699 11 14.8V17.5C11 19.9853 8.98528 22 6.5 22C4.01472 22 2 19.9853 2 17.5Z`,
+			d: `M20.5355 20.5355C22 19.0711 22 16.714 22 12C22 11.6585 22 11.4878 21.9848 11.3142C21.9142 10.5049 21.586 9.71257 21.0637 9.09034C20.9516 8.95687 20.828 8.83317 20.5806 8.58578L15.4142 3.41944C15.1668 3.17206 15.0431 3.04835 14.9097 2.93631C14.2874 2.414 13.4951 2.08581 12.6858 2.01515C12.5122 2 12.3415 2 12 2C7.28595 2 4.92893 2 3.46447 3.46447C2 4.92893 2 7.28595 2 12C2 16.714 2 19.0711 3.46447 20.5355C4.1485 21.2196 5.02727 21.5841 6.25 21.7784L7.75 21.9313C8.9058 22 10.2996 22 12 22C13.7004 22 15.0942 22 16.25 21.9313L17.75 21.7784C18.9727 21.5841 19.8515 21.2196 20.5355 20.5355Z`,
+			fill: `currentColor`,
+			style: {
+				color: `var(--solar-secondary-color, currentColor)`,
+				opacity: `var(--solar-secondary-opacity, 0.5)`
+			}
+		}),
+		(0, import_jsx_runtime.jsx)(`path`, {
+			d: `M7 7.25C6.58579 7.25 6.25 7.58579 6.25 8C6.25 8.41421 6.58579 8.75 7 8.75H13C13.4142 8.75 13.75 8.41421 13.75 8C13.75 7.58579 13.4142 7.25 13 7.25H7Z`,
 			fill: `currentColor`
 		}),
 		(0, import_jsx_runtime.jsx)(`path`, {
-			d: `M13 6.5C13 4.01472 15.0147 2 17.5 2C19.9853 2 22 4.01472 22 6.5C22 8.98528 19.9853 11 17.5 11H14.2857C14.1365 11 14.0618 11 13.999 10.9929C13.4775 10.9342 13.0658 10.5225 13.0071 10.001C13 9.93818 13 9.86355 13 9.71429V6.5Z`,
+			d: `M13.052 16.25C13.9505 16.25 14.6997 16.2499 15.2945 16.3299C15.9223 16.4143 16.4891 16.6 16.9445 17.0555C17.4 17.5109 17.5857 18.0777 17.6701 18.7055C17.7501 19.3003 17.75 20.0495 17.75 20.948V20.948L17.75 21.7812L16.25 21.9219V21C16.25 20.036 16.2484 19.3884 16.1835 18.9054C16.1214 18.4439 16.0142 18.2464 15.8839 18.1161C15.7536 17.9858 15.5561 17.8786 15.0946 17.8165C14.6116 17.7516 13.964 17.75 13 17.75H11C10.036 17.75 9.38843 17.7516 8.90539 17.8165C8.44393 17.8786 8.24644 17.9858 8.11612 18.1161C7.9858 18.2464 7.87858 18.4439 7.81654 18.9054C7.7516 19.3884 7.75 20.036 7.75 21V21.9258L6.25 21.7773L6.25 20.948V20.948C6.24997 20.0495 6.24995 19.3003 6.32991 18.7055C6.41432 18.0777 6.59999 17.5109 7.05546 17.0555C7.51093 16.6 8.07773 16.4143 8.70552 16.3299C9.3003 16.2499 10.0495 16.25 10.948 16.25H10.948H13.052H13.052Z`,
+			fill: `currentColor`
+		})
+	]
+}));
+//#endregion
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/earth.mjs
+var { forwardRef: t$8 } = await importShared("react");
+var i$8 = t$8((t, i) => (0, import_jsx_runtime.jsxs)(a, {
+	ref: i,
+	...t,
+	iconName: `earth-bold-duotone`,
+	children: [
+		(0, import_jsx_runtime.jsx)(`circle`, {
+			cx: `12`,
+			cy: `12`,
+			r: `10`,
+			fill: `currentColor`,
+			style: {
+				color: `var(--solar-secondary-color, currentColor)`,
+				opacity: `var(--solar-secondary-opacity, 0.5)`
+			}
+		}),
+		(0, import_jsx_runtime.jsx)(`path`, {
+			d: `M8.57516 9.44737C8.3879 7.36316 6.7806 5.42105 6.00035 4.71053L5.56934 4.34189C7.30792 2.88037 9.55133 2 12.0004 2C14.2137 2 16.2592 2.7191 17.9158 3.93642C18.1498 4.64695 17.704 6.13158 17.2359 6.84211C17.0663 7.09947 16.6818 7.41898 16.2602 7.72186C15.3097 8.40477 14.1102 8.74254 13.5004 10C13.326 10.3595 13.3335 10.7108 13.4173 11.0163C13.4776 11.2358 13.5161 11.4745 13.5167 11.708C13.5187 12.4629 12.7552 13.0082 12.0004 13C10.0361 12.9786 8.7502 11.3955 8.57516 9.44737Z`,
 			fill: `currentColor`
 		}),
+		(0, import_jsx_runtime.jsx)(`path`, {
+			d: `M13.4365 18.2761C14.4246 16.414 17.7182 16.414 17.7182 16.414C21.1502 16.3782 21.6138 14.2944 21.9237 13.2412C21.369 17.7226 17.8494 21.2849 13.3885 21.9046C13.0659 21.2256 12.6837 19.6946 13.4365 18.2761Z`,
+			fill: `currentColor`
+		})
+	]
+}));
+//#endregion
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/export.mjs
+var { forwardRef: t$7 } = await importShared("react");
+var i$7 = t$7((t, i) => (0, import_jsx_runtime.jsxs)(a, {
+	ref: i,
+	...t,
+	iconName: `export-bold-duotone`,
+	children: [(0, import_jsx_runtime.jsx)(`path`, {
+		d: `M4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12L4 12Z`,
+		fill: `currentColor`,
+		style: {
+			color: `var(--solar-secondary-color, currentColor)`,
+			opacity: `var(--solar-secondary-opacity, 0.5)`
+		}
+	}), (0, import_jsx_runtime.jsx)(`path`, {
+		fillRule: `evenodd`,
+		clipRule: `evenodd`,
+		d: `M15.5303 7.53033C15.2374 7.82322 14.7626 7.82322 14.4697 7.53033L12.75 5.81066L12.75 14C12.75 14.4142 12.4142 14.75 12 14.75C11.5858 14.75 11.25 14.4142 11.25 14L11.25 5.81066L9.53033 7.53033C9.23744 7.82322 8.76256 7.82322 8.46967 7.53033C8.17678 7.23744 8.17678 6.76256 8.46967 6.46967L11.4697 3.46967C11.7626 3.17678 12.2374 3.17678 12.5303 3.46967L15.5303 6.46967C15.8232 6.76256 15.8232 7.23744 15.5303 7.53033Z`,
+		fill: `currentColor`
+	})]
+}));
+//#endregion
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/file-check.mjs
+var { forwardRef: t$6 } = await importShared("react");
+var i$6 = t$6((t, i) => (0, import_jsx_runtime.jsxs)(a, {
+	ref: i,
+	...t,
+	iconName: `file-check-bold-duotone`,
+	children: [
+		(0, import_jsx_runtime.jsx)(`path`, {
+			fillRule: `evenodd`,
+			clipRule: `evenodd`,
+			d: `M14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V10C2 6.22876 2 4.34315 3.17157 3.17157C4.34315 2 6.23869 2 10.0298 2C10.6358 2 11.1214 2 11.53 2.01666C11.5166 2.09659 11.5095 2.17813 11.5092 2.26057L11.5 5.09497C11.4999 6.19207 11.4998 7.16164 11.6049 7.94316C11.7188 8.79028 11.9803 9.63726 12.6716 10.3285C13.3628 11.0198 14.2098 11.2813 15.0569 11.3952C15.8385 11.5003 16.808 11.5002 17.9051 11.5001L18 11.5001H21.9574C22 12.0344 22 12.6901 22 13.5629V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22Z`,
+			fill: `currentColor`,
+			style: {
+				color: `var(--solar-secondary-color, currentColor)`,
+				opacity: `var(--solar-secondary-opacity, 0.5)`
+			}
+		}),
+		(0, import_jsx_runtime.jsx)(`path`, {
+			d: `M10.5606 15.4983C10.8358 15.1887 10.8079 14.7146 10.4983 14.4395C10.1887 14.1643 9.71464 14.1921 9.43945 14.5017L7.33334 16.8711L6.56056 16.0017C6.28538 15.6921 5.81132 15.6643 5.50174 15.9395C5.19215 16.2146 5.16426 16.6887 5.43945 16.9983L6.77278 18.4983C6.91511 18.6584 7.11911 18.75 7.33334 18.75C7.54757 18.75 7.75157 18.6584 7.8939 18.4983L10.5606 15.4983Z`,
+			fill: `currentColor`
+		}),
+		(0, import_jsx_runtime.jsx)(`path`, {
+			d: `M11.5092 2.2601L11.5 5.0945C11.4999 6.1916 11.4998 7.16117 11.6049 7.94269C11.7188 8.78981 11.9803 9.6368 12.6716 10.3281C13.3629 11.0193 14.2098 11.2808 15.057 11.3947C15.8385 11.4998 16.808 11.4997 17.9051 11.4996L21.9574 11.4996C21.9698 11.6552 21.9786 11.821 21.9848 11.9995H22C22 11.732 22 11.5983 21.9901 11.4408C21.9335 10.5463 21.5617 9.52125 21.0315 8.79853C20.9382 8.6713 20.8743 8.59493 20.7467 8.44218C19.9542 7.49359 18.911 6.31193 18 5.49953C17.1892 4.77645 16.0787 3.98536 15.1101 3.3385C14.2781 2.78275 13.862 2.50487 13.2915 2.29834C13.1403 2.24359 12.9408 2.18311 12.7846 2.14466C12.4006 2.05013 12.0268 2.01725 11.5 2.00586L11.5092 2.2601Z`,
+			fill: `currentColor`
+		})
+	]
+}));
+//#endregion
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/folder-open.mjs
+var { forwardRef: t$5 } = await importShared("react");
+var i$5 = t$5((t, i) => (0, import_jsx_runtime.jsxs)(a, {
+	ref: i,
+	...t,
+	iconName: `folder-open-bold-duotone`,
+	children: [(0, import_jsx_runtime.jsx)(`path`, {
+		d: `M3.5762 12.4846C3.68271 12.3586 3.80034 12.241 3.92792 12.1332C4.79888 11.3975 6.20667 11.3975 9.02227 11.3975H15.9777C18.7933 11.3975 20.2011 11.3975 21.0721 12.1332C21.2 12.2413 21.3179 12.3592 21.4247 12.4857V9.75579C21.4247 8.84687 21.4247 8.09279 21.3394 7.49156C21.2494 6.85704 21.0531 6.29458 20.5839 5.83245C20.5074 5.75707 20.4266 5.68552 20.342 5.61807C19.8302 5.21023 19.2167 5.04345 18.5222 4.96608C17.8531 4.89155 17.0102 4.89157 15.9769 4.89158L15.6242 4.89158C14.6421 4.89158 14.29 4.88587 13.9711 4.80533C13.7837 4.75802 13.604 4.69195 13.4352 4.60878C13.151 4.46867 12.9033 4.25762 12.2077 3.64132L11.7336 3.22128C11.5345 3.04489 11.3987 2.9245 11.2531 2.81755C10.6284 2.35879 9.86779 2.08132 9.07145 2.01534C8.88602 1.99998 8.6968 1.99999 8.41356 2.00002L8.29714 2.00001C7.65647 1.9999 7.23365 1.99983 6.86652 2.0612C5.26167 2.32947 3.96392 3.45143 3.64782 4.93575C3.57591 5.27344 3.57602 5.66035 3.57619 6.21853L3.5762 12.4846Z`,
+		fill: `currentColor`,
+		style: {
+			color: `var(--solar-secondary-color, currentColor)`,
+			opacity: `var(--solar-secondary-opacity, 0.5)`
+		}
+	}), (0, import_jsx_runtime.jsx)(`path`, {
+		fillRule: `evenodd`,
+		clipRule: `evenodd`,
+		d: `M3.35791 12.7787C2.74772 13.7201 2.99956 15.0291 3.50323 17.647C3.8658 19.5316 4.04709 20.4738 4.67523 21.0991C4.8382 21.2614 5.02054 21.4052 5.2186 21.5277C5.98195 21.9999 6.99539 21.9999 9.02227 21.9999H15.9777C18.0046 21.9999 19.0181 21.9999 19.7814 21.5277C19.9795 21.4052 20.1618 21.2614 20.3248 21.0991C20.9529 20.4738 21.1342 19.5316 21.4968 17.647C22.0004 15.0291 22.2523 13.7201 21.6421 12.7787C21.4864 12.5384 21.2943 12.321 21.0721 12.1332C20.2011 11.3975 18.7933 11.3975 15.9777 11.3975H9.02227C6.20667 11.3975 4.79888 11.3975 3.92792 12.1332C3.70566 12.321 3.51363 12.5384 3.35791 12.7787ZM9.69518 17.1806C9.69518 16.7814 10.0376 16.4577 10.4601 16.4577H14.5398C14.9622 16.4577 15.3047 16.7814 15.3047 17.1806C15.3047 17.5798 14.9622 17.9035 14.5398 17.9035H10.4601C10.0376 17.9035 9.69518 17.5798 9.69518 17.1806Z`,
+		fill: `currentColor`
+	})]
+}));
+//#endregion
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/import.mjs
+var { forwardRef: t$4 } = await importShared("react");
+var i$4 = t$4((t, i) => (0, import_jsx_runtime.jsxs)(a, {
+	ref: i,
+	...t,
+	iconName: `import-bold-duotone`,
+	children: [(0, import_jsx_runtime.jsx)(`path`, {
+		d: `M4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12L4 12Z`,
+		fill: `currentColor`,
+		style: {
+			color: `var(--solar-secondary-color, currentColor)`,
+			opacity: `var(--solar-secondary-opacity, 0.5)`
+		}
+	}), (0, import_jsx_runtime.jsx)(`path`, {
+		fillRule: `evenodd`,
+		clipRule: `evenodd`,
+		d: `M15.5303 10.4697C15.2374 10.1768 14.7626 10.1768 14.4697 10.4697L12.75 12.1893L12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4L11.25 12.1893L9.53033 10.4697C9.23744 10.1768 8.76256 10.1768 8.46967 10.4697C8.17678 10.7626 8.17678 11.2374 8.46967 11.5303L11.4697 14.5303C11.7626 14.8232 12.2374 14.8232 12.5303 14.5303L15.5303 11.5303C15.8232 11.2374 15.8232 10.7626 15.5303 10.4697Z`,
+		fill: `currentColor`
+	})]
+}));
+//#endregion
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/pen.mjs
+var { forwardRef: t$3 } = await importShared("react");
+var i$3 = t$3((t, i) => (0, import_jsx_runtime.jsxs)(a, {
+	ref: i,
+	...t,
+	iconName: `pen-bold-duotone`,
+	children: [(0, import_jsx_runtime.jsx)(`path`, {
+		d: `M20.8487 8.71306C22.3844 7.17735 22.3844 4.68748 20.8487 3.15178C19.313 1.61607 16.8231 1.61607 15.2874 3.15178L14.4004 4.03882C14.4125 4.0755 14.4251 4.11268 14.4382 4.15035C14.7633 5.0875 15.3768 6.31601 16.5308 7.47002C17.6848 8.62403 18.9133 9.23749 19.8505 9.56262C19.888 9.57563 19.925 9.58817 19.9615 9.60026L20.8487 8.71306Z`,
+		fill: `currentColor`,
+		style: {
+			color: `var(--solar-secondary-color, currentColor)`,
+			opacity: `var(--solar-secondary-opacity, 0.5)`
+		}
+	}), (0, import_jsx_runtime.jsx)(`path`, {
+		d: `M14.4386 4L14.4004 4.03819C14.4125 4.07487 14.4251 4.11206 14.4382 4.14973C14.7633 5.08687 15.3768 6.31538 16.5308 7.4694C17.6848 8.62341 18.9133 9.23686 19.8505 9.56199C19.8876 9.57489 19.9243 9.58733 19.9606 9.59933L11.4001 18.1598C10.823 18.7369 10.5343 19.0255 10.2162 19.2737C9.84082 19.5665 9.43469 19.8175 9.00498 20.0223C8.6407 20.1959 8.25351 20.3249 7.47918 20.583L3.39584 21.9442C3.01478 22.0712 2.59466 21.972 2.31063 21.688C2.0266 21.4039 1.92743 20.9838 2.05445 20.6028L3.41556 16.5194C3.67368 15.7451 3.80273 15.3579 3.97634 14.9936C4.18114 14.5639 4.43213 14.1578 4.7249 13.7824C4.97307 13.4643 5.26165 13.1757 5.83874 12.5986L14.4386 4Z`,
+		fill: `currentColor`
+	})]
+}));
+//#endregion
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/play.mjs
+var { forwardRef: t$2 } = await importShared("react");
+var i$2 = t$2((t, i) => (0, import_jsx_runtime.jsxs)(a, {
+	ref: i,
+	...t,
+	iconName: `play-bold-duotone`,
+	children: [(0, import_jsx_runtime.jsx)(`path`, {
+		d: `M8.59662 21.6145L21.4086 14.6474C22.4695 14.0705 23 13.0352 23 12H4L4 18.9671C4 21.2763 6.53435 22.736 8.59662 21.6145Z`,
+		fill: `currentColor`,
+		style: {
+			color: `var(--solar-secondary-color, currentColor)`,
+			opacity: `var(--solar-secondary-opacity, 0.5)`
+		}
+	}), (0, import_jsx_runtime.jsx)(`path`, {
+		fillRule: `evenodd`,
+		clipRule: `evenodd`,
+		d: `M23 12C23 10.9648 22.4695 9.92953 21.4086 9.35258L8.59661 2.38548C6.53435 1.26402 4 2.72368 4 5.0329L4 12H23Z`,
+		fill: `currentColor`
+	})]
+}));
+//#endregion
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/trash-bin-2.mjs
+var { forwardRef: t$1 } = await importShared("react");
+var i$1 = t$1((t, i) => (0, import_jsx_runtime.jsxs)(a, {
+	ref: i,
+	...t,
+	iconName: `trash-bin-2-bold-duotone`,
+	children: [(0, import_jsx_runtime.jsx)(`path`, {
+		d: `M11.6068 21.9998H12.3937C15.1012 21.9998 16.4549 21.9998 17.3351 21.1366C18.2153 20.2734 18.3054 18.8575 18.4855 16.0256L18.745 11.945C18.8427 10.4085 18.8916 9.6402 18.45 9.15335C18.0084 8.6665 17.2628 8.6665 15.7714 8.6665H8.22905C6.73771 8.6665 5.99204 8.6665 5.55047 9.15335C5.10891 9.6402 5.15777 10.4085 5.25549 11.945L5.515 16.0256C5.6951 18.8575 5.78515 20.2734 6.66534 21.1366C7.54553 21.9998 8.89927 21.9998 11.6068 21.9998Z`,
+		fill: `currentColor`,
+		style: {
+			color: `var(--solar-secondary-color, currentColor)`,
+			opacity: `var(--solar-secondary-opacity, 0.5)`
+		}
+	}), (0, import_jsx_runtime.jsx)(`path`, {
+		d: `M2.75 6.16667C2.75 5.70644 3.09538 5.33335 3.52143 5.33335L6.18567 5.3329C6.71502 5.31841 7.18202 4.95482 7.36214 4.41691C7.36688 4.40277 7.37232 4.38532 7.39185 4.32203L7.50665 3.94993C7.5769 3.72179 7.6381 3.52303 7.72375 3.34536C8.06209 2.64349 8.68808 2.1561 9.41147 2.03132C9.59457 1.99973 9.78848 1.99987 10.0111 2.00002H13.4891C13.7117 1.99987 13.9056 1.99973 14.0887 2.03132C14.8121 2.1561 15.4381 2.64349 15.7764 3.34536C15.8621 3.52303 15.9233 3.72179 15.9935 3.94993L16.1083 4.32203C16.1279 4.38532 16.1333 4.40277 16.138 4.41691C16.3182 4.95482 16.8778 5.31886 17.4071 5.33335H19.9786C20.4046 5.33335 20.75 5.70644 20.75 6.16667C20.75 6.62691 20.4046 7 19.9786 7H3.52143C3.09538 7 2.75 6.62691 2.75 6.16667Z`,
+		fill: `currentColor`
+	})]
+}));
+//#endregion
+//#region node_modules/@solar-icons/react/dist/icons/bold-duotone/widget-6.mjs
+var { forwardRef: t } = await importShared("react");
+var i = t((t, i) => (0, import_jsx_runtime.jsxs)(a, {
+	ref: i,
+	...t,
+	iconName: `widget-6-bold-duotone`,
+	children: [
 		(0, import_jsx_runtime.jsxs)(`g`, {
-			opacity: `0.5`,
+			style: {
+				color: `var(--solar-secondary-color, currentColor)`,
+				opacity: `var(--solar-secondary-opacity, 0.5)`
+			},
 			children: [(0, import_jsx_runtime.jsx)(`path`, {
 				d: `M2 6.5C2 4.01472 4.01472 2 6.5 2C8.98528 2 11 4.01472 11 6.5V9.5C11 9.84874 11 10.0231 10.9617 10.1662C10.8576 10.5544 10.5544 10.8576 10.1662 10.9617C10.0231 11 9.84874 11 9.5 11H6.5C4.01472 11 2 8.98528 2 6.5Z`,
 				fill: `currentColor`
@@ -3491,60 +3719,17 @@ var i$3 = t$3((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
 				d: `M13 14.5C13 14.1513 13 13.9769 13.0383 13.8338C13.1424 13.4456 13.4456 13.1424 13.8338 13.0383C13.9769 13 14.1513 13 14.5 13H17.5C19.9853 13 22 15.0147 22 17.5C22 19.9853 19.9853 22 17.5 22C15.0147 22 13 19.9853 13 17.5V14.5Z`,
 				fill: `currentColor`
 			})]
+		}),
+		(0, import_jsx_runtime.jsx)(`path`, {
+			d: `M2 17.5C2 15.0147 4.01472 13 6.5 13H9.2C9.83006 13 10.1451 13 10.3857 13.1226C10.5974 13.2305 10.7695 13.4026 10.8774 13.6143C11 13.8549 11 14.1699 11 14.8V17.5C11 19.9853 8.98528 22 6.5 22C4.01472 22 2 19.9853 2 17.5Z`,
+			fill: `currentColor`
+		}),
+		(0, import_jsx_runtime.jsx)(`path`, {
+			d: `M13 6.5C13 4.01472 15.0147 2 17.5 2C19.9853 2 22 4.01472 22 6.5C22 8.98528 19.9853 11 17.5 11H14.2857C14.1365 11 14.0618 11 13.999 10.9929C13.4775 10.9342 13.0658 10.5225 13.0071 10.001C13 9.93818 13 9.86355 13 9.71429V6.5Z`,
+			fill: `currentColor`
 		})
 	]
 }));
-i$3.displayName = `Widget6`;
-//#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/ui/BoldDuotone/Copy.mjs
-var { forwardRef: t$2 } = await importShared("react");
-var i$2 = t$2((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
-	ref: i,
-	...t,
-	children: [(0, import_jsx_runtime.jsx)(`path`, {
-		d: `M6.59961 11.3974C6.59961 8.67119 6.59961 7.3081 7.44314 6.46118C8.28667 5.61426 9.64432 5.61426 12.3596 5.61426H15.2396C17.9549 5.61426 19.3125 5.61426 20.1561 6.46118C20.9996 7.3081 20.9996 8.6712 20.9996 11.3974V16.2167C20.9996 18.9429 20.9996 20.306 20.1561 21.1529C19.3125 21.9998 17.9549 21.9998 15.2396 21.9998H12.3596C9.64432 21.9998 8.28667 21.9998 7.44314 21.1529C6.59961 20.306 6.59961 18.9429 6.59961 16.2167V11.3974Z`,
-		fill: `currentColor`
-	}), (0, import_jsx_runtime.jsx)(`path`, {
-		opacity: `0.5`,
-		d: `M4.17157 3.17157C3 4.34315 3 6.22876 3 10V12C3 15.7712 3 17.6569 4.17157 18.8284C4.78913 19.446 5.6051 19.738 6.79105 19.8761C6.59961 19.0353 6.59961 17.8796 6.59961 16.2167V11.3974C6.59961 8.6712 6.59961 7.3081 7.44314 6.46118C8.28667 5.61426 9.64432 5.61426 12.3596 5.61426H15.2396C16.8915 5.61426 18.0409 5.61426 18.8777 5.80494C18.7403 4.61146 18.4484 3.79154 17.8284 3.17157C16.6569 2 14.7712 2 11 2C7.22876 2 5.34315 2 4.17157 3.17157Z`,
-		fill: `currentColor`
-	})]
-}));
-i$2.displayName = `Copy`;
-//#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/ui/BoldDuotone/TrashBin2.mjs
-var { forwardRef: t$1 } = await importShared("react");
-var i$1 = t$1((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
-	ref: i,
-	...t,
-	children: [(0, import_jsx_runtime.jsx)(`path`, {
-		d: `M2.75 6.16667C2.75 5.70644 3.09538 5.33335 3.52143 5.33335L6.18567 5.3329C6.71502 5.31841 7.18202 4.95482 7.36214 4.41691C7.36688 4.40277 7.37232 4.38532 7.39185 4.32203L7.50665 3.94993C7.5769 3.72179 7.6381 3.52303 7.72375 3.34536C8.06209 2.64349 8.68808 2.1561 9.41147 2.03132C9.59457 1.99973 9.78848 1.99987 10.0111 2.00002H13.4891C13.7117 1.99987 13.9056 1.99973 14.0887 2.03132C14.8121 2.1561 15.4381 2.64349 15.7764 3.34536C15.8621 3.52303 15.9233 3.72179 15.9935 3.94993L16.1083 4.32203C16.1279 4.38532 16.1333 4.40277 16.138 4.41691C16.3182 4.95482 16.8778 5.31886 17.4071 5.33335H19.9786C20.4046 5.33335 20.75 5.70644 20.75 6.16667C20.75 6.62691 20.4046 7 19.9786 7H3.52143C3.09538 7 2.75 6.62691 2.75 6.16667Z`,
-		fill: `currentColor`
-	}), (0, import_jsx_runtime.jsx)(`path`, {
-		opacity: `0.5`,
-		d: `M11.6068 21.9998H12.3937C15.1012 21.9998 16.4549 21.9998 17.3351 21.1366C18.2153 20.2734 18.3054 18.8575 18.4855 16.0256L18.745 11.945C18.8427 10.4085 18.8916 9.6402 18.45 9.15335C18.0084 8.6665 17.2628 8.6665 15.7714 8.6665H8.22905C6.73771 8.6665 5.99204 8.6665 5.55047 9.15335C5.10891 9.6402 5.15777 10.4085 5.25549 11.945L5.515 16.0256C5.6951 18.8575 5.78515 20.2734 6.66534 21.1366C7.54553 21.9998 8.89927 21.9998 11.6068 21.9998Z`,
-		fill: `currentColor`
-	})]
-}));
-i$1.displayName = `TrashBin2`;
-//#endregion
-//#region node_modules/@solar-icons/react-perf/dist/icons/video/BoldDuotone/Play.mjs
-var { forwardRef: t } = await importShared("react");
-var i = t((t, i) => (0, import_jsx_runtime.jsxs)(r$18, {
-	ref: i,
-	...t,
-	children: [(0, import_jsx_runtime.jsx)(`path`, {
-		fillRule: `evenodd`,
-		clipRule: `evenodd`,
-		d: `M23 12C23 10.9648 22.4695 9.92953 21.4086 9.35258L8.59661 2.38548C6.53435 1.26402 4 2.72368 4 5.0329L4 12H23Z`,
-		fill: `currentColor`
-	}), (0, import_jsx_runtime.jsx)(`path`, {
-		opacity: `0.5`,
-		d: `M8.59662 21.6145L21.4086 14.6474C22.4695 14.0705 23 13.0352 23 12H4L4 18.9671C4 21.2763 6.53435 22.736 8.59662 21.6145Z`,
-		fill: `currentColor`
-	})]
-}));
-i.displayName = `Play`;
 //#endregion
 //#region extension/src/cross/CrossUtils.ts
 var customActionsChannels = {
@@ -3555,25 +3740,58 @@ var customActionsChannels = {
 	importFromFile: "customActions_importFromFile"
 };
 //#endregion
+//#region src/renderer/mainWindow/layouts/tabs/TabContext.tsx
+var { createContext: createContext$9, useContext: useContext$12 } = await importShared("react");
+var TabContext = createContext$9(void 0);
+var useCurrentTabId = () => useContext$12(TabContext);
+//#endregion
 //#region src/renderer/mainWindow/components/TabModal.tsx
 var { Modal: Modal$1 } = await importShared("@heroui/react");
-var { useEffect: useEffect$8, useState: useState$9 } = await importShared("react");
+var { useCallback: useCallback$3, useEffect: useEffect$8, useMemo: useMemo$15, useState: useState$10 } = await importShared("react");
 var { UNSAFE_PortalProvider } = await importShared("react-aria");
-function TabModal({ isOpen, onOpenChange, children, size = "cover", isDismissable = false, backdropVariant, dialogClassName, containerClassName, isKeyboardDismissDisabled }) {
+function TabModal({ isOpen, onOpenChange, children, size = "cover", isDismissable = true, backdropVariant, dialogClassName, containerClassName, isKeyboardDismissDisabled, tabId: explicitTabId }) {
+	const contextTabId = useCurrentTabId();
 	const activeTab = useTabsState("activeTab");
-	const [targetContainer, setTargetContainer] = useState$9(null);
+	const runningCards = useCardsState("runningCard");
+	const resolvedTabId = explicitTabId ?? contextTabId;
+	const [targetContainer, setTargetContainer] = useState$10(() => {
+		if (typeof document === "undefined") return null;
+		return resolvedTabId ? document.getElementById(`${resolvedTabId}_wrapper`) : null;
+	});
+	const currentRunningCard = useMemo$15(() => runningCards.find((card) => card.tabId === (resolvedTabId ?? activeTab)), [
+		runningCards,
+		resolvedTabId,
+		activeTab
+	]);
 	useEffect$8(() => {
-		setTargetContainer(isOpen ? document.getElementById(`${activeTab}_wrapper`) : null);
-	}, [isOpen]);
+		if (!isOpen) {
+			setTargetContainer(null);
+			return;
+		}
+		if (resolvedTabId) setTargetContainer(document.getElementById(`${resolvedTabId}_wrapper`));
+		else setTargetContainer(null);
+	}, [isOpen, resolvedTabId]);
+	useEffect$8(() => {
+		if (isOpen && currentRunningCard && currentRunningCard.currentView === "browser") {
+			browserIpc.send.setVisible(currentRunningCard.id, false);
+			return () => {
+				browserIpc.send.setVisible(currentRunningCard.id, true);
+			};
+		}
+	}, [isOpen, currentRunningCard]);
+	const handleBackdropClick = useCallback$3((e) => {
+		if (isDismissable && e.target instanceof HTMLElement && e.target.closest(".modal__backdrop, .modal__container") && !e.target.closest(".modal__dialog")) onOpenChange?.(false);
+	}, [isDismissable, onOpenChange]);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Modal$1, {
 		isOpen,
 		onOpenChange,
-		children: targetContainer && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(UNSAFE_PortalProvider, {
+		children: targetContainer ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(UNSAFE_PortalProvider, {
 			getContainer: () => targetContainer,
 			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Modal$1.Backdrop, {
 				className: "h-full",
+				isDismissable: false,
 				variant: backdropVariant,
-				isDismissable,
+				onClick: handleBackdropClick,
 				isKeyboardDismissDisabled,
 				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Modal$1.Container, {
 					size,
@@ -3586,6 +3804,21 @@ function TabModal({ isOpen, onOpenChange, children, size = "cover", isDismissabl
 							children
 						})
 					})
+				})
+			})
+		}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Modal$1.Backdrop, {
+			className: "h-full",
+			isDismissable: false,
+			variant: backdropVariant,
+			onClick: handleBackdropClick,
+			isKeyboardDismissDisabled,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Modal$1.Container, {
+				size,
+				scroll: "inside",
+				className: `h-full max-h-full ${containerClassName}`,
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Modal$1.Dialog, {
+					className: size === "cover" ? `h-full max-h-full ${dialogClassName}` : dialogClassName,
+					children
 				})
 			})
 		})
@@ -3616,11 +3849,11 @@ function useConstant(init) {
 }
 //#endregion
 //#region node_modules/framer-motion/dist/es/utils/is-browser.mjs
-var isBrowser$1 = typeof window !== "undefined";
+var isBrowser$2 = typeof window !== "undefined";
 //#endregion
 //#region node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs
 var { useLayoutEffect, useEffect: useEffect$7 } = await importShared("react");
-var useIsomorphicLayoutEffect = isBrowser$1 ? useLayoutEffect : useEffect$7;
+var useIsomorphicLayoutEffect = isBrowser$2 ? useLayoutEffect : useEffect$7;
 //#endregion
 //#region node_modules/framer-motion/dist/es/context/PresenceContext.mjs
 var { createContext: createContext$7 } = await importShared("react");
@@ -4394,7 +4627,8 @@ function matchOrder(origin, target) {
 	for (let i = 0; i < target.values.length; i++) {
 		const type = target.types[i];
 		const originIndex = origin.indexes[type][pointers[type]];
-		orderedOrigin[i] = origin.values[originIndex] ?? 0;
+		const originValue = origin.values[originIndex] ?? 0;
+		orderedOrigin[i] = originValue;
 		pointers[type]++;
 	}
 	return orderedOrigin;
@@ -5923,7 +6157,8 @@ var acceleratedValues = /* @__PURE__ */ new Set([
 	"opacity",
 	"clipPath",
 	"filter",
-	"transform"
+	"transform",
+	"backgroundColor"
 ]);
 //#endregion
 //#region node_modules/motion-dom/dist/es/animation/waapi/utils/is-browser-color.mjs
@@ -5949,13 +6184,15 @@ var colorProperties = /* @__PURE__ */ new Set([
 var supportsWaapi = /*@__PURE__*/ memo(() => Object.hasOwnProperty.call(Element.prototype, "animate"));
 function supportsBrowserAnimation(options) {
 	const { motionValue, name, repeatDelay, repeatType, damping, type, keyframes } = options;
+	const subject = motionValue?.owner?.current;
 	/**
-	* We use this check instead of isHTMLElement() because we explicitly
-	* **don't** want elements in different timing contexts (i.e. popups)
-	* to be accelerated, as it's not possible to sync these animations
-	* properly with those driven from the main window frameloop.
+	* We use instanceof checks instead of isHTMLElement()/isSVGElement()
+	* because we explicitly **don't** want elements in different timing
+	* contexts (i.e. popups) to be accelerated, as it's not possible to sync
+	* these animations properly with those driven from the main window
+	* frameloop.
 	*/
-	if (!(motionValue?.owner?.current instanceof HTMLElement)) return false;
+	if (!(subject instanceof HTMLElement) && !(subject instanceof SVGElement)) return false;
 	const { onUpdate, transformTemplate } = motionValue.owner.getProps();
 	return supportsWaapi() && name && (acceleratedValues.has(name) || colorProperties.has(name) && hasBrowserOnlyColors(keyframes)) && (name !== "transform" || !transformTemplate) && !onUpdate && !repeatDelay && repeatType !== "mirror" && damping !== 0 && type !== "inertia";
 }
@@ -6696,6 +6933,7 @@ function getOptimisedAppearId(visualElement) {
 }
 //#endregion
 //#region node_modules/motion-dom/dist/es/animation/interfaces/visual-element-target.mjs
+var isBrowser$1 = typeof window !== "undefined";
 /**
 * Decide whether we should block this animation. Previously, we achieved this
 * just by checking whether the key was listed in protectedKeys, but this
@@ -6742,7 +6980,7 @@ function animateTarget(visualElement, targetAndTransition, { delay = 0, transiti
 		* to see if we're handling off from an existing animation.
 		*/
 		let isHandoff = false;
-		if (window.MotionHandoffAnimation) {
+		if (isBrowser$1 && window.MotionHandoffAnimation) {
 			const appearId = getOptimisedAppearId(visualElement);
 			if (appearId) {
 				const startTime = window.MotionHandoffAnimation(appearId, key, frame);
@@ -7207,14 +7445,15 @@ function isDragActive() {
 //#endregion
 //#region node_modules/motion-dom/dist/es/gestures/drag/state/set-active.mjs
 function setDragLock(axis) {
-	if (axis === "x" || axis === "y") if (isDragging[axis]) return null;
-	else {
-		isDragging[axis] = true;
-		return () => {
-			isDragging[axis] = false;
-		};
-	}
-	else if (isDragging.x || isDragging.y) return null;
+	if (axis === "x" || axis === "y") {
+		if (isDragging[axis]) return null;
+		else {
+			isDragging[axis] = true;
+			return () => {
+				isDragging[axis] = false;
+			};
+		}
+	} else if (isDragging.x || isDragging.y) return null;
 	else {
 		isDragging.x = isDragging.y = true;
 		return () => {
@@ -7690,19 +7929,20 @@ function updateMotionValuesFromProps(element, next, prev) {
 		* create a new motion value from that
 		*/
 		element.addValue(key, motionValue(nextValue, { owner: element }));
-		else if (prevValue !== nextValue)
- /**
-		* If this is a flat value that has changed, update the motion value
-		* or create one if it doesn't exist. We only want to do this if we're
-		* not handling the value with our animation state.
-		*/
-		if (element.hasValue(key)) {
-			const existingValue = element.getValue(key);
-			if (existingValue.liveStyle === true) existingValue.jump(nextValue);
-			else if (!existingValue.hasAnimated) existingValue.set(nextValue);
-		} else {
-			const latestValue = element.getStaticValue(key);
-			element.addValue(key, motionValue(latestValue !== void 0 ? latestValue : nextValue, { owner: element }));
+		else if (prevValue !== nextValue) {
+			/**
+			* If this is a flat value that has changed, update the motion value
+			* or create one if it doesn't exist. We only want to do this if we're
+			* not handling the value with our animation state.
+			*/
+			if (element.hasValue(key)) {
+				const existingValue = element.getValue(key);
+				if (existingValue.liveStyle === true) existingValue.jump(nextValue);
+				else if (!existingValue.hasAnimated) existingValue.set(nextValue);
+			} else {
+				const latestValue = element.getStaticValue(key);
+				element.addValue(key, motionValue(latestValue !== void 0 ? latestValue : nextValue, { owner: element }));
+			}
 		}
 	}
 	for (const key in prev) if (next[key] === void 0) element.removeValue(key);
@@ -8525,8 +8765,10 @@ var correctBorderRadius = { correct: (latest, node) => {
 	* If latest is a string, if it's a percentage we can return immediately as it's
 	* going to be stretched appropriately. Otherwise, if it's a pixel, convert it to a number.
 	*/
-	if (typeof latest === "string") if (px.test(latest)) latest = parseFloat(latest);
-	else return latest;
+	if (typeof latest === "string") {
+		if (px.test(latest)) latest = parseFloat(latest);
+		else return latest;
+	}
 	return `${pixelsToPercent(latest, node.target.x)}% ${pixelsToPercent(latest, node.target.y)}%`;
 } };
 //#endregion
@@ -8591,6 +8833,15 @@ var HTMLVisualElement = class extends DOMVisualElement {
 		this.type = "html";
 		this.renderInstance = renderHTML;
 	}
+	mount(instance) {
+		/**
+		* If a custom component forwards its ref to something other than a
+		* HTML/SVG element (a class instance, an imperative handle) there's
+		* nothing for Motion to style, measure or attach gestures to. #2777
+		*/
+		Boolean(instance.style);
+		super.mount(instance);
+	}
 	readValueFromInstance(instance, key) {
 		if (transformProps.has(key)) return this.projection?.isProjecting ? defaultTransformValue(key) : readTransformValue(instance, key);
 		else {
@@ -8637,10 +8888,9 @@ function buildSVGPath(attrs, length, spacing = 1, offset = 0, useDashCase = true
 }
 //#endregion
 //#region node_modules/motion-dom/dist/es/render/svg/utils/build-attrs.mjs
-/**
-* CSS Motion Path properties that should remain as CSS styles on SVG elements.
-*/
-var cssMotionPathProperties = [
+var cssStyleProperties = [
+	"transform",
+	"opacity",
 	"offsetDistance",
 	"offsetPath",
 	"offsetRotate",
@@ -8662,13 +8912,9 @@ function buildSVGAttrs(state, { attrX, attrY, attrScale, pathLength, pathSpacing
 	state.attrs = state.style;
 	state.style = {};
 	const { attrs, style } = state;
-	/**
-	* However, we apply transforms as CSS transforms.
-	* So if we detect a transform, transformOrigin we take it from attrs and copy it into style.
-	*/
-	if (attrs.transform) {
-		style.transform = attrs.transform;
-		delete attrs.transform;
+	for (const key of cssStyleProperties) if (attrs[key] !== void 0) {
+		style[key] = attrs[key];
+		delete attrs[key];
 	}
 	if (style.transform || attrs.transformOrigin) {
 		style.transformOrigin = attrs.transformOrigin ?? "50% 50%";
@@ -8681,10 +8927,6 @@ function buildSVGAttrs(state, { attrX, attrY, attrScale, pathLength, pathSpacing
 		*/
 		style.transformBox = styleProp?.transformBox ?? "fill-box";
 		delete attrs.transformBox;
-	}
-	for (const key of cssMotionPathProperties) if (attrs[key] !== void 0) {
-		style[key] = attrs[key];
-		delete attrs[key];
 	}
 	if (attrX !== void 0) attrs.x = attrX;
 	if (attrY !== void 0) attrs.y = attrY;
@@ -8756,6 +8998,10 @@ var SVGVisualElement = class extends DOMVisualElement {
 		if (transformProps.has(key)) {
 			const defaultType = getDefaultValueType(key);
 			return defaultType ? defaultType.default || 0 : 0;
+		}
+		if (cssStyleProperties.includes(key)) {
+			const value = getComputedStyle(instance)[key];
+			if (typeof value === "string" && value) return value.trim();
 		}
 		key = !camelCaseAttributes.has(key) ? camelToDash(key) : key;
 		return instance.getAttribute(key);
@@ -8981,9 +9227,10 @@ function createAnimationState(visualElement) {
 				let valueHasChanged = false;
 				if (isKeyframesTarget(next) && isKeyframesTarget(prev)) valueHasChanged = !shallowCompare(next, prev) || variantDidChange;
 				else valueHasChanged = next !== prev;
-				if (valueHasChanged) if (next !== void 0 && next !== null) markToAnimate(key);
-				else removedKeys.add(key);
-				else if (next !== void 0 && removedKeys.has(key))
+				if (valueHasChanged) {
+					if (next !== void 0 && next !== null) markToAnimate(key);
+					else removedKeys.add(key);
+				} else if (next !== void 0 && removedKeys.has(key))
  /**
 				* If next hasn't changed and it isn't undefined, we want to check if it's
 				* been removed by a higher priority
@@ -10139,8 +10386,10 @@ function createProjectionNode$1({ attachResizeListener, defaultParent, measureSc
 			* a relativeParent. This will allow a component to perform scale correction
 			* even if no animation has started.
 			*/
-			if (!this.targetDelta && !this.relativeTarget) if (this.options.layoutAnchor !== false && relativeParent && relativeParent.layout) this.createRelativeTarget(relativeParent, this.layout.layoutBox, relativeParent.layout.layoutBox);
-			else this.removeRelativeTarget();
+			if (!this.targetDelta && !this.relativeTarget) {
+				if (this.options.layoutAnchor !== false && relativeParent && relativeParent.layout) this.createRelativeTarget(relativeParent, this.layout.layoutBox, relativeParent.layout.layoutBox);
+				else this.removeRelativeTarget();
+			}
 			/**
 			* If we have no relative target or no target delta our target isn't valid
 			* for this frame.
@@ -10950,7 +11199,7 @@ function PopChild({ children, isPresent, anchorX, anchorY, root, pop }) {
 		direction: "ltr"
 	});
 	const { nonce } = useContext$11(MotionConfigContext);
-	const composedRef = useComposedRefs(ref, children.props?.ref ?? children?.ref);
+	const composedRef = useComposedRefs(ref, pop !== false ? children.props?.ref ?? children?.ref : void 0);
 	/**
 	* We create and inject a style block so we can apply this explicit
 	* sizing in a non-destructive manner by just deleting the style block.
@@ -11118,7 +11367,7 @@ function onlyElements(children) {
 }
 //#endregion
 //#region node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs
-var { useMemo: useMemo$13, useRef: useRef$7, useState: useState$8, useContext: useContext$9 } = await importShared("react");
+var { useMemo: useMemo$13, useRef: useRef$7, useState: useState$9, useContext: useContext$9 } = await importShared("react");
 /**
 * `AnimatePresence` enables the animation of components that have been removed from the tree.
 *
@@ -11186,8 +11435,16 @@ var AnimatePresence = ({ children, custom, initial = true, onExitComplete, prese
 	* Save children to render as React state. To ensure this component is concurrent-safe,
 	* we check for exiting children via an effect.
 	*/
-	const [diffedChildren, setDiffedChildren] = useState$8(presentChildren);
-	const [renderedChildren, setRenderedChildren] = useState$8(presentChildren);
+	const [diffedChildren, setDiffedChildren] = useState$9(presentChildren);
+	const [renderedChildren, setRenderedChildren] = useState$9(presentChildren);
+	useIsomorphicLayoutEffect(() => {
+		if (propagate && !isParentPresent && !renderedChildren.length) safeToRemove?.();
+	}, [
+		isParentPresent,
+		propagate,
+		renderedChildren.length,
+		safeToRemove
+	]);
 	useIsomorphicLayoutEffect(() => {
 		isInitialRender.current = false;
 		pendingPresentChildren.current = presentChildren;
@@ -11214,14 +11471,20 @@ var AnimatePresence = ({ children, custom, initial = true, onExitComplete, prese
 		/**
 		* Loop through all the currently rendered components and decide which
 		* are exiting.
+		*
+		* Exiting children are reinserted directly after the child they
+		* previously followed. Splicing at their index within the previously
+		* rendered children, as we used to, indexes into the wrong list: it
+		* can interleave them with entering children and push present children
+		* to new positions, remounting them (#3746).
 		*/
-		for (let i = 0; i < renderedChildren.length; i++) {
-			const child = renderedChildren[i];
-			const key = getChildKey(child);
-			if (!presentKeys.includes(key)) {
-				nextChildren.splice(i, 0, child);
+		let insertionIndex = 0;
+		for (const child of renderedChildren) {
+			const presentIndex = presentKeys.indexOf(getChildKey(child));
+			if (presentIndex === -1) {
+				nextChildren.splice(insertionIndex++, 0, child);
 				exitingChildren.push(child);
-			}
+			} else insertionIndex = presentIndex + exitingChildren.length + 1;
 		}
 		/**
 		* If we're in "wait" mode, and we have exiting children, we want to
@@ -11300,10 +11563,10 @@ function useIsMounted() {
 }
 //#endregion
 //#region node_modules/framer-motion/dist/es/utils/use-force-update.mjs
-var { useState: useState$7, useCallback: useCallback$1 } = await importShared("react");
+var { useState: useState$8, useCallback: useCallback$1 } = await importShared("react");
 function useForceUpdate() {
 	const isMounted = useIsMounted();
-	const [forcedRenderCount, setForcedRenderCount] = useState$7(0);
+	const [forcedRenderCount, setForcedRenderCount] = useState$8(0);
 	const forceRender = useCallback$1(() => {
 		isMounted.current && setForcedRenderCount(forcedRenderCount + 1);
 	}, [forcedRenderCount]);
@@ -11410,105 +11673,6 @@ function loadFeatures(features) {
 	setFeatureDefinitions(featureDefinitions);
 }
 //#endregion
-//#region node_modules/framer-motion/dist/es/motion/utils/valid-prop.mjs
-/**
-* A list of all valid MotionProps.
-*
-* @privateRemarks
-* This doesn't throw if a `MotionProp` name is missing - it should.
-*/
-var validMotionProps = /* @__PURE__ */ new Set([
-	"animate",
-	"exit",
-	"variants",
-	"initial",
-	"style",
-	"values",
-	"variants",
-	"transition",
-	"transformTemplate",
-	"custom",
-	"inherit",
-	"onBeforeLayoutMeasure",
-	"onAnimationStart",
-	"onAnimationComplete",
-	"onUpdate",
-	"onDragStart",
-	"onDrag",
-	"onDragEnd",
-	"onMeasureDragConstraints",
-	"onDirectionLock",
-	"onDragTransitionEnd",
-	"_dragX",
-	"_dragY",
-	"onHoverStart",
-	"onHoverEnd",
-	"onViewportEnter",
-	"onViewportLeave",
-	"globalTapTarget",
-	"propagate",
-	"ignoreStrict",
-	"viewport"
-]);
-/**
-* Check whether a prop name is a valid `MotionProp` key.
-*
-* @param key - Name of the property to check
-* @returns `true` is key is a valid `MotionProp`.
-*
-* @public
-*/
-function isValidMotionProp(key) {
-	return key.startsWith("while") || key.startsWith("drag") && key !== "draggable" || key.startsWith("layout") || key.startsWith("onTap") || key.startsWith("onPan") || key.startsWith("onLayout") || validMotionProps.has(key);
-}
-//#endregion
-//#region __vite-optional-peer-dep:@emotion/is-prop-valid:framer-motion
-var is_prop_valid_framer_motion_exports = /* @__PURE__ */ __exportAll({ default: () => is_prop_valid_framer_motion_default });
-var is_prop_valid_framer_motion_default;
-var init_is_prop_valid_framer_motion = __esmMin((() => {
-	is_prop_valid_framer_motion_default = {};
-	throw new Error(`Could not resolve "@emotion/is-prop-valid" imported by "framer-motion". Is it installed?`);
-}));
-//#endregion
-//#region node_modules/framer-motion/dist/es/render/dom/utils/filter-props.mjs
-var shouldForward = (key) => !isValidMotionProp(key);
-function loadExternalIsValidProp(isValidProp) {
-	if (typeof isValidProp !== "function") return;
-	shouldForward = (key) => key.startsWith("on") ? !isValidMotionProp(key) : isValidProp(key);
-}
-/**
-* Emotion and Styled Components both allow users to pass through arbitrary props to their components
-* to dynamically generate CSS. They both use the `@emotion/is-prop-valid` package to determine which
-* of these should be passed to the underlying DOM node.
-*
-* However, when styling a Motion component `styled(motion.div)`, both packages pass through *all* props
-* as it's seen as an arbitrary component rather than a DOM node. Motion only allows arbitrary props
-* passed through the `custom` prop so it doesn't *need* the payload or computational overhead of
-* `@emotion/is-prop-valid`, however to fix this problem we need to use it.
-*
-* By making it an optionalDependency we can offer this functionality only in the situations where it's
-* actually required.
-*/
-try {
-	loadExternalIsValidProp((init_is_prop_valid_framer_motion(), __toCommonJS(is_prop_valid_framer_motion_exports)).default);
-} catch {}
-function filterProps(props, isDom, forwardMotionProps) {
-	const filteredProps = {};
-	for (const key in props) {
-		/**
-		* values is considered a valid prop by Emotion, so if it's present
-		* this will be rendered out to the DOM unless explicitly filtered.
-		*
-		* We check the type as it could be used with the `feColorMatrix`
-		* element, which we support.
-		*/
-		if (key === "values" && typeof props.values === "object") continue;
-		if (isMotionValue(props[key])) continue;
-		if (shouldForward(key) || forwardMotionProps === true && isValidMotionProp(key) || !isDom && !isValidMotionProp(key) || props["draggable"] && key.startsWith("onDrag")) filteredProps[key] = props[key];
-	}
-	return filteredProps;
-}
-//#endregion
 //#region node_modules/framer-motion/dist/es/context/MotionContext/index.mjs
 var { createContext: createContext$3 } = await importShared("react");
 var MotionContext = /* @__PURE__ */ createContext$3({});
@@ -11609,6 +11773,79 @@ function useSVGProps(props, visualState, _isStatic, Component) {
 	return visualProps;
 }
 //#endregion
+//#region node_modules/framer-motion/dist/es/motion/utils/valid-prop.mjs
+/**
+* A list of all valid MotionProps.
+*
+* @privateRemarks
+* This doesn't throw if a `MotionProp` name is missing - it should.
+*/
+var validMotionProps = /* @__PURE__ */ new Set([
+	"animate",
+	"exit",
+	"variants",
+	"initial",
+	"style",
+	"values",
+	"variants",
+	"transition",
+	"transformTemplate",
+	"custom",
+	"inherit",
+	"onBeforeLayoutMeasure",
+	"onAnimationStart",
+	"onAnimationComplete",
+	"onUpdate",
+	"onDragStart",
+	"onDrag",
+	"onDragEnd",
+	"onMeasureDragConstraints",
+	"onDirectionLock",
+	"onDragTransitionEnd",
+	"_dragX",
+	"_dragY",
+	"onHoverStart",
+	"onHoverEnd",
+	"onViewportEnter",
+	"onViewportLeave",
+	"globalTapTarget",
+	"propagate",
+	"ignoreStrict",
+	"viewport"
+]);
+/**
+* Check whether a prop name is a valid `MotionProp` key.
+*
+* @param key - Name of the property to check
+* @returns `true` is key is a valid `MotionProp`.
+*
+* @public
+*/
+function isValidMotionProp(key) {
+	return key.startsWith("while") || key.startsWith("drag") && key !== "draggable" || key.startsWith("layout") || key.startsWith("onTap") || key.startsWith("onPan") || key.startsWith("onLayout") || validMotionProps.has(key);
+}
+//#endregion
+//#region node_modules/framer-motion/dist/es/render/dom/utils/filter-props.mjs
+function shouldForward(key, isValidProp) {
+	return key.startsWith("on") ? !isValidMotionProp(key) : isValidProp?.(key) ?? !isValidMotionProp(key);
+}
+function filterProps(props, isDom, forwardMotionProps, isValidProp) {
+	const filteredProps = {};
+	for (const key in props) {
+		/**
+		* values is considered a valid prop by Emotion, so if it's present
+		* this will be rendered out to the DOM unless explicitly filtered.
+		*
+		* We check the type as it could be used with the `feColorMatrix`
+		* element, which we support.
+		*/
+		if (key === "values" && typeof props.values === "object") continue;
+		if (isMotionValue(props[key])) continue;
+		if (shouldForward(key, isValidProp) || forwardMotionProps === true && isValidMotionProp(key) || !isDom && !isValidMotionProp(key) || props["draggable"] && key.startsWith("onDrag")) filteredProps[key] = props[key];
+	}
+	return filteredProps;
+}
+//#endregion
 //#region node_modules/framer-motion/dist/es/render/svg/lowercase-elements.mjs
 /**
 * We keep these listed separately as we use the lowercase tag names as part
@@ -11651,9 +11888,9 @@ function isSVGComponent(Component) {
 //#endregion
 //#region node_modules/framer-motion/dist/es/render/dom/use-render.mjs
 var { Fragment: Fragment$2, useMemo: useMemo$8, createElement: createElement$3 } = await importShared("react");
-function useRender(Component, props, ref, { latestValues }, isStatic, forwardMotionProps = false, isSVG) {
+function useRender(Component, props, ref, { latestValues }, isStatic, forwardMotionProps = false, isSVG, isValidProp) {
 	const visualProps = (isSVG ?? isSVGComponent(Component) ? useSVGProps : useHTMLProps)(props, latestValues, isStatic, Component);
-	const filteredProps = filterProps(props, typeof Component === "string", forwardMotionProps);
+	const filteredProps = filterProps(props, typeof Component === "string", forwardMotionProps, isValidProp);
 	const elementProps = Component !== Fragment$2 ? {
 		...filteredProps,
 		...visualProps,
@@ -11763,14 +12000,15 @@ function useMotionRef(visualState, visualElement, externalRef) {
 		if (instance) visualState.onMount?.(instance);
 		if (visualElement) instance ? visualElement.mount(instance) : visualElement.unmount();
 		const ref = externalRefContainer.current;
-		if (typeof ref === "function") if (instance) {
-			const cleanup = ref(instance);
-			if (typeof cleanup === "function") refCleanup.current = cleanup;
-		} else if (refCleanup.current) {
-			refCleanup.current();
-			refCleanup.current = null;
-		} else ref(instance);
-		else if (ref) ref.current = instance;
+		if (typeof ref === "function") {
+			if (instance) {
+				const cleanup = ref(instance);
+				if (typeof cleanup === "function") refCleanup.current = cleanup;
+			} else if (refCleanup.current) {
+				refCleanup.current();
+				refCleanup.current = null;
+			} else ref(instance);
+		} else if (ref) ref.current = instance;
 	}, [visualElement]);
 }
 //#endregion
@@ -11944,7 +12182,7 @@ function createMotionComponent(Component, { forwardMotionProps = false, type } =
 			...props,
 			layoutId: useLayoutId(props)
 		};
-		const { isStatic } = configAndProps;
+		const { isStatic, isValidProp } = configAndProps;
 		const context = useCreateMotionContext(props);
 		const visualState = useVisualState(props, isStatic);
 		if (!isStatic && typeof window !== "undefined") {
@@ -11968,7 +12206,7 @@ function createMotionComponent(Component, { forwardMotionProps = false, type } =
 			children: [MeasureLayout && context.visualElement ? (0, import_jsx_runtime.jsx)(MeasureLayout, {
 				visualElement: context.visualElement,
 				...configAndProps
-			}) : null, useRender(Component, props, useMotionRef(visualState, context.visualElement, externalRef), visualState, isStatic, forwardMotionProps, isSVG)]
+			}) : null, useRender(Component, props, useMotionRef(visualState, context.visualElement, externalRef), visualState, isStatic, forwardMotionProps, isSVG, isValidProp)]
 		});
 	}
 	MotionDOMComponent.displayName = `motion.${typeof Component === "string" ? Component : `create(${Component.displayName ?? Component.name ?? ""})`}`;
@@ -13382,7 +13620,7 @@ var motion = /*@__PURE__*/ createMotionProxy({
 }, createDomVisualElement);
 //#endregion
 //#region node_modules/framer-motion/dist/es/value/use-motion-value.mjs
-var { useContext: useContext$2, useState: useState$6, useEffect: useEffect$4 } = await importShared("react");
+var { useContext: useContext$2, useState: useState$7, useEffect: useEffect$4 } = await importShared("react");
 /**
 * Creates a `MotionValue` to track the state and velocity of a value.
 *
@@ -13409,7 +13647,7 @@ function useMotionValue(initial) {
 	*/
 	const { isStatic } = useContext$2(MotionConfigContext);
 	if (isStatic) {
-		const [, setLatest] = useState$6(initial);
+		const [, setLatest] = useState$7(initial);
 		useEffect$4(() => value.on("change", setLatest), []);
 	}
 	return value;
@@ -13504,51 +13742,137 @@ var { createContext: createContext$1 } = await importShared("react");
 var ReorderContext = createContext$1(null);
 //#endregion
 //#region node_modules/framer-motion/dist/es/components/Reorder/utils/check-reorder.mjs
-function checkReorder(order, value, offset, velocity) {
-	if (!velocity) return order;
+function checkReorder(order, value, offset, velocity, axis, direction = "ltr") {
 	const index = order.findIndex((item) => item.value === value);
 	if (index === -1) return order;
-	const nextOffset = velocity > 0 ? 1 : -1;
+	if (axis === "xy") {
+		const { layout } = order[index];
+		const center = {
+			x: mixNumber$1(layout.x.min, layout.x.max, .5) + offset.x,
+			y: mixNumber$1(layout.y.min, layout.y.max, .5) + offset.y
+		};
+		const lines = getLines(order);
+		const sourceLine = lines.find((line) => line.items.includes(order[index]));
+		const targetLine = lines.reduce((closest, line) => distanceToLine(center.y, line) < distanceToLine(center.y, closest) ? line : closest);
+		if (targetLine !== sourceLine) return moveToLine(order, index, center.x, targetLine, direction);
+		const currentDistance = distanceToBox(center, layout);
+		let target = -1;
+		let targetDistance = currentDistance;
+		order.forEach((item, targetIndex) => {
+			if (targetIndex === index) return;
+			const distance = distanceToBox(center, item.layout);
+			if (distance < targetDistance) {
+				target = targetIndex;
+				targetDistance = distance;
+			}
+		});
+		return target === -1 ? order : moveItem(order, index, index + Math.sign(target - index));
+	}
+	if (!velocity[axis]) return order;
+	const nextOffset = velocity[axis] > 0 ? 1 : -1;
 	const nextItem = order[index + nextOffset];
 	if (!nextItem) return order;
-	const item = order[index];
-	const nextLayout = nextItem.layout;
+	const itemLayout = order[index].layout[axis];
+	const nextLayout = nextItem.layout[axis];
 	const nextItemCenter = mixNumber$1(nextLayout.min, nextLayout.max, .5);
-	if (nextOffset === 1 && item.layout.max + offset > nextItemCenter || nextOffset === -1 && item.layout.min + offset < nextItemCenter) return moveItem(order, index, index + nextOffset);
+	if (nextOffset === 1 && itemLayout.max + offset[axis] > nextItemCenter || nextOffset === -1 && itemLayout.min + offset[axis] < nextItemCenter) return moveItem(order, index, index + nextOffset);
 	return order;
+}
+function getLines(order) {
+	const lines = [];
+	order.forEach((item) => {
+		const { min, max } = item.layout.y;
+		const line = lines[lines.length - 1];
+		if (!line || min >= line.max || max <= line.min) lines.push({
+			items: [item],
+			min,
+			max
+		});
+		else {
+			line.items.push(item);
+			line.min = Math.min(line.min, min);
+			line.max = Math.max(line.max, max);
+		}
+	});
+	return lines;
+}
+function distanceToLine(y, line) {
+	return y < line.min ? line.min - y : y > line.max ? y - line.max : 0;
+}
+function moveToLine(order, index, x, line, direction) {
+	const remaining = order.filter((_, itemIndex) => itemIndex !== index);
+	const before = line.items.find((item) => {
+		const center = mixNumber$1(item.layout.x.min, item.layout.x.max, .5);
+		return direction === "ltr" ? x < center : x > center;
+	});
+	const targetIndex = before ? remaining.indexOf(before) : remaining.indexOf(line.items[line.items.length - 1]) + 1;
+	const nextOrder = [...remaining];
+	nextOrder.splice(targetIndex, 0, order[index]);
+	return nextOrder.every((item, itemIndex) => item === order[itemIndex]) ? order : nextOrder;
+}
+function distanceToBox(point, box) {
+	const x = Math.max(box.x.min - point.x, 0, point.x - box.x.max);
+	const y = Math.max(box.y.min - point.y, 0, point.y - box.y.max);
+	return x * x + y * y;
+}
+//#endregion
+//#region node_modules/framer-motion/dist/es/components/Reorder/utils/detect-axis.mjs
+var isSeparated = (a, b) => a.max <= b.min || b.max <= a.min;
+function detectAxis(layouts) {
+	let x = false;
+	let y = false;
+	for (let i = 0; i < layouts.length; i++) for (let j = i + 1; j < layouts.length; j++) {
+		x || (x = isSeparated(layouts[i].x, layouts[j].x));
+		y || (y = isSeparated(layouts[i].y, layouts[j].y));
+		if (x && y) return "xy";
+	}
+	return x ? "x" : "y";
 }
 //#endregion
 //#region node_modules/framer-motion/dist/es/components/Reorder/Group.mjs
-var { forwardRef: forwardRef$3, useRef: useRef$2, useEffect: useEffect$3 } = await importShared("react");
-function ReorderGroupComponent({ children, as = "ul", axis = "y", onReorder, values, ...props }, externalRef) {
+var { forwardRef: forwardRef$3, useRef: useRef$2, useState: useState$6, useEffect: useEffect$3 } = await importShared("react");
+function ReorderGroupComponent({ children, as = "ul", axis: axisOverride, onReorder, values, ...props }, externalRef) {
 	const Component = useConstant(() => motion[as]);
-	const order = [];
+	const itemLayouts = useRef$2(/* @__PURE__ */ new Map());
+	const [detectedAxis, setDetectedAxis] = useState$6("y");
 	const isReordering = useRef$2(false);
 	const groupRef = useRef$2(null);
+	const axis = axisOverride || detectedAxis;
+	const valuesSet = new Set(values);
+	itemLayouts.current.forEach((_, value) => {
+		if (!valuesSet.has(value)) itemLayouts.current.delete(value);
+	});
 	const context = {
 		axis,
 		groupRef,
 		registerItem: (value, layout) => {
-			const idx = order.findIndex((entry) => value === entry.value);
-			if (idx !== -1) order[idx].layout = layout[axis];
-			else order.push({
-				value,
-				layout: layout[axis]
-			});
-			order.sort(compareMin);
+			itemLayouts.current.set(value, layout);
+			if (!axisOverride) {
+				const nextAxis = detectAxis(values.flatMap((itemValue) => {
+					const itemLayout = itemLayouts.current.get(itemValue);
+					return itemLayout ? [itemLayout] : [];
+				}));
+				if (nextAxis !== detectedAxis) setDetectedAxis(nextAxis);
+			}
 		},
 		updateOrder: (item, offset, velocity) => {
 			if (isReordering.current) return;
-			const newOrder = checkReorder(order, item, offset, velocity);
+			const order = values.flatMap((value) => {
+				const layout = itemLayouts.current.get(value);
+				return layout ? [{
+					value,
+					layout
+				}] : [];
+			});
+			const direction = groupRef.current?.ownerDocument.defaultView?.getComputedStyle(groupRef.current).direction === "rtl" ? "rtl" : "ltr";
+			const newOrder = checkReorder(order, item, offset, velocity, axis, direction);
 			if (order !== newOrder) {
 				isReordering.current = true;
 				const newValues = [...values];
-				for (let i = 0; i < newOrder.length; i++) if (order[i].value !== newOrder[i].value) {
-					const a = values.indexOf(order[i].value);
-					const b = values.indexOf(newOrder[i].value);
-					if (a !== -1 && b !== -1) [newValues[a], newValues[b]] = [newValues[b], newValues[a]];
-					break;
-				}
+				const measuredIndexes = order.map(({ value }) => values.indexOf(value));
+				newOrder.forEach(({ value }, index) => {
+					newValues[measuredIndexes[index]] = value;
+				});
 				onReorder(newValues);
 			}
 		}
@@ -13582,9 +13906,6 @@ function ReorderGroupComponent({ children, as = "ul", axis = "y", onReorder, val
 	});
 }
 var ReorderGroup = /*@__PURE__*/ forwardRef$3(ReorderGroupComponent);
-function compareMin(a, b) {
-	return a.layout.min - b.layout.min;
-}
 //#endregion
 //#region node_modules/framer-motion/dist/es/components/Reorder/utils/auto-scroll.mjs
 var threshold = 50;
@@ -13669,9 +13990,10 @@ function autoScrollIfNeeded(groupElement, pointerPosition, axis, velocity) {
 		const initialLimit = initialScrollLimits.get(scrollableAncestor);
 		if ((axis === "x" ? isDocumentScroll ? window.scrollX : scrollableAncestor.scrollLeft : isDocumentScroll ? window.scrollY : scrollableAncestor.scrollTop) >= initialLimit) return;
 	}
-	if (axis === "x") if (isDocumentScroll) window.scrollBy({ left: scrollAmount });
-	else scrollableAncestor.scrollLeft += scrollAmount;
-	else if (isDocumentScroll) window.scrollBy({ top: scrollAmount });
+	if (axis === "x") {
+		if (isDocumentScroll) window.scrollBy({ left: scrollAmount });
+		else scrollableAncestor.scrollLeft += scrollAmount;
+	} else if (isDocumentScroll) window.scrollBy({ top: scrollAmount });
 	else scrollableAncestor.scrollTop += scrollAmount;
 }
 //#endregion
@@ -13690,7 +14012,7 @@ function ReorderItemComponent({ children, style = {}, value, as = "li", onDrag, 
 	const zIndex = useTransform([point.x, point.y], ([latestX, latestY]) => latestX || latestY ? 1 : "unset");
 	const { axis, registerItem, updateOrder, groupRef } = context;
 	return (0, import_jsx_runtime.jsx)(Component, {
-		drag: axis,
+		drag: axis === "xy" ? true : axis,
 		...props,
 		dragSnapToOrigin: true,
 		style: {
@@ -13702,9 +14024,13 @@ function ReorderItemComponent({ children, style = {}, value, as = "li", onDrag, 
 		layout,
 		onDrag: (event, gesturePoint) => {
 			const { velocity, point: pointerPoint } = gesturePoint;
-			const offset = point[axis].get();
-			updateOrder(value, offset, velocity[axis]);
-			autoScrollIfNeeded(groupRef.current, pointerPoint[axis], axis, velocity[axis]);
+			const offset = {
+				x: point.x.get(),
+				y: point.y.get()
+			};
+			updateOrder(value, offset, velocity);
+			const scrollAxis = axis === "xy" ? Math.abs(velocity.x) > Math.abs(velocity.y) ? "x" : "y" : axis;
+			autoScrollIfNeeded(groupRef.current, pointerPoint[scrollAxis], scrollAxis, velocity[scrollAxis]);
 			onDrag && onDrag(event, gesturePoint);
 		},
 		onDragEnd: (event, gesturePoint) => {
@@ -15044,7 +15370,7 @@ function CardType() {
 								className: "flex items-center gap-x-2",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 									className: "flex flex-row items-center gap-x-1",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Terminal_Icon, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$11, {})]
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Terminal_Icon, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$8, {})]
 								}), "Terminal & Browser"]
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description$1, { children: "Open a terminal and a browser simultaneously." })]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ListBox.ItemIndicator, {})]
@@ -15056,7 +15382,7 @@ function CardType() {
 							className: "flex flex-col",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label$2, {
 								className: "flex items-center gap-x-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$11, {}), "Browser"]
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$8, {}), "Browser"]
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description$1, { children: "Open a browser with a custom URL." })]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ListBox.ItemIndicator, {})]
 					}, "browser"),
@@ -15079,7 +15405,7 @@ function CardType() {
 //#endregion
 //#region node_modules/lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15090,7 +15416,7 @@ var mergeClasses = (...classes) => classes.filter((className, index, array) => {
 //#endregion
 //#region node_modules/lucide-react/dist/esm/shared/src/utils/toKebabCase.mjs
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15099,7 +15425,7 @@ var toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLo
 //#endregion
 //#region node_modules/lucide-react/dist/esm/shared/src/utils/toCamelCase.mjs
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15108,7 +15434,7 @@ var toCamelCase = (string) => string.replace(/^([A-Z])|[\s-_]+(\w)/g, (match, p1
 //#endregion
 //#region node_modules/lucide-react/dist/esm/shared/src/utils/toPascalCase.mjs
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15120,7 +15446,7 @@ var toPascalCase = (string) => {
 //#endregion
 //#region node_modules/lucide-react/dist/esm/defaultAttributes.mjs
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15139,7 +15465,7 @@ var defaultAttributes = {
 //#endregion
 //#region node_modules/lucide-react/dist/esm/shared/src/utils/hasA11yProp.mjs
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15151,7 +15477,7 @@ var hasA11yProp = (props) => {
 //#endregion
 //#region node_modules/lucide-react/dist/esm/context.mjs
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15162,7 +15488,7 @@ var useLucideContext = () => useContext(LucideContext);
 //#endregion
 //#region node_modules/lucide-react/dist/esm/Icon.mjs
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15186,7 +15512,7 @@ var Icon = forwardRef$1(({ color, size, strokeWidth, absoluteStrokeWidth, classN
 //#endregion
 //#region node_modules/lucide-react/dist/esm/createLucideIcon.mjs
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15203,7 +15529,7 @@ var createLucideIcon = (iconName, iconNode) => {
 	return Component;
 };
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15247,7 +15573,7 @@ var GripVertical = createLucideIcon("grip-vertical", [
 	}]
 ]);
 /**
-* @license lucide-react v1.24.0 - ISC
+* @license lucide-react v1.33.0 - ISC
 *
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
@@ -15406,7 +15732,7 @@ function AddScript() {
 		onPress: handleAdd,
 		isPending: isLoading,
 		fullWidth: true,
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$7, {}), "Add Script"]
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$11, {}), "Add Script"]
 	});
 }
 //#endregion
@@ -15508,7 +15834,7 @@ function ExecuteActions() {
 			case "exe":
 			case "script": return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [index + 1, "."] }),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$2, {}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 					className: "w-full text-sm ml-1.5 truncate",
 					children: item.action
@@ -15524,7 +15850,7 @@ function ExecuteActions() {
 			] });
 			case "open": return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [index + 1, "."] }),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$4, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$13, {}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 					className: "w-full text-sm ml-1.5 truncate",
 					children: item.action
@@ -15540,7 +15866,7 @@ function ExecuteActions() {
 			] });
 			case "command": return editingIndex === index ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [index + 1, "."] }),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$7, { className: "shrink-0" }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$11, { className: "shrink-0" }),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input$1, {
 					value: editingValue,
 					onBlur: handleSaveEdit,
@@ -15551,7 +15877,7 @@ function ExecuteActions() {
 				})
 			] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [index + 1, "."] }),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$7, { className: "shrink-0" }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$11, { className: "shrink-0" }),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 					className: "w-full truncate bg-surface-secondary py-1.5 px-2 rounded-full font-JetBrainsMono",
 					children: item.action
@@ -15562,7 +15888,7 @@ function ExecuteActions() {
 					className: "shrink-0",
 					onPress: () => handleStartEdit(index, item.action),
 					isIconOnly: true,
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$6, { className: "size-4" })
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$3, { className: "size-4" })
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button$3, {
 					size: "sm",
@@ -15583,17 +15909,17 @@ function ExecuteActions() {
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button$3, {
 					isPending: addingFile,
 					onPress: handleAddFile,
-					children: [!addingFile && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$9, {}), "Add File"]
+					children: [!addingFile && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$6, {}), "Add File"]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button$3, {
 					isPending: addingFolder,
 					onPress: handleAddFolder,
-					children: [!addingFolder && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$8, {}), "Add Folder"]
+					children: [!addingFolder && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$5, {}), "Add Folder"]
 				}),
 				(cardType === "terminal_browser" || cardType === "terminal") && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button$3, {
 					isPending: addingCdFolder,
 					onPress: handleAddCdFolder,
-					children: [!addingCdFolder && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$8, {}), "CD Folder"]
+					children: [!addingCdFolder && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$5, {}), "CD Folder"]
 				})
 			]
 		})]
@@ -16051,8 +16377,10 @@ function CustomActionsModal({ state }) {
 	const deleteCard = () => dispatch(reducerActions.removeCard());
 	useEffect$1(() => {
 		const onKeyUp = (e) => {
-			if (e.key === "Escape") if (view === "form") handleBackToList();
-			else state.close();
+			if (e.key === "Escape") {
+				if (view === "form") handleBackToList();
+				else state.close();
+			}
 		};
 		document.addEventListener("keyup", onKeyUp);
 		return () => document.removeEventListener("keyup", onKeyUp);
@@ -16092,7 +16420,7 @@ function CustomActionsModal({ state }) {
 						variant: "ghost",
 						onPress: handleBackToList,
 						isIconOnly: true,
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$12, { className: "size-5" })
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$14, { className: "size-5" })
 					})
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Modal.Heading, { children: formTitle })]
 			}),
@@ -16117,7 +16445,7 @@ function CustomActionsModal({ state }) {
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button$1, {
 						onPress: saveCard,
 						isDisabled: saveDisabled,
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$10, {}), "Save Card"]
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$9, {}), "Save Card"]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button$1, {
 						variant: "secondary",
 						onPress: handleBackToList,
@@ -16139,7 +16467,7 @@ function CustomActionsModal({ state }) {
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Dropdown, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dropdown.Trigger, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button$1, {
 							size: "sm",
 							variant: "secondary",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$13, { className: "size-4 text-cyan-500" }), "Manage Cards"]
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$4, { className: "size-4 text-cyan-500" }), "Manage Cards"]
 						}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dropdown.Popover, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Dropdown.Menu, {
 							onAction: (key) => {
 								switch (key) {
@@ -16161,38 +16489,35 @@ function CustomActionsModal({ state }) {
 									case "export-file-selected":
 										handleExportSelectedFile();
 										break;
-									case "clear-selection":
-										setSelectedCardIds([]);
-										break;
-									default: break;
+									case "clear-selection": setSelectedCardIds([]);
 								}
 							},
 							children: [
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Dropdown.Item, {
 									id: "import-clipboard",
 									textValue: "Import from Clipboard",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$5, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Import from Clipboard" })]
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$12, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Import from Clipboard" })]
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Dropdown.Item, {
 									id: "import-file",
 									textValue: "Import from File",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$13, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Import from File" })]
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$4, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Import from File" })]
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Dropdown.Item, {
 									id: "export-clipboard-all",
 									textValue: "Export All to Clipboard",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$2, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Export All to Clipboard" })]
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$10, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Export All to Clipboard" })]
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Dropdown.Item, {
 									id: "export-file-all",
 									textValue: "Export All to File",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$14, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Export All to File" })]
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$7, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Export All to File" })]
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Dropdown.Item, {
 									id: "export-clipboard-selected",
 									isDisabled: selectedCardIds.length === 0,
 									textValue: `Export Selected (${selectedCardIds.length}) to Clipboard`,
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$2, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label, { children: [
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$10, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label, { children: [
 										"Export Selected (",
 										selectedCardIds.length,
 										") to Clipboard"
@@ -16202,7 +16527,7 @@ function CustomActionsModal({ state }) {
 									id: "export-file-selected",
 									isDisabled: selectedCardIds.length === 0,
 									textValue: `Export Selected (${selectedCardIds.length}) to File`,
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$14, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label, { children: [
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$7, { className: "size-4 shrink-0 text-muted" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label, { children: [
 										"Export Selected (",
 										selectedCardIds.length,
 										") to File"
@@ -16259,12 +16584,13 @@ function ActionCard({ icon: Icon, card }) {
 				case ".js": return `node "${scriptPath}"${LINE_ENDING}`;
 				default: return `& "${scriptPath}"${LINE_ENDING}`;
 			}
-			else if (IS_MACOS) if (scriptPath.endsWith(".app")) return `open -W "${scriptPath}"${LINE_ENDING}`;
-			else if (ext === ".command") return `chmod +x "${scriptPath}" && open "${scriptPath}"${LINE_ENDING}`;
-			else if (ext === ".py") return `python3 "${scriptPath}"${LINE_ENDING}`;
-			else if (ext === ".js") return `node "${scriptPath}"${LINE_ENDING}`;
-			else return `chmod +x "${scriptPath}" && bash "${scriptPath}"${LINE_ENDING}`;
-			else switch (ext) {
+			else if (IS_MACOS) {
+				if (scriptPath.endsWith(".app")) return `open -W "${scriptPath}"${LINE_ENDING}`;
+				else if (ext === ".command") return `chmod +x "${scriptPath}" && open "${scriptPath}"${LINE_ENDING}`;
+				else if (ext === ".py") return `python3 "${scriptPath}"${LINE_ENDING}`;
+				else if (ext === ".js") return `node "${scriptPath}"${LINE_ENDING}`;
+				else return `chmod +x "${scriptPath}" && bash "${scriptPath}"${LINE_ENDING}`;
+			} else switch (ext) {
 				case ".py": return `python3 "${scriptPath}"${LINE_ENDING}`;
 				case ".js": return `node "${scriptPath}"${LINE_ENDING}`;
 				case ".rb": return `ruby "${scriptPath}"${LINE_ENDING}`;
@@ -16274,8 +16600,10 @@ function ActionCard({ icon: Icon, card }) {
 		};
 		const writeEnvVars = (ptyId) => {
 			if (card.env && card.env.length > 0) card.env.forEach((envVar) => {
-				if (envVar.key && envVar.key.trim()) if (IS_WINDOWS) ptyIpc.write(ptyId, `$env:${envVar.key.trim()}="${envVar.value}"${LINE_ENDING}`);
-				else ptyIpc.write(ptyId, `export ${envVar.key.trim()}="${envVar.value}"${LINE_ENDING}`);
+				if (envVar.key && envVar.key.trim()) {
+					if (IS_WINDOWS) ptyIpc.write(ptyId, `$env:${envVar.key.trim()}="${envVar.value}"${LINE_ENDING}`);
+					else ptyIpc.write(ptyId, `export ${envVar.key.trim()}="${envVar.value}"${LINE_ENDING}`);
+				}
 			});
 		};
 		const runCustomCommands = (ptyId) => {
@@ -16353,7 +16681,7 @@ function ActionCard({ icon: Icon, card }) {
 			onPress: openConfig,
 			className: "shrink-0",
 			isIconOnly: true,
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$6, { className: "text-semi-muted" })
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$3, { className: "text-semi-muted" })
 		}),
 		description: description || "No description provided. Click to execute this action, run scripts, or open the configured URL in your workspace.",
 		title,
@@ -16368,35 +16696,42 @@ var { useMemo } = await importShared("react");
 var { useSelector: useSelector$1 } = await importShared("react-redux");
 function CardsContainer({ cards }) {
 	return cards.map((card) => {
+		const icon = CardIconById(card.icon);
 		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ActionCard, {
 			card,
-			icon: CardIconById(card.icon)
+			icon
 		}, card.id);
 	});
 }
 function PinnedActions() {
 	const customCards = useSelector$1(selectCustomCards);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: useMemo(() => compact(customCards.map((card) => card.categories.pinned ? card : null)), [customCards]) });
+	const pinnedCards = useMemo(() => compact(customCards.map((card) => card.categories.pinned ? card : null)), [customCards]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: pinnedCards });
 }
 function RecentlyActions() {
 	const customCards = useSelector$1(selectCustomCards);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: useMemo(() => compact(customCards.map((card) => card.categories.recentlyUsed ? card : null)), [customCards]) });
+	const pinnedCards = useMemo(() => compact(customCards.map((card) => card.categories.recentlyUsed ? card : null)), [customCards]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: pinnedCards });
 }
 function AllActions() {
 	const customCards = useSelector$1(selectCustomCards);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: useMemo(() => compact(customCards.map((card) => card.categories.all ? card : null)), [customCards]) });
+	const pinnedCards = useMemo(() => compact(customCards.map((card) => card.categories.all ? card : null)), [customCards]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: pinnedCards });
 }
 function ImageActions() {
 	const customCards = useSelector$1(selectCustomCards);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: useMemo(() => compact(customCards.map((card) => card.categories.image ? card : null)), [customCards]) });
+	const pinnedCards = useMemo(() => compact(customCards.map((card) => card.categories.image ? card : null)), [customCards]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: pinnedCards });
 }
 function TextActions() {
 	const customCards = useSelector$1(selectCustomCards);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: useMemo(() => compact(customCards.map((card) => card.categories.text ? card : null)), [customCards]) });
+	const pinnedCards = useMemo(() => compact(customCards.map((card) => card.categories.text ? card : null)), [customCards]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: pinnedCards });
 }
 function AudioActions() {
 	const customCards = useSelector$1(selectCustomCards);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: useMemo(() => compact(customCards.map((card) => card.categories.audio ? card : null)), [customCards]) });
+	const pinnedCards = useMemo(() => compact(customCards.map((card) => card.categories.audio ? card : null)), [customCards]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardsContainer, { cards: pinnedCards });
 }
 //#endregion
 //#region extension/src/renderer/Components/ActionCard/ActionCard_TerminalUtils.ts
@@ -16471,16 +16806,17 @@ var { useOverlayState } = await importShared("@heroui/react");
 function CustomActionsCard() {
 	const state = useOverlayState();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToolsCard, {
-		id: "custom-actions",
 		description: "Create, customize, and manage custom shortcut cards with your own scripts, APIs, or shell commands to automate your daily developer workflows.",
+		id: "custom-actions",
 		onPress: state.open,
 		title: "Custom Actions",
-		icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i$3, { className: "size-8 text-cyan-500" })
+		icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(i, { className: "size-8 text-cyan-500" })
 	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CustomActionsModal, { state })] });
 }
 //#endregion
 //#region extension/src/renderer/Extension.tsx
 function InitialExtensions(lynxAPI) {
+	lynxAPI.initBrowserSentry(SENTRY_DSN);
 	lynxAPI.addReducer([{
 		name: "customActions",
 		reducer: reducer_default
@@ -16504,3 +16840,5 @@ function InitialExtensions(lynxAPI) {
 }
 //#endregion
 export { InitialExtensions as t };
+
+//# sourceMappingURL=Extension-CAtPDy9B.js.map

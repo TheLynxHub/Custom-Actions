@@ -1,3 +1,11 @@
+(function() {
+	try {
+		var e = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof globalThis ? globalThis : "undefined" != typeof self ? self : {};
+		e.SENTRY_RELEASE = { id: "17561bda7d32de6a59c60e7229a41d6eb183b31a" };
+		var n = new e.Error().stack;
+		n && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[n] = "2deb58b5-6844-4f13-aa6f-bd11cd335a44", e._sentryDebugIdIdentifier = "sentry-dbid-2deb58b5-6844-4f13-aa6f-bd11cd335a44");
+	} catch (e) {}
+})();
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 //#region \0rolldown/runtime.js
 var __create = Object.create;
@@ -17,7 +25,7 @@ var __copyProps = (to, from, except, desc) => {
 	}
 	return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule || !__hasOwnProp.call(mod, "default") ? __defProp(target, "default", {
 	value: mod,
 	enumerable: true
 }) : target, mod));
@@ -31,6 +39,9 @@ node_fs = __toESM(node_fs, 1);
 let node_os = require("node:os");
 let node_path = require("node:path");
 node_path = __toESM(node_path, 1);
+//#region extension/src/cross/constants.ts
+var SENTRY_DSN = "https://60228860c0bb09090539b7157812575c@o4509344104316928.ingest.us.sentry.io/4511891820380160";
+//#endregion
 //#region extension/src/cross/CrossUtils.ts
 var customActionsChannels = {
 	setCards: "customActions_setCards",
@@ -113,8 +124,10 @@ var import_tree_kill = /* @__PURE__ */ __toESM((/* @__PURE__ */ __commonJSMin(((
 			signal = void 0;
 		}
 		pid = parseInt(pid);
-		if (Number.isNaN(pid)) if (callback) return callback(/* @__PURE__ */ new Error("pid must be a number"));
-		else throw new Error("pid must be a number");
+		if (Number.isNaN(pid)) {
+			if (callback) return callback(/* @__PURE__ */ new Error("pid must be a number"));
+			else throw new Error("pid must be a number");
+		}
 		var tree = {};
 		var pidsToProcess = {};
 		tree[pid] = [];
@@ -130,19 +143,17 @@ var import_tree_kill = /* @__PURE__ */ __toESM((/* @__PURE__ */ __commonJSMin(((
 					killAll(tree, signal, callback);
 				});
 				break;
-			default:
-				buildProcessTree(pid, tree, pidsToProcess, function(parentPid) {
-					return spawn("ps", [
-						"-o",
-						"pid",
-						"--no-headers",
-						"--ppid",
-						parentPid
-					]);
-				}, function() {
-					killAll(tree, signal, callback);
-				});
-				break;
+			default: buildProcessTree(pid, tree, pidsToProcess, function(parentPid) {
+				return spawn("ps", [
+					"-o",
+					"pid",
+					"--no-headers",
+					"--ppid",
+					parentPid
+				]);
+			}, function() {
+				killAll(tree, signal, callback);
+			});
 		}
 	};
 	function killAll(tree, signal, callback) {
@@ -329,6 +340,7 @@ function startExecute(appManager) {
 //#endregion
 //#region extension/src/main/lynxExtension.ts
 async function initialExtension(lynxApi, utils) {
+	lynxApi.initNodeSentry(SENTRY_DSN);
 	lynxApi.listenForChannels(() => {
 		utils.getStorageManager().then((storageManager) => {
 			electron.ipcMain.handle(customActionsChannels.getCards, () => getCards(storageManager));
@@ -343,3 +355,5 @@ async function initialExtension(lynxApi, utils) {
 }
 //#endregion
 exports.initialExtension = initialExtension;
+
+//# sourceMappingURL=mainEntry.cjs.map
