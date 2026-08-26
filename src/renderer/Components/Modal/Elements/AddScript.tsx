@@ -1,6 +1,6 @@
 import {Button} from '@heroui/react';
 import filesIpc from '@lynx_shared/ipc/files';
-import {Code} from '@solar-icons/react-perf/BoldDuotone';
+import {CodeIcon} from '@solar-icons/react/bold-duotone';
 import {useState} from 'react';
 import {useDispatch} from 'react-redux';
 
@@ -28,7 +28,7 @@ export function AddScript() {
 
   return (
     <Button onPress={handleAdd} isPending={isLoading} fullWidth>
-      <Code />
+      <CodeIcon />
       Add Script
     </Button>
   );

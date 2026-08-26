@@ -1,6 +1,6 @@
 import {useOverlayState} from '@heroui/react';
 import {ToolsCard} from '@lynx/components/ToolsCard';
-import {Widget6} from '@solar-icons/react-perf/BoldDuotone';
+import {Widget6Icon} from '@solar-icons/react/bold-duotone';
 
 import CustomActionsModal from './Modal/CustomActionsModal';
 
@@ -17,7 +17,7 @@ export function CustomActionsCard() {
         id="custom-actions"
         onPress={state.open}
         title="Custom Actions"
-        icon={<Widget6 className="size-8 text-cyan-500" />}
+        icon={<Widget6Icon className="size-8 text-cyan-500" />}
       />
       <CustomActionsModal state={state} />
     </>

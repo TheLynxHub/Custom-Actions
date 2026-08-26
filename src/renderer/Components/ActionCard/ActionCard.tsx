@@ -5,7 +5,7 @@ import {useTabsState} from '@lynx/redux/reducers/tabs';
 import {SvgProps} from '@lynx_assets/icons/types';
 import filesIpc from '@lynx_shared/ipc/files';
 import ptyIpc from '@lynx_shared/ipc/pty';
-import {Pen} from '@solar-icons/react-perf/BoldDuotone';
+import {PenIcon} from '@solar-icons/react/bold-duotone';
 import {ReactElement} from 'react';
 import {useDispatch} from 'react-redux';
 
@@ -179,7 +179,7 @@ export default function ActionCard({icon: Icon, card}: Props) {
       <ToolsCard
         footer={
           <Button variant="tertiary" onPress={openConfig} className="shrink-0" isIconOnly>
-            <Pen className="text-semi-muted" />
+            <PenIcon className="text-semi-muted" />
           </Button>
         }
         description={

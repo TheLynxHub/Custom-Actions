@@ -1,7 +1,7 @@
 import {Description, Key, Label, ListBox, Select} from '@heroui/react';
 import {Terminal_Icon} from '@lynx_assets/icons';
-import {Play} from '@solar-icons/react-perf/Bold';
-import {Earth} from '@solar-icons/react-perf/BoldDuotone';
+import {PlayIcon} from '@solar-icons/react/bold';
+import {EarthIcon} from '@solar-icons/react/bold-duotone';
 import {useMemo} from 'react';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
@@ -34,7 +34,7 @@ export function CardType() {
             <ListBox.Item id="executable" key="executable" textValue="Executable">
               <div className="flex flex-col">
                 <Label className="flex items-center gap-x-2">
-                  <Play />
+                  <PlayIcon />
                   Executable
                 </Label>
                 <Description>Run and manage a program</Description>
@@ -46,7 +46,7 @@ export function CardType() {
                 <Label className="flex items-center gap-x-2">
                   <div className="flex flex-row items-center gap-x-1">
                     <Terminal_Icon />
-                    <Earth />
+                    <EarthIcon />
                   </div>
                   Terminal & Browser
                 </Label>
@@ -57,7 +57,7 @@ export function CardType() {
             <ListBox.Item id="browser" key="browser" textValue="Browser">
               <div className="flex flex-col">
                 <Label className="flex items-center gap-x-2">
-                  <Earth />
+                  <EarthIcon />
                   Browser
                 </Label>
                 <Description>Open a browser with a custom URL.</Description>

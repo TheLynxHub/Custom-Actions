@@ -1,6 +1,6 @@
 import {Button} from '@heroui/react';
 import filesIpc from '@lynx_shared/ipc/files';
-import {Play} from '@solar-icons/react-perf/Bold';
+import {PlayIcon} from '@solar-icons/react/bold';
 import {useState} from 'react';
 import {useDispatch} from 'react-redux';
 
@@ -21,7 +21,7 @@ export function AddExe() {
 
   return (
     <Button onPress={handleAdd} isPending={isLoading} fullWidth>
-      <Play />
+      <PlayIcon />
       Add Executable
     </Button>
   );

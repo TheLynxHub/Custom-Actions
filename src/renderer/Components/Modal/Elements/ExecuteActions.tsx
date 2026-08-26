@@ -1,7 +1,7 @@
 import {Button, ButtonGroup, Input, InputGroup} from '@heroui/react';
 import {Terminal_Icon} from '@lynx_assets/icons';
 import filesIpc from '@lynx_shared/ipc/files';
-import {Bookmark, Code, FileCheck, FolderOpen, Pen, Play, TrashBin2} from '@solar-icons/react-perf/BoldDuotone';
+import {BookmarkIcon, CodeIcon, FileCheckIcon, FolderOpenIcon, PenIcon, PlayIcon, TrashBin2Icon} from '@solar-icons/react/bold-duotone';
 import {AnimatePresence, motion, Reorder} from 'framer-motion';
 import {GripVertical, Plus} from 'lucide-react';
 import {KeyboardEvent, useMemo, useState} from 'react';
@@ -110,7 +110,7 @@ export function ExecuteActions() {
         return (
           <>
             <span>{index + 1}.</span>
-            <Play />
+            <PlayIcon />
             <span className="w-full text-sm ml-1.5 truncate">{item.action}</span>
             <Button
               size="sm"
@@ -118,7 +118,7 @@ export function ExecuteActions() {
               variant="danger-soft"
               onPress={() => handleRemoveCommand(index)}
               isIconOnly>
-              <TrashBin2 className="size-4" />
+              <TrashBin2Icon className="size-4" />
             </Button>
           </>
         );
@@ -126,7 +126,7 @@ export function ExecuteActions() {
         return (
           <>
             <span>{index + 1}.</span>
-            <Bookmark />
+            <BookmarkIcon />
             <span className="w-full text-sm ml-1.5 truncate">{item.action}</span>
             <Button
               size="sm"
@@ -134,7 +134,7 @@ export function ExecuteActions() {
               variant="danger-soft"
               onPress={() => handleRemoveCommand(index)}
               isIconOnly>
-              <TrashBin2 className="size-4" />
+              <TrashBin2Icon className="size-4" />
             </Button>
           </>
         );
@@ -142,7 +142,7 @@ export function ExecuteActions() {
         return editingIndex === index ? (
           <>
             <span>{index + 1}.</span>
-            <Code className="shrink-0" />
+            <CodeIcon className="shrink-0" />
             <Input
               value={editingValue}
               onBlur={handleSaveEdit}
@@ -155,7 +155,7 @@ export function ExecuteActions() {
         ) : (
           <>
             <span>{index + 1}.</span>
-            <Code className="shrink-0" />
+            <CodeIcon className="shrink-0" />
             <span className="w-full truncate bg-surface-secondary py-1.5 px-2 rounded-full font-JetBrainsMono">
               {item.action}
             </span>
@@ -165,7 +165,7 @@ export function ExecuteActions() {
               className="shrink-0"
               onPress={() => handleStartEdit(index, item.action)}
               isIconOnly>
-              <Pen className="size-4" />
+              <PenIcon className="size-4" />
             </Button>
             <Button
               size="sm"
@@ -173,7 +173,7 @@ export function ExecuteActions() {
               variant="danger-soft"
               onPress={() => handleRemoveCommand(index)}
               isIconOnly>
-              <TrashBin2 className="size-4" />
+              <TrashBin2Icon className="size-4" />
             </Button>
           </>
         );
@@ -190,16 +190,16 @@ export function ExecuteActions() {
         ) : null}
         <ButtonGroup variant="secondary">
           <Button isPending={addingFile} onPress={handleAddFile}>
-            {!addingFile && <FileCheck />}
+            {!addingFile && <FileCheckIcon />}
             Add File
           </Button>
           <Button isPending={addingFolder} onPress={handleAddFolder}>
-            {!addingFolder && <FolderOpen />}
+            {!addingFolder && <FolderOpenIcon />}
             Add Folder
           </Button>
           {(cardType === 'terminal_browser' || cardType === 'terminal') && (
             <Button isPending={addingCdFolder} onPress={handleAddCdFolder}>
-              {!addingCdFolder && <FolderOpen />}
+              {!addingCdFolder && <FolderOpenIcon />}
               CD Folder
             </Button>
           )}

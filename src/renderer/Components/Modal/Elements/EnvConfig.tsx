@@ -1,5 +1,5 @@
 import {Button, Input} from '@heroui/react';
-import {TrashBin2} from '@solar-icons/react-perf/BoldDuotone';
+import {TrashBin2Icon} from '@solar-icons/react/bold-duotone';
 import {Plus} from 'lucide-react';
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -50,7 +50,7 @@ export function EnvConfig() {
                 onChange={e => handleUpdate(index, item.key, e.target.value)}
               />
               <Button size="sm" variant="danger-soft" onPress={() => handleRemove(index)} isIconOnly>
-                <TrashBin2 className="size-4" />
+                <TrashBin2Icon className="size-4" />
               </Button>
             </div>
           ))}

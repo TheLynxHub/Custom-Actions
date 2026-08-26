@@ -1,7 +1,7 @@
 import {Button, Dropdown, Label, Modal, ScrollShadow, UseOverlayStateReturn} from '@heroui/react';
 import TabModal from '@lynx/components/TabModal';
 import {AppDispatch} from '@lynx/redux/store';
-import {ArrowLeft, Clipboard, Copy, Diskette, Export, Import, TrashBin2} from '@solar-icons/react-perf/BoldDuotone';
+import {ArrowLeftIcon, ClipboardIcon, CopyIcon, DisketteIcon, ExportIcon, ImportIcon, TrashBin2Icon} from '@solar-icons/react/bold-duotone';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
@@ -191,7 +191,7 @@ export default function CustomActionsModal({state}: Props) {
         <div className="w-10 h-10 flex items-center justify-center">
           {view === 'form' && (
             <Button variant="ghost" onPress={handleBackToList} isIconOnly>
-              <ArrowLeft className="size-5" />
+              <ArrowLeftIcon className="size-5" />
             </Button>
           )}
         </div>
@@ -209,12 +209,12 @@ export default function CustomActionsModal({state}: Props) {
         {view === 'form' ? (
           <>
             <Button onPress={deleteCard} variant="danger-soft">
-              <TrashBin2 />
+              <TrashBin2Icon />
               Delete
             </Button>
             <div className="flex flex-row items-center gap-x-2">
               <Button onPress={saveCard} isDisabled={saveDisabled}>
-                <Diskette />
+                <DisketteIcon />
                 Save Card
               </Button>
               <Button variant="secondary" onPress={handleBackToList}>
@@ -232,7 +232,7 @@ export default function CustomActionsModal({state}: Props) {
               <Dropdown>
                 <Dropdown.Trigger>
                   <Button size="sm" variant="secondary">
-                    <Import className="size-4 text-cyan-500" />
+                    <ImportIcon className="size-4 text-cyan-500" />
                     Manage Cards
                   </Button>
                 </Dropdown.Trigger>
@@ -266,38 +266,38 @@ export default function CustomActionsModal({state}: Props) {
                       }
                     }}>
                     <Dropdown.Item id="import-clipboard" textValue="Import from Clipboard">
-                      <Clipboard className="size-4 shrink-0 text-muted" />
+                      <ClipboardIcon className="size-4 shrink-0 text-muted" />
                       <Label>Import from Clipboard</Label>
                     </Dropdown.Item>
                     <Dropdown.Item id="import-file" textValue="Import from File">
-                      <Import className="size-4 shrink-0 text-muted" />
+                      <ImportIcon className="size-4 shrink-0 text-muted" />
                       <Label>Import from File</Label>
                     </Dropdown.Item>
                     <Dropdown.Item id="export-clipboard-all" textValue="Export All to Clipboard">
-                      <Copy className="size-4 shrink-0 text-muted" />
+                      <CopyIcon className="size-4 shrink-0 text-muted" />
                       <Label>Export All to Clipboard</Label>
                     </Dropdown.Item>
                     <Dropdown.Item id="export-file-all" textValue="Export All to File">
-                      <Export className="size-4 shrink-0 text-muted" />
+                      <ExportIcon className="size-4 shrink-0 text-muted" />
                       <Label>Export All to File</Label>
                     </Dropdown.Item>
                     <Dropdown.Item
                       id="export-clipboard-selected"
                       isDisabled={selectedCardIds.length === 0}
                       textValue={`Export Selected (${selectedCardIds.length}) to Clipboard`}>
-                      <Copy className="size-4 shrink-0 text-muted" />
+                      <CopyIcon className="size-4 shrink-0 text-muted" />
                       <Label>Export Selected ({selectedCardIds.length}) to Clipboard</Label>
                     </Dropdown.Item>
                     <Dropdown.Item
                       id="export-file-selected"
                       isDisabled={selectedCardIds.length === 0}
                       textValue={`Export Selected (${selectedCardIds.length}) to File`}>
-                      <Export className="size-4 shrink-0 text-muted" />
+                      <ExportIcon className="size-4 shrink-0 text-muted" />
                       <Label>Export Selected ({selectedCardIds.length}) to File</Label>
                     </Dropdown.Item>
                     {selectedCardIds.length > 0 && (
                       <Dropdown.Item variant="danger" id="clear-selection" textValue="Clear Selection">
-                        <TrashBin2 className="size-4 shrink-0 text-danger" />
+                        <TrashBin2Icon className="size-4 shrink-0 text-danger" />
                         <Label>Clear Selection</Label>
                       </Dropdown.Item>
                     )}
