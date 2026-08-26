@@ -1,7 +1,15 @@
 import {Button, ButtonGroup, Input, InputGroup} from '@heroui/react';
 import {Terminal_Icon} from '@lynx_assets/icons';
 import filesIpc from '@lynx_shared/ipc/files';
-import {BookmarkIcon, CodeIcon, FileCheckIcon, FolderOpenIcon, PenIcon, PlayIcon, TrashBin2Icon} from '@solar-icons/react/bold-duotone';
+import {
+  BookmarkIcon,
+  CodeIcon,
+  FileCheckIcon,
+  FolderOpenIcon,
+  PenIcon,
+  PlayIcon,
+  TrashBin2Icon,
+} from '@solar-icons/react/bold-duotone';
 import {AnimatePresence, motion, Reorder} from 'framer-motion';
 import {GripVertical, Plus} from 'lucide-react';
 import {KeyboardEvent, useMemo, useState} from 'react';
