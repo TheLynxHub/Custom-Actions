@@ -1,6 +1,15 @@
 {
   "versions": [
     {
+      "version": "0.4.3",
+      "commit": "1e06a12",
+      "engines": {
+        "extensionApi": "^2.2.0"
+      },
+      "stage": "early_access",
+      "platforms": ["win32", "linux", "darwin"]
+    },
+    {
       "version": "0.4.2",
       "commit": "98ec844",
       "engines": {
@@ -75,11 +84,20 @@
   ],
   "changes": [
     {
+      "version": "0.4.3",
+      "date": "2026-08-28",
+      "items": [
+        {
+          "📌 Minor Changes": ["Support LynxHub v3.6."]
+        }
+      ]
+    },
+    {
       "version": "0.4.2",
       "date": "2026-07-13",
       "items": [
         {
-          "📌 Improvements": ["Cards can now be pinned and displayed within home categories."]
+          "⚡ Improvements": ["Cards can now be pinned and displayed within home categories."]
         }
       ]
     },
@@ -91,7 +109,7 @@
           "🐛 Bug Fixes": ["Resolved an issue where toast notifications failed to display."]
         },
         {
-          "📌 Improvements": [
+          "⚡ Improvements": [
             "Refined scrollbar styling for a cleaner UI.",
             "Added official support for LynxHub v3.5.5"
           ]
