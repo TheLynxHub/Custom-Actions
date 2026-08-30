@@ -1,13 +1,13 @@
 (function() {
 	try {
 		var e = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof globalThis ? globalThis : "undefined" != typeof self ? self : {};
-		e.SENTRY_RELEASE = { id: "17561bda7d32de6a59c60e7229a41d6eb183b31a" };
+		e.SENTRY_RELEASE = { id: "f9f2e045fae8353a4c8417903eeca14e9c7534d6" };
 		var n = new e.Error().stack;
-		n && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[n] = "cb057ea7-557a-412a-8943-20ba03f367ee", e._sentryDebugIdIdentifier = "sentry-dbid-cb057ea7-557a-412a-8943-20ba03f367ee");
+		n && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[n] = "11d76b2f-b735-487f-b28a-e3cb43093fac", e._sentryDebugIdIdentifier = "sentry-dbid-11d76b2f-b735-487f-b28a-e3cb43093fac");
 	} catch (e) {}
 })();
-import { r as importShared } from "./_virtual___federation_fn_import-BRUIZv03.js";
-import { t as require_jsx_runtime } from "./jsx-runtime-CXEOhwld.js";
+import { r as importShared } from "./_virtual___federation_fn_import-DeyyGZp8.js";
+import { t as require_jsx_runtime } from "./jsx-runtime-CVdSZFlC.js";
 //#region extension/src/cross/constants.ts
 var SENTRY_DSN = "https://60228860c0bb09090539b7157812575c@o4509344104316928.ingest.us.sentry.io/4511891820380160";
 //#endregion
@@ -2779,7 +2779,7 @@ var actionChannels = { logAction: "actions:logAction" };
 var actionsIpc = { logAction: (payload) => lynxIpc.send(actionChannels.logAction, payload) };
 //#endregion
 //#region src/renderer/shared/sentry/Breadcrumbs.tsx
-var { useEffect: useEffect$9, useRef: useRef$11 } = await importShared("react");
+var { useEffect: useEffect$9, useRef: useRef$12 } = await importShared("react");
 var isEnabled = true;
 /**
 * Adds an informational renderer breadcrumb when breadcrumb collection is enabled.
@@ -2956,9 +2956,9 @@ var package_default = {
 		"typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
 		"typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
 		"typecheck": "npm run typecheck:node && npm run typecheck:web",
-		"fix-linter:web": "prettier --write src/renderer --list-different && eslint --fix src/renderer && tailwind-lint --auto --fix",
+		"fix-linter:web": "prettier --write src/renderer --list-different && eslint --fix src/renderer",
 		"fix-linter:node": "prettier --write src/main --list-different && eslint --fix src/main",
-		"fix-linter": "prettier --write src --list-different && eslint --fix src && tailwind-lint --auto --fix",
+		"fix-linter": "prettier --write src --list-different && eslint --fix src",
 		"fix-linter-ext": "prettier --write extension --list-different && eslint --fix extension",
 		"fix-linter-module": "prettier --write module --list-different && eslint --fix module",
 		"validate:web": "npm run fix-linter:web && npm run typecheck:web",
@@ -3097,7 +3097,6 @@ var package_default = {
 		"remark-supersub": "^1.0.0",
 		"run-script-os": "^1.1.6",
 		"simple-git": "^3.36.0",
-		"tailwind-lint": "^0.12.1",
 		"tailwindcss": "^4.3.3",
 		"three": "^0.185.1",
 		"typescript": "npm:@typescript/typescript6@^6.0.2",
@@ -3747,29 +3746,35 @@ var useCurrentTabId = () => useContext$12(TabContext);
 //#endregion
 //#region src/renderer/mainWindow/components/TabModal.tsx
 var { Modal: Modal$1 } = await importShared("@heroui/react");
-var { useCallback: useCallback$3, useEffect: useEffect$8, useMemo: useMemo$15, useState: useState$10 } = await importShared("react");
+var { useCallback: useCallback$3, useEffect: useEffect$8, useLayoutEffect: useLayoutEffect$1, useMemo: useMemo$15, useRef: useRef$11, useState: useState$10 } = await importShared("react");
 var { UNSAFE_PortalProvider } = await importShared("react-aria");
 function TabModal({ isOpen, onOpenChange, children, size = "cover", isDismissable = true, backdropVariant, dialogClassName, containerClassName, isKeyboardDismissDisabled, tabId: explicitTabId }) {
+	const anchorRef = useRef$11(null);
 	const contextTabId = useCurrentTabId();
-	const activeTab = useTabsState("activeTab");
+	const [domTabId, setDomTabId] = useState$10(void 0);
 	const runningCards = useCardsState("runningCard");
-	const resolvedTabId = explicitTabId ?? contextTabId;
+	useLayoutEffect$1(() => {
+		if (anchorRef.current) {
+			const wrapper = anchorRef.current.closest("[id$=\"_wrapper\"]");
+			if (wrapper?.id) setDomTabId(wrapper.id.replace(/_wrapper$/, ""));
+		}
+	}, []);
+	const resolvedTabId = explicitTabId ?? contextTabId ?? domTabId;
 	const [targetContainer, setTargetContainer] = useState$10(() => {
 		if (typeof document === "undefined") return null;
 		return resolvedTabId ? document.getElementById(`${resolvedTabId}_wrapper`) : null;
 	});
-	const currentRunningCard = useMemo$15(() => runningCards.find((card) => card.tabId === (resolvedTabId ?? activeTab)), [
-		runningCards,
-		resolvedTabId,
-		activeTab
-	]);
+	const currentRunningCard = useMemo$15(() => resolvedTabId ? runningCards.find((card) => card.tabId === resolvedTabId) : void 0, [runningCards, resolvedTabId]);
 	useEffect$8(() => {
 		if (!isOpen) {
 			setTargetContainer(null);
 			return;
 		}
 		if (resolvedTabId) setTargetContainer(document.getElementById(`${resolvedTabId}_wrapper`));
-		else setTargetContainer(null);
+		else if (anchorRef.current) {
+			const wrapper = anchorRef.current.closest("[id$=\"_wrapper\"]");
+			setTargetContainer(wrapper ?? null);
+		} else setTargetContainer(null);
 	}, [isOpen, resolvedTabId]);
 	useEffect$8(() => {
 		if (isOpen && currentRunningCard && currentRunningCard.currentView === "browser") {
@@ -3782,7 +3787,11 @@ function TabModal({ isOpen, onOpenChange, children, size = "cover", isDismissabl
 	const handleBackdropClick = useCallback$3((e) => {
 		if (isDismissable && e.target instanceof HTMLElement && e.target.closest(".modal__backdrop, .modal__container") && !e.target.closest(".modal__dialog")) onOpenChange?.(false);
 	}, [isDismissable, onOpenChange]);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Modal$1, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+		ref: anchorRef,
+		className: "hidden",
+		"aria-hidden": "true"
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Modal$1, {
 		isOpen,
 		onOpenChange,
 		children: targetContainer ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(UNSAFE_PortalProvider, {
@@ -3822,7 +3831,7 @@ function TabModal({ isOpen, onOpenChange, children, size = "cover", isDismissabl
 				})
 			})
 		})
-	});
+	})] });
 }
 //#endregion
 //#region extension/src/renderer/toastHolder.ts
@@ -16841,4 +16850,4 @@ function InitialExtensions(lynxAPI) {
 //#endregion
 export { InitialExtensions as t };
 
-//# sourceMappingURL=Extension-CAtPDy9B.js.map
+//# sourceMappingURL=Extension-RSMIh-xR.js.map
