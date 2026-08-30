@@ -1,6 +1,15 @@
 {
   "versions": [
     {
+      "version": "0.4.4",
+      "commit": "61fac82",
+      "engines": {
+        "extensionApi": "^2.2.0"
+      },
+      "stage": "early_access",
+      "platforms": ["win32", "linux", "darwin"]
+    },
+    {
       "version": "0.4.3",
       "commit": "1e06a12",
       "engines": {
@@ -83,6 +92,17 @@
     }
   ],
   "changes": [
+    {
+      "version": "0.4.4",
+      "date": "2026-08-30",
+      "items": [
+        {
+          "🐛 Bug Fixes": [
+            "Fixed modals, alerts, and dialogs covering the whole app, and resolved an issue where switching tabs duplicated modals."
+          ]
+        }
+      ]
+    },
     {
       "version": "0.4.3",
       "date": "2026-08-28",
