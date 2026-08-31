@@ -93,8 +93,14 @@ export function sanitizeActions(raw: unknown): CustomExecuteActions[] {
       ? (obj.type as CustomExecuteActions['type'])
       : 'command';
     const id = typeof obj.id === 'string' && obj.id.trim() ? obj.id.trim() : generateUUID();
+    const disabled = typeof obj.disabled === 'boolean' ? obj.disabled : undefined;
 
-    actions.push({id, action, type});
+    actions.push({
+      id,
+      action,
+      type,
+      ...(disabled !== undefined ? {disabled} : {}),
+    });
   }
 
   return actions;

@@ -33,7 +33,8 @@ export default function ActionCard({icon: Icon, card}: Props) {
   const {title, description, actions, cardType, urlConfig} = card;
 
   const onClick = () => {
-    const opens = actions.filter(action => action.type === 'open');
+    const activeActions = actions.filter(action => !action.disabled);
+    const opens = activeActions.filter(action => action.type === 'open');
     opens.forEach(open => filesIpc.openPath(open.action));
 
     const manageUrls = (ptyId: string, onDone?: () => void) => {
@@ -124,7 +125,7 @@ export default function ActionCard({icon: Icon, card}: Props) {
 
     const runCustomCommands = (ptyId: string) => {
       writeEnvVars(ptyId);
-      actions.forEach(action => {
+      activeActions.forEach(action => {
         if (action.type === 'command') {
           ptyIpc.write(ptyId, `${action.action}${LINE_ENDING}`);
         } else if (action.type === 'script') {
@@ -135,7 +136,7 @@ export default function ActionCard({icon: Icon, card}: Props) {
 
     switch (cardType) {
       case 'executable': {
-        const pathToExe = actions.find(action => action.type === 'exe')?.action;
+        const pathToExe = activeActions.find(action => action.type === 'exe')?.action;
         if (!pathToExe) return;
 
         const ptyID = `${activeTab}_both`;

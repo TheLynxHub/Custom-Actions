@@ -164,6 +164,22 @@ const customActionsSlice = createSlice({
         state.editingCard.actions = [...state.editingCard.actions, item];
       }
     },
+    duplicateAction: (state, action: PayloadAction<number>) => {
+      if (state.editingCard && state.editingCard.actions[action.payload]) {
+        const source = state.editingCard.actions[action.payload];
+        const newItem: CustomExecuteActions = {
+          ...source,
+          id: crypto.randomUUID(),
+        };
+        state.editingCard.actions.splice(action.payload + 1, 0, newItem);
+      }
+    },
+    toggleActionDisabled: (state, action: PayloadAction<number>) => {
+      if (state.editingCard && state.editingCard.actions[action.payload]) {
+        const current = state.editingCard.actions[action.payload].disabled;
+        state.editingCard.actions[action.payload].disabled = !current;
+      }
+    },
     updateAction: (state, action: PayloadAction<{index: number; newAction: string}>) => {
       if (state.editingCard && state.editingCard.actions[action.payload.index]) {
         state.editingCard.actions[action.payload.index].action = action.payload.newAction;

@@ -2,7 +2,16 @@ import {Button, ButtonGroup, Input, InputGroup} from '@heroui/react';
 import {Terminal_Icon} from '@lynx_assets/icons';
 import filesIpc from '@lynx_shared/ipc/files';
 import {CheckCircleIcon, CloseCircleIcon, PlayCircleIcon} from '@solar-icons/react/bold';
-import {Code2Icon, FileCheckIcon, FolderOpenIcon, PenIcon, TrashBin2Icon} from '@solar-icons/react/bold-duotone';
+import {
+  Code2Icon,
+  CopyIcon,
+  EyeClosedIcon,
+  EyeIcon,
+  FileCheckIcon,
+  FolderOpenIcon,
+  PenIcon,
+  TrashBin2Icon,
+} from '@solar-icons/react/bold-duotone';
 import {Reorder} from 'framer-motion';
 import {GripVertical, Plus} from 'lucide-react';
 import {KeyboardEvent, useEffect, useMemo, useRef, useState} from 'react';
@@ -35,6 +44,9 @@ export function ExecuteActions() {
     actionsRef.current = rawActions;
   }, [rawActions]);
 
+  const activeCount = useMemo(() => actions.filter(a => !a.disabled).length, [actions]);
+  const disabledCount = actions.length - activeCount;
+
   const handleAddCommand = () => {
     if (commandInput.trim()) {
       dispatch(reducerActions.addAction({action: commandInput.trim(), type: 'command'}));
@@ -53,20 +65,35 @@ export function ExecuteActions() {
     dispatch(reducerActions.removeAction(indexToRemove));
   };
 
+  const handleToggleDisable = (indexToToggle: number) => {
+    dispatch(reducerActions.toggleActionDisabled(indexToToggle));
+  };
+
+  const handleDuplicate = (indexToDuplicate: number) => {
+    dispatch(reducerActions.duplicateAction(indexToDuplicate));
+  };
+
   const handleStartEdit = (index: number, currentValue: string) => {
     setEditingIndex(index);
     setEditingValue(currentValue);
   };
 
   const handleSaveEdit = () => {
-    if (editingIndex !== null && editingValue.trim()) {
-      dispatch(reducerActions.updateAction({index: editingIndex, newAction: editingValue.trim()}));
+    if (editingIndex !== null) {
+      if (editingValue.trim()) {
+        dispatch(reducerActions.updateAction({index: editingIndex, newAction: editingValue.trim()}));
+      } else if (actions[editingIndex] && !actions[editingIndex].action) {
+        dispatch(reducerActions.removeAction(editingIndex));
+      }
     }
     setEditingIndex(null);
     setEditingValue('');
   };
 
   const handleCancelEdit = () => {
+    if (editingIndex !== null && actions[editingIndex] && !actions[editingIndex].action) {
+      dispatch(reducerActions.removeAction(editingIndex));
+    }
     setEditingIndex(null);
     setEditingValue('');
   };
@@ -114,14 +141,16 @@ export function ExecuteActions() {
     });
   };
 
-  const renderBadge = (type: CustomExecuteActions['type']) => {
+  const renderBadge = (type: CustomExecuteActions['type'], disabled?: boolean) => {
+    const disabledClass = disabled ? 'opacity-50 grayscale' : '';
     switch (type) {
       case 'command':
         return (
           <span
             className={
               'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] ' +
-              'font-bold uppercase tracking-wider bg-accent/15 text-accent border border-accent/10 shrink-0'
+              'font-bold uppercase tracking-wider bg-accent/15 text-accent border border-accent/10 shrink-0 ' +
+              disabledClass
             }>
             <Code2Icon className="size-3" />
             Command
@@ -132,7 +161,9 @@ export function ExecuteActions() {
           <span
             className={
               'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] ' +
-              'font-bold uppercase tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-500/10 shrink-0'
+              'font-bold uppercase tracking-wider bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 ' +
+              'border border-cyan-500/20 shrink-0 ' +
+              disabledClass
             }>
             <Code2Icon className="size-3" />
             Script
@@ -143,7 +174,9 @@ export function ExecuteActions() {
           <span
             className={
               'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] ' +
-              'font-bold uppercase tracking-wider bg-amber-500/15 text-amber-400 border border-amber-500/10 shrink-0'
+              'font-bold uppercase tracking-wider bg-amber-500/15 text-amber-600 dark:text-amber-400 ' +
+              'border border-amber-500/20 shrink-0 ' +
+              disabledClass
             }>
             <PlayCircleIcon className="size-3" />
             Executable
@@ -154,8 +187,9 @@ export function ExecuteActions() {
           <span
             className={
               'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] ' +
-              'font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 ' +
-              'border border-emerald-500/10 shrink-0'
+              'font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 ' +
+              'border border-emerald-500/20 shrink-0 ' +
+              disabledClass
             }>
             <FolderOpenIcon className="size-3" />
             Open Path
@@ -238,9 +272,14 @@ export function ExecuteActions() {
         <div className="flex items-center justify-between px-1">
           <span className="text-xs font-semibold text-foreground">Execution Pipeline</span>
           {actions.length > 0 && (
-            <span className="text-[11px] text-muted font-mono">
-              {actions.length} step{actions.length !== 1 ? 's' : ''} (sequential)
-            </span>
+            <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted">
+              <span>
+                {activeCount}/{actions.length} active step{actions.length !== 1 ? 's' : ''}
+              </span>
+              {disabledCount > 0 && (
+                <span className="text-amber-600 dark:text-amber-400 font-semibold">({disabledCount} skipped)</span>
+              )}
+            </div>
           )}
         </div>
 
@@ -257,12 +296,15 @@ export function ExecuteActions() {
           <Reorder.Group axis="y" values={actions} onReorder={onReorder} className="flex flex-col gap-y-2">
             {actions.map((item, index) => {
               const isEditing = editingIndex === index;
+              const isDisabled = Boolean(item.disabled);
               return (
                 <Reorder.Item
                   className={
-                    'group relative flex items-center justify-between gap-x-3 p-2.5 rounded-xl ' +
-                    'border border-border/60 bg-surface/70 hover:border-border hover:bg-surface-hover/70 ' +
-                    'shadow-2xs select-none'
+                    'group relative flex items-center justify-between gap-x-3 p-2.5 rounded-xl border ' +
+                    'transition-all duration-150 select-none ' +
+                    (isDisabled
+                      ? 'border-dashed border-border/50 bg-surface/40 text-muted opacity-65'
+                      : 'border-border/60 bg-surface/70 hover:border-border hover:bg-surface-hover/70 shadow-2xs')
                   }
                   value={item}
                   onDragEnd={handleDragEnd}
@@ -277,11 +319,25 @@ export function ExecuteActions() {
                     </div>
 
                     <span
-                      className={'size-4 flex items-center justify-center text-[9pt] font-bold text-muted shrink-0'}>
+                      className={
+                        'size-4 flex items-center justify-center text-[9pt] font-bold shrink-0 ' +
+                        (isDisabled ? 'line-through text-muted/60' : 'text-muted')
+                      }>
                       {index + 1}
                     </span>
 
-                    <div className="flex items-center w-26">{renderBadge(item.type)}</div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {renderBadge(item.type, isDisabled)}
+                      {isDisabled && (
+                        <span
+                          className={
+                            'text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ' +
+                            'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/20'
+                          }>
+                          Off
+                        </span>
+                      )}
+                    </div>
 
                     {isEditing ? (
                       <div className="flex items-center gap-x-2 flex-1 min-w-0">
@@ -290,6 +346,7 @@ export function ExecuteActions() {
                           onBlur={handleSaveEdit}
                           onKeyDown={handleEditKeyDown}
                           className="font-JetBrainsMono text-xs"
+                          placeholder="Type command and press Enter..."
                           onChange={e => setEditingValue(e.target.value)}
                           fullWidth
                           autoFocus
@@ -304,8 +361,8 @@ export function ExecuteActions() {
                     ) : (
                       <span
                         className={
-                          'font-JetBrainsMono text-xs text-foreground truncate min-w-0 ' +
-                          'flex-1 px-1.5 py-0.5 select-all'
+                          'font-JetBrainsMono text-xs truncate min-w-0 flex-1 px-1.5 py-0.5 select-all ' +
+                          (isDisabled ? 'line-through text-muted' : 'text-foreground')
                         }>
                         {item.action}
                       </span>
@@ -314,16 +371,46 @@ export function ExecuteActions() {
 
                   {!isEditing && (
                     <div className="flex items-center gap-x-1 shrink-0">
+                      {/* Enable/Disable Toggle Button */}
+                      <Button
+                        className={
+                          isDisabled
+                            ? 'text-amber-500 hover:text-amber-400 hover:bg-amber-500/10'
+                            : 'text-muted hover:text-foreground'
+                        }
+                        size="sm"
+                        variant="ghost"
+                        onPress={() => handleToggleDisable(index)}
+                        aria-label={isDisabled ? 'Enable step' : 'Disable step'}
+                        isIconOnly>
+                        {isDisabled ? <EyeClosedIcon className="size-3.5" /> : <EyeIcon className="size-3.5" />}
+                      </Button>
+
+                      {/* Edit Button (for command steps) */}
                       {item.type === 'command' && (
                         <Button
                           size="sm"
                           variant="ghost"
                           aria-label="Edit command"
+                          className="text-muted hover:text-foreground"
                           onPress={() => handleStartEdit(index, item.action)}
                           isIconOnly>
-                          <PenIcon className="size-3.5 text-muted hover:text-foreground" />
+                          <PenIcon className="size-3.5" />
                         </Button>
                       )}
+
+                      {/* 1-Click Duplicate Button */}
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        aria-label="Duplicate step"
+                        onPress={() => handleDuplicate(index)}
+                        className="text-muted hover:text-foreground"
+                        isIconOnly>
+                        <CopyIcon className="size-3.5" />
+                      </Button>
+
+                      {/* Remove Button */}
                       <Button
                         size="sm"
                         variant="danger-soft"
