@@ -133,6 +133,11 @@ export default function CustomActionsModal({state}: Props) {
 
   const saveDisabled = useMemo(() => !editingCard?.title || !editingCard.icon, [editingCard]);
 
+  const isExistingCard = useMemo(
+    () => Boolean(editingCard?.id && customCards.some(card => card.id === editingCard.id)),
+    [editingCard?.id, customCards],
+  );
+
   const handleBackToList = useCallback(() => {
     dispatch(reducerActions.setView('list'));
     dispatch(reducerActions.setEditingCard(undefined));
@@ -208,9 +213,7 @@ export default function CustomActionsModal({state}: Props) {
               </span>
               <span className="text-muted/50">/</span>
               <span className="text-foreground truncate max-w-md">
-                {editingCard?.id && editingCard.id !== 'temp'
-                  ? `Edit "${editingCard.title || 'Untitled'}"`
-                  : 'Create New Action'}
+                {isExistingCard ? `Edit "${editingCard?.title || 'Untitled'}"` : 'Create New Action'}
               </span>
             </div>
           </div>
@@ -237,7 +240,7 @@ export default function CustomActionsModal({state}: Props) {
       <Modal.Footer className="justify-between px-5">
         {view === 'form' ? (
           <div className="flex items-center justify-between w-full">
-            {editingCard?.id && editingCard.id !== 'temp' ? (
+            {isExistingCard ? (
               <Button size="md" onPress={deleteCard} variant="danger-soft">
                 <TrashBin2Icon className="size-4 text-danger" />
                 Delete Action

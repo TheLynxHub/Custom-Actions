@@ -49,7 +49,7 @@ const customActionsSlice = createSlice({
 
     addCard: state => {
       state.editingCard = {
-        id: 'temp',
+        id: crypto.randomUUID(),
         title: '',
         cardType: 'terminal_browser',
         urlConfig: {type: 'nothing', openImmediately: true, timeout: 5},
@@ -90,12 +90,7 @@ const customActionsSlice = createSlice({
     },
     setTitle: (state, action: PayloadAction<string>) => {
       if (state.editingCard) {
-        const targetId = `${action.payload}_custom_action`;
-        state.customCards = state.customCards.map(item =>
-          item.id === state.editingCard!.id ? {...item, id: targetId} : item,
-        );
         state.editingCard.title = action.payload;
-        state.editingCard.id = targetId;
       }
     },
     setCardType: (state, action: PayloadAction<CustomCardType>) => {
@@ -191,11 +186,11 @@ const customActionsSlice = createSlice({
     importCards: (state, action: PayloadAction<CustomCard[]>) => {
       const existingIds = new Set(state.customCards.map(c => c.id));
       const newCards = action.payload.map(card => {
-        let newId = card.id;
+        let newId = card.id || crypto.randomUUID();
         let newTitle = card.title;
         let counter = 1;
         while (existingIds.has(newId)) {
-          newId = `${card.id}_import_${counter}`;
+          newId = crypto.randomUUID();
           newTitle = `${card.title} (Imported ${counter})`;
           counter++;
         }

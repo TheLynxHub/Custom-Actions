@@ -245,8 +245,8 @@ export default function CustomActionsManager({selectedCardIds, onToggleSelect}: 
                 return (
                   <PreviewCard
                     card={card}
+                    key={card.id}
                     handleEdit={handleEdit}
-                    key={`${card.id}_custom_action`}
                     isSelected={selectedCardIds?.includes(card.id)}
                     icon={CardIconById(card.icon)({className: 'size-full'})}
                     onSelect={onToggleSelect ? () => onToggleSelect(card.id) : undefined}
