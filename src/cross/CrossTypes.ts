@@ -25,6 +25,7 @@ export type CustomExecuteActions = {
   id?: string;
   action: string;
   type: 'script' | 'exe' | 'open' | 'command';
+  cwd?: string;
   disabled?: boolean;
 };
 
@@ -37,6 +38,7 @@ export type CustomCard = {
   title: string;
   description?: string;
   icon?: string;
+  cwd?: string;
   categories: CustomCategories;
   actions: CustomExecuteActions[];
   env?: CustomEnvVar[];

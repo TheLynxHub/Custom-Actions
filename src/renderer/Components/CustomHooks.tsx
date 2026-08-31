@@ -24,10 +24,15 @@ export function CustomHook() {
     }
   }, [saveCards, customCards]);
 
-  // Load cards from storage on mount
+  // Load cards from storage and system paths on mount
   useEffect(() => {
     window.electron.ipcRenderer.invoke(customActionsChannels.getCards).then((cards: unknown) => {
       dispatch(reducerActions.updateState({key: 'customCards', value: sanitizeCards(cards)}));
+    });
+    window.electron.ipcRenderer.invoke(customActionsChannels.getSystemPaths).then(paths => {
+      if (paths) {
+        dispatch(reducerActions.setSystemPaths(paths));
+      }
     });
   }, [dispatch]);
 

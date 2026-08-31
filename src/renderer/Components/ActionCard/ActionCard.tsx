@@ -8,12 +8,13 @@ import filesIpc from '@lynx_shared/ipc/files';
 import ptyIpc from '@lynx_shared/ipc/pty';
 import {PenIcon} from '@solar-icons/react/bold-duotone';
 import {ReactElement, useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {CustomCard} from '../../../cross/CrossTypes';
 import {customActionsChannels} from '../../../cross/CrossUtils';
+import {resolvePathShortcuts} from '../../../cross/pathShortcuts';
 import {hasTemplateVariables} from '../../../cross/templateVariables';
-import {reducerActions} from '../../reducer';
+import {reducerActions, selectSystemPaths} from '../../reducer';
 import CustomActionsModal from '../Modal/CustomActionsModal';
 import {VariablePromptModal} from '../Modal/VariablePromptModal';
 
@@ -29,6 +30,7 @@ const IS_WINDOWS = window.osPlatform === 'win32';
 
 export default function ActionCard({icon: Icon, card}: Props) {
   const dispatch = useDispatch();
+  const systemPaths = useSelector(selectSystemPaths);
 
   const activeTab = useTabsState('activeTab');
   const modalState = useOverlayState();
@@ -38,15 +40,19 @@ export default function ActionCard({icon: Icon, card}: Props) {
 
   const executeCard = useCallback(
     (targetCard: CustomCard) => {
+      const resolvedCwd = targetCard.cwd ? resolvePathShortcuts(targetCard.cwd, systemPaths) : undefined;
       const activeActions = (targetCard.actions || []).filter(action => !action.disabled);
       const opens = activeActions.filter(action => action.type === 'open');
-      opens.forEach(open => filesIpc.openPath(open.action));
+      opens.forEach(open => {
+        const resolvedPath = resolvePathShortcuts(open.action, systemPaths);
+        filesIpc.openPath(resolvedPath);
+      });
 
       const manageUrls = (ptyId: string, onDone?: () => void) => {
         const {urlConfig} = targetCard;
         if ((urlConfig.type === 'custom' || urlConfig.type === 'htmlFile') && urlConfig.customUrl) {
           const openUrl = () => {
-            let address = urlConfig.customUrl!;
+            let address = resolvePathShortcuts(urlConfig.customUrl!, systemPaths);
             if (
               urlConfig.type === 'htmlFile' ||
               address.startsWith('file://') ||
@@ -150,7 +156,8 @@ export default function ActionCard({icon: Icon, card}: Props) {
           targetCard.env?.forEach(item => {
             if (item.key.trim()) envObj[item.key.trim()] = item.value;
           });
-          window.electron.ipcRenderer.send(customActionsChannels.startExe, ptyID, pathToExe, envObj);
+          const resolvedExe = resolvePathShortcuts(pathToExe, systemPaths);
+          window.electron.ipcRenderer.send(customActionsChannels.startExe, ptyID, resolvedExe, envObj, resolvedCwd);
 
           dispatch(cardsActions.addRunningCard({tabId: activeTab, id: ptyID}));
           manageUrls(ptyID, () => {
@@ -160,12 +167,12 @@ export default function ActionCard({icon: Icon, card}: Props) {
           break;
         }
         case 'browser': {
-          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'browser'}));
+          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'browser', dir: resolvedCwd}));
           manageUrls(`${activeTab}_browser`);
           break;
         }
         case 'terminal': {
-          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'terminal'}));
+          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'terminal', dir: resolvedCwd}));
           const ptyID = `${activeTab}_terminal`;
           manageUrls(ptyID);
           setTimeout(() => runCustomCommands(ptyID), 100);
@@ -173,7 +180,7 @@ export default function ActionCard({icon: Icon, card}: Props) {
         }
         case 'terminal_browser': {
           const ptyID = `${activeTab}_both`;
-          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'both'}));
+          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'both', dir: resolvedCwd}));
           manageUrls(ptyID, () => {
             dispatch(cardsActions.setRunningCardView({tabId: activeTab, view: 'browser'}));
           });
@@ -182,7 +189,7 @@ export default function ActionCard({icon: Icon, card}: Props) {
         }
       }
     },
-    [activeTab, dispatch],
+    [activeTab, dispatch, systemPaths],
   );
 
   const handleCardPress = () => {

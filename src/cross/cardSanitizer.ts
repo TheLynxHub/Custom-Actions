@@ -94,11 +94,13 @@ export function sanitizeActions(raw: unknown): CustomExecuteActions[] {
       : 'command';
     const id = typeof obj.id === 'string' && obj.id.trim() ? obj.id.trim() : generateUUID();
     const disabled = typeof obj.disabled === 'boolean' ? obj.disabled : undefined;
+    const cwd = typeof obj.cwd === 'string' && obj.cwd.trim() ? obj.cwd.trim() : undefined;
 
     actions.push({
       id,
       action,
       type,
+      ...(cwd ? {cwd} : {}),
       ...(disabled !== undefined ? {disabled} : {}),
     });
   }
@@ -141,6 +143,7 @@ export function sanitizeCard(raw: unknown): CustomCard | null {
   const title = typeof obj.title === 'string' && obj.title.trim() ? obj.title.trim() : 'Untitled Action';
   const description = typeof obj.description === 'string' ? obj.description : undefined;
   const icon = typeof obj.icon === 'string' && obj.icon.trim() ? obj.icon.trim() : 'bot';
+  const cwd = typeof obj.cwd === 'string' && obj.cwd.trim() ? obj.cwd.trim() : undefined;
   const cardType = VALID_CARD_TYPES.includes(obj.cardType as CustomCardType)
     ? (obj.cardType as CustomCardType)
     : 'terminal_browser';
@@ -155,6 +158,7 @@ export function sanitizeCard(raw: unknown): CustomCard | null {
     title,
     description,
     icon,
+    cwd,
     cardType,
     urlConfig,
     categories,

@@ -20,6 +20,7 @@ export default class ExeManager {
     appManager: MainWindowManager,
     onExitCallback?: (id: string) => void,
     env?: Record<string, string>,
+    cwd?: string,
   ) {
     this.id = id;
 
@@ -57,11 +58,22 @@ export default class ExeManager {
       }
     }
 
+    let workingDir = path.dirname(validatedExe);
+    if (cwd && cwd.trim().length > 0) {
+      try {
+        if (fs.existsSync(cwd.trim())) {
+          workingDir = path.resolve(cwd.trim());
+        }
+      } catch (err) {
+        console.warn(`Provided cwd "${cwd}" is invalid, defaulting to exe directory:`, err);
+      }
+    }
+
     // Spawn the process using Node's 'child_process' module.
     this.process = spawn(commandToRun, spawnArgs, {
       env: {...process.env, ...env},
       shell: spawnArgs.length === 0, // Only use shell when not using 'open' command
-      cwd: process.cwd(),
+      cwd: workingDir,
     });
 
     this.isRunning = true;

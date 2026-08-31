@@ -5,6 +5,7 @@ export const customActionsChannels = {
   startExe: 'customActions_startExe',
   exportToFile: 'customActions_exportToFile',
   importFromFile: 'customActions_importFromFile',
+  getSystemPaths: 'customActions_getSystemPaths',
 };
 
 export const storageKeys = {

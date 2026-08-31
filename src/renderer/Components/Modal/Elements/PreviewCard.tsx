@@ -1,6 +1,6 @@
 import {Checkbox} from '@heroui/react';
 import {PinIcon, StarIcon} from '@solar-icons/react/bold';
-import {PenIcon} from '@solar-icons/react/bold-duotone';
+import {Folder2Icon, PenIcon} from '@solar-icons/react/bold-duotone';
 import {ReactNode, useMemo} from 'react';
 
 import {CustomCard} from '../../../../cross/CrossTypes';
@@ -15,7 +15,7 @@ type Props = {
 };
 
 export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Props) {
-  const {title, description, cardType, actions, categories, urlConfig} = card;
+  const {title, description, cardType, actions, categories, urlConfig, cwd} = card;
 
   const variables = useMemo(() => extractCardVariables(card), [card]);
 
@@ -146,6 +146,17 @@ export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Prop
               className={'flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-accent/10 text-accent font-semibold'}>
               <StarIcon className="size-2.5" />
               Recent
+            </span>
+          )}
+          {cwd && (
+            <span
+              className={
+                'flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-surface-secondary ' +
+                'text-muted font-mono text-[9px] border border-border/40 truncate max-w-24'
+              }
+              title={`Working Directory: ${cwd}`}>
+              <Folder2Icon className="size-2.5 shrink-0 text-accent" />
+              <span className="truncate">{cwd}</span>
             </span>
           )}
           {variables.length > 0 && (

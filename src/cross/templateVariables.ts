@@ -1,7 +1,7 @@
 import {CustomCard} from './CrossTypes';
 
 export type TemplateVariableUsage = {
-  type: 'command' | 'script' | 'exe' | 'open' | 'url' | 'findLine' | 'env';
+  type: 'command' | 'script' | 'exe' | 'open' | 'url' | 'findLine' | 'env' | 'cwd';
   snippet: string;
 };
 
@@ -33,7 +33,7 @@ export function extractTemplateVariables(text: string): {name: string; defaultVa
 }
 
 /**
- * Extracts all unique template variables from a CustomCard across its actions, URL config, and env vars.
+ * Extracts all unique template variables from a CustomCard across its actions, working directory, URL config, and env vars.
  */
 export function extractCardVariables(card: CustomCard): TemplateVariable[] {
   const variableMap = new Map<string, {defaultValue?: string; usages: TemplateVariableUsage[]}>();
@@ -53,7 +53,18 @@ export function extractCardVariables(card: CustomCard): TemplateVariable[] {
     }
   };
 
-  // 1. Scan actions
+  // 1. Scan card working directory
+  if (card.cwd) {
+    const found = extractTemplateVariables(card.cwd);
+    found.forEach(({name, defaultValue}) => {
+      addUsage(name, defaultValue, {
+        type: 'cwd',
+        snippet: `Working Directory: ${card.cwd}`,
+      });
+    });
+  }
+
+  // 2. Scan actions & action-level cwds
   if (Array.isArray(card.actions)) {
     card.actions.forEach(action => {
       if (action.disabled) return;
@@ -64,10 +75,19 @@ export function extractCardVariables(card: CustomCard): TemplateVariable[] {
           snippet: action.action,
         });
       });
+      if (action.cwd) {
+        const foundCwd = extractTemplateVariables(action.cwd);
+        foundCwd.forEach(({name, defaultValue}) => {
+          addUsage(name, defaultValue, {
+            type: 'cwd',
+            snippet: action.cwd || '',
+          });
+        });
+      }
     });
   }
 
-  // 2. Scan URL Config
+  // 3. Scan URL Config
   if (card.urlConfig) {
     if (card.urlConfig.customUrl) {
       const found = extractTemplateVariables(card.urlConfig.customUrl);
@@ -89,7 +109,7 @@ export function extractCardVariables(card: CustomCard): TemplateVariable[] {
     }
   }
 
-  // 3. Scan Env Vars
+  // 4. Scan Env Vars
   if (Array.isArray(card.env)) {
     card.env.forEach(envItem => {
       if (envItem.value) {
@@ -138,9 +158,11 @@ export function substituteVariables(text: string, values: Record<string, string>
 export function substituteCardVariables(card: CustomCard, values: Record<string, string>): CustomCard {
   return {
     ...card,
+    cwd: card.cwd ? substituteVariables(card.cwd, values) : undefined,
     actions: card.actions.map(action => ({
       ...action,
       action: substituteVariables(action.action, values),
+      cwd: action.cwd ? substituteVariables(action.cwd, values) : undefined,
     })),
     urlConfig: {
       ...card.urlConfig,

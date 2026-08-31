@@ -26,6 +26,7 @@ import FormSection from './Elements/FormSection';
 import {NewCard} from './Elements/NewCard';
 import {PreviewCard} from './Elements/PreviewCard';
 import {UrlConfig} from './Elements/UrlConfig';
+import {WorkingDirectory} from './Elements/WorkingDirectory';
 
 type Props = {
   selectedCardIds?: string[];
@@ -76,7 +77,8 @@ export default function CustomActionsManager({
         const matchesDesc = (card.description || '').toLowerCase().includes(q);
         const matchesUrl = (card.urlConfig?.customUrl || '').toLowerCase().includes(q);
         const matchesAction = (card.actions || []).some(a => a.action.toLowerCase().includes(q));
-        return matchesTitle || matchesDesc || matchesUrl || matchesAction;
+        const matchesCwd = (card.cwd || '').toLowerCase().includes(q);
+        return matchesTitle || matchesDesc || matchesUrl || matchesAction || matchesCwd;
       }
 
       return true;
@@ -286,6 +288,12 @@ export default function CustomActionsManager({
           className="space-y-4 pb-4 pr-1">
           <FormSection title="General Information" icon={<Widget6Icon className="size-4" />}>
             <CardDetails />
+          </FormSection>
+
+          <Separator />
+
+          <FormSection title="Working Directory" icon={<FolderOpenIcon className="size-4" />}>
+            <WorkingDirectory />
           </FormSection>
 
           <Separator />

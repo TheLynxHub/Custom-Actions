@@ -8,23 +8,27 @@ import ExeManager from './ExeManager';
 const processMap = new Map<string, ExeManager>();
 
 export default function startExecute(appManager: MainWindowManager) {
-  ipcMain.on(customActionsChannels.startExe, (_, id: string, exePath: string, env?: Record<string, string>) => {
-    // Stop existing process with same ID if any
-    if (processMap.has(id)) {
-      processMap.get(id)?.stop();
-      processMap.delete(id);
-    }
-    const manager = new ExeManager(
-      id,
-      exePath,
-      appManager,
-      exitId => {
-        processMap.delete(exitId);
-      },
-      env,
-    );
-    processMap.set(id, manager);
-  });
+  ipcMain.on(
+    customActionsChannels.startExe,
+    (_, id: string, exePath: string, env?: Record<string, string>, cwd?: string) => {
+      // Stop existing process with same ID if any
+      if (processMap.has(id)) {
+        processMap.get(id)?.stop();
+        processMap.delete(id);
+      }
+      const manager = new ExeManager(
+        id,
+        exePath,
+        appManager,
+        exitId => {
+          processMap.delete(exitId);
+        },
+        env,
+        cwd,
+      );
+      processMap.set(id, manager);
+    },
+  );
 
   ipcMain.on(ptyChannels.stopProcess, (_, id: string) => {
     const manager = processMap.get(id);

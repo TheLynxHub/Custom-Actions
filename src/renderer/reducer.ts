@@ -11,6 +11,7 @@ import {
   CustomExecuteActions,
   CustomUrlConfigType,
 } from '../cross/CrossTypes';
+import {SystemPathMap} from '../cross/pathShortcuts';
 
 export type UrlCatchingSession = {
   ptyId: string;
@@ -25,6 +26,7 @@ export type CustomActionsState = {
   editingCard?: CustomCard;
   saveCards?: boolean;
   urlCatchingSession?: UrlCatchingSession;
+  systemPaths?: SystemPathMap;
 };
 
 const initialState: CustomActionsState = {
@@ -33,6 +35,7 @@ const initialState: CustomActionsState = {
   editingCard: undefined,
   saveCards: false,
   urlCatchingSession: undefined,
+  systemPaths: undefined,
 };
 
 const customActionsSlice = createSlice({
@@ -104,6 +107,12 @@ const customActionsSlice = createSlice({
     },
     setIcon: (state, action: PayloadAction<string>) => {
       if (state.editingCard) state.editingCard.icon = action.payload;
+    },
+    setCwd: (state, action: PayloadAction<string>) => {
+      if (state.editingCard) state.editingCard.cwd = action.payload;
+    },
+    setSystemPaths: (state, action: PayloadAction<SystemPathMap>) => {
+      state.systemPaths = action.payload;
     },
 
     setView: (state, action: PayloadAction<'list' | 'form'>) => {
@@ -268,6 +277,7 @@ const customActionsSlice = createSlice({
             ...card,
             id: crypto.randomUUID(),
             title: `${card.title} (Copy)`,
+            cwd: card.cwd,
             urlConfig: {...card.urlConfig},
             categories: {...card.categories},
             actions: (card.actions || []).map(actionItem => ({
@@ -320,6 +330,7 @@ export const selectEditingCard = (state: any): CustomCard | undefined => state.c
 export const selectSaveCards = (state: any): boolean | undefined => state.customActions.saveCards;
 export const selectUrlCatchingSession = (state: any): UrlCatchingSession | undefined =>
   state.customActions.urlCatchingSession;
+export const selectSystemPaths = (state: any): SystemPathMap | undefined => state.customActions.systemPaths;
 
 export const reducerActions = customActionsSlice.actions;
 
