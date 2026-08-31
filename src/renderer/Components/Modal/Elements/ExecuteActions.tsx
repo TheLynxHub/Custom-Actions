@@ -9,6 +9,7 @@ import {
   EyeIcon,
   FileCheckIcon,
   FolderOpenIcon,
+  InfoCircleIcon,
   PenIcon,
   TrashBin2Icon,
 } from '@solar-icons/react/bold-duotone';
@@ -18,6 +19,7 @@ import {KeyboardEvent, useEffect, useMemo, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CustomExecuteActions} from '../../../../cross/CrossTypes';
+import {extractTemplateVariables} from '../../../../cross/templateVariables';
 import {reducerActions, selectEditingCard} from '../../../reducer';
 import {AddExe} from './AddExe';
 import {AddScript} from './AddScript';
@@ -265,6 +267,21 @@ export function ExecuteActions() {
             </Button>
           </ButtonGroup>
         </div>
+
+        {/* Template Variables Helper Hint */}
+        <div
+          className={
+            'flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-accent/5 ' +
+            'border border-accent/15 text-[11px] text-muted'
+          }>
+          <InfoCircleIcon className="size-3.5 text-accent shrink-0" />
+          <span>
+            Use <code className="text-accent font-JetBrainsMono font-semibold">&#123;&#123;VAR&#125;&#125;</code>
+            {' or '}
+            <code className="text-accent font-JetBrainsMono font-semibold">&#123;&#123;VAR:default&#125;&#125;</code>
+            {' in commands for dynamic runtime inputs.'}
+          </span>
+        </div>
       </div>
 
       {/* Action Pipeline List */}
@@ -297,6 +314,7 @@ export function ExecuteActions() {
             {actions.map((item, index) => {
               const isEditing = editingIndex === index;
               const isDisabled = Boolean(item.disabled);
+              const itemVars = extractTemplateVariables(item.action || '');
               return (
                 <Reorder.Item
                   className={
@@ -359,13 +377,29 @@ export function ExecuteActions() {
                         </Button>
                       </div>
                     ) : (
-                      <span
-                        className={
-                          'font-JetBrainsMono text-xs truncate min-w-0 flex-1 px-1.5 py-0.5 select-all ' +
-                          (isDisabled ? 'line-through text-muted' : 'text-foreground')
-                        }>
-                        {item.action}
-                      </span>
+                      <div className="flex items-center gap-x-2 flex-1 min-w-0">
+                        <span
+                          className={
+                            'font-JetBrainsMono text-xs truncate min-w-0 px-1.5 py-0.5 select-all ' +
+                            (isDisabled ? 'line-through text-muted' : 'text-foreground')
+                          }>
+                          {item.action}
+                        </span>
+                        {itemVars.length > 0 && (
+                          <div className="flex items-center gap-1 shrink-0">
+                            {itemVars.map(v => (
+                              <span
+                                className={
+                                  'font-JetBrainsMono text-[10px] px-1.5 py-0.5 rounded-full ' +
+                                  'bg-accent/15 text-accent border border-accent/20 font-semibold'
+                                }
+                                key={v.name}>
+                                &#123;&#123;{v.name}&#125;&#125;
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     )}
                   </div>
 

@@ -8,6 +8,7 @@ import {ReactNode, useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CustomUrlConfigType} from '../../../../cross/CrossTypes';
+import {extractTemplateVariables} from '../../../../cross/templateVariables';
 import {reducerActions, selectEditingCard} from '../../../reducer';
 
 type StrategyOption = {
@@ -53,6 +54,9 @@ export function UrlConfig() {
   const openImmediately = useMemo(() => editingCard?.urlConfig.openImmediately ?? true, [editingCard]);
   const timeout = useMemo(() => editingCard?.urlConfig.timeout || 5, [editingCard]);
   const findLine = useMemo(() => editingCard?.urlConfig.findLine || '', [editingCard]);
+
+  const urlVars = useMemo(() => extractTemplateVariables(customUrl || ''), [customUrl]);
+  const findLineVars = useMemo(() => extractTemplateVariables(findLine || ''), [findLine]);
 
   const setUrlConfigType = (value: CustomUrlConfigType) => dispatch(reducerActions.setUrlConfigType(value));
   const setCustomUrl = (value: string) => dispatch(reducerActions.setCustomUrl(value));
@@ -172,7 +176,23 @@ export function UrlConfig() {
             transition={{duration: 0.15}}
             className="flex flex-col gap-y-3 pt-1 border-t border-border/30">
             <TextField value={customUrl || ''} onChange={setCustomUrl}>
-              <Label className="text-xs font-semibold text-foreground">Target URL</Label>
+              <Label className="text-xs font-semibold text-foreground flex items-center justify-between">
+                <span>Target URL</span>
+                {urlVars.length > 0 && (
+                  <div className="flex items-center gap-1">
+                    {urlVars.map(v => (
+                      <span
+                        className={
+                          'font-JetBrainsMono text-[10px] px-1.5 py-0.5 rounded-full ' +
+                          'bg-accent/15 text-accent border border-accent/20 font-semibold'
+                        }
+                        key={v.name}>
+                        &#123;&#123;{v.name}&#125;&#125;
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </Label>
               <InputGroup fullWidth>
                 <InputGroup.Prefix className="text-muted">
                   <EarthIcon className="size-4 text-cyan-400" />
@@ -197,7 +217,23 @@ export function UrlConfig() {
             transition={{duration: 0.15}}
             className="flex flex-col gap-y-3 pt-1 border-t border-border/30">
             <div className="flex flex-col gap-y-1.5">
-              <Label className="text-xs font-semibold text-foreground">HTML File Path</Label>
+              <Label className="text-xs font-semibold text-foreground flex items-center justify-between">
+                <span>HTML File Path</span>
+                {urlVars.length > 0 && (
+                  <div className="flex items-center gap-1">
+                    {urlVars.map(v => (
+                      <span
+                        className={
+                          'font-JetBrainsMono text-[10px] px-1.5 py-0.5 rounded-full ' +
+                          'bg-accent/15 text-accent border border-accent/20 font-semibold'
+                        }
+                        key={v.name}>
+                        &#123;&#123;{v.name}&#125;&#125;
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </Label>
               <div className="flex items-center gap-x-2 w-full">
                 <InputGroup fullWidth>
                   <InputGroup.Prefix className="text-muted">
@@ -236,8 +272,24 @@ export function UrlConfig() {
             className="flex flex-col gap-y-2 pt-1 border-t border-border/30">
             <TextField value={findLine} onChange={setFindLine}>
               <Label className="text-xs font-semibold text-foreground flex items-center justify-between">
-                <span>Terminal Trigger Line</span>
-                <span className="text-[10px] text-muted font-normal">Auto-extracts URL when detected</span>
+                <div className="flex items-center gap-1.5">
+                  <span>Terminal Trigger Line</span>
+                  <span className="text-[10px] text-muted font-normal">(Auto-extracts URL)</span>
+                </div>
+                {findLineVars.length > 0 && (
+                  <div className="flex items-center gap-1">
+                    {findLineVars.map(v => (
+                      <span
+                        className={
+                          'font-JetBrainsMono text-[10px] px-1.5 py-0.5 rounded-full ' +
+                          'bg-accent/15 text-accent border border-accent/20 font-semibold'
+                        }
+                        key={v.name}>
+                        &#123;&#123;{v.name}&#125;&#125;
+                      </span>
+                    ))}
+                  </div>
+                )}
               </Label>
               <InputGroup fullWidth>
                 <InputGroup.Prefix className="text-muted">

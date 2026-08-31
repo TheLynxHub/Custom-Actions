@@ -7,13 +7,15 @@ import {formatLocalPathToUrl} from '@lynx_common/utils';
 import filesIpc from '@lynx_shared/ipc/files';
 import ptyIpc from '@lynx_shared/ipc/pty';
 import {PenIcon} from '@solar-icons/react/bold-duotone';
-import {ReactElement} from 'react';
+import {ReactElement, useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {CustomCard} from '../../../cross/CrossTypes';
 import {customActionsChannels} from '../../../cross/CrossUtils';
+import {hasTemplateVariables} from '../../../cross/templateVariables';
 import {reducerActions} from '../../reducer';
 import CustomActionsModal from '../Modal/CustomActionsModal';
+import {VariablePromptModal} from '../Modal/VariablePromptModal';
 
 type Props = {
   icon: (props: SvgProps) => ReactElement;
@@ -29,155 +31,167 @@ export default function ActionCard({icon: Icon, card}: Props) {
   const dispatch = useDispatch();
 
   const activeTab = useTabsState('activeTab');
+  const modalState = useOverlayState();
+  const promptModalState = useOverlayState();
 
-  const {title, description, actions, cardType, urlConfig} = card;
+  const {title, description} = card;
 
-  const onClick = () => {
-    const activeActions = actions.filter(action => !action.disabled);
-    const opens = activeActions.filter(action => action.type === 'open');
-    opens.forEach(open => filesIpc.openPath(open.action));
+  const executeCard = useCallback(
+    (targetCard: CustomCard) => {
+      const activeActions = (targetCard.actions || []).filter(action => !action.disabled);
+      const opens = activeActions.filter(action => action.type === 'open');
+      opens.forEach(open => filesIpc.openPath(open.action));
 
-    const manageUrls = (ptyId: string, onDone?: () => void) => {
-      if ((urlConfig.type === 'custom' || urlConfig.type === 'htmlFile') && urlConfig.customUrl) {
-        const openUrl = () => {
-          let address = urlConfig.customUrl!;
-          if (
-            urlConfig.type === 'htmlFile' ||
-            address.startsWith('file://') ||
-            address.match(/^[a-zA-Z]:[\\/]/) ||
-            address.startsWith('/')
-          ) {
-            address = formatLocalPathToUrl(address);
-          }
-          dispatch(cardsActions.setRunningCardCustomAddress({tabId: activeTab, address}));
-          if (onDone) onDone();
-        };
-
-        if (urlConfig.openImmediately) {
-          openUrl();
-        } else {
-          setTimeout(() => openUrl(), (urlConfig.timeout || 0) * 1000);
-        }
-      } else if (urlConfig.type === 'findLine' && urlConfig.findLine) {
-        // Start URL catching session in redux (handled by CustomHooks)
-        dispatch(reducerActions.startUrlCatching({ptyId, tabId: activeTab, findLine: urlConfig.findLine}));
-      }
-    };
-
-    const getScriptCommand = (scriptPath: string): string => {
-      const ext = scriptPath.substring(scriptPath.lastIndexOf('.')).toLowerCase();
-
-      if (IS_WINDOWS) {
-        // Windows: Use appropriate interpreter based on extension
-        switch (ext) {
-          case '.py':
-            return `python "${scriptPath}"${LINE_ENDING}`;
-          case '.js':
-            return `node "${scriptPath}"${LINE_ENDING}`;
-          default:
-            return `& "${scriptPath}"${LINE_ENDING}`;
-        }
-      } else if (IS_MACOS) {
-        // macOS: Handle .app bundles and scripts
-        if (scriptPath.endsWith('.app')) {
-          return `open -W "${scriptPath}"${LINE_ENDING}`;
-        } else if (ext === '.command') {
-          return `chmod +x "${scriptPath}" && open "${scriptPath}"${LINE_ENDING}`;
-        } else if (ext === '.py') {
-          return `python3 "${scriptPath}"${LINE_ENDING}`;
-        } else if (ext === '.js') {
-          return `node "${scriptPath}"${LINE_ENDING}`;
-        } else {
-          // For .sh and other scripts, use bash as fallback interpreter
-          return `chmod +x "${scriptPath}" && bash "${scriptPath}"${LINE_ENDING}`;
-        }
-      } else {
-        // Linux: Detect interpreter based on extension or use bash as fallback
-        switch (ext) {
-          case '.py':
-            return `python3 "${scriptPath}"${LINE_ENDING}`;
-          case '.js':
-            return `node "${scriptPath}"${LINE_ENDING}`;
-          case '.rb':
-            return `ruby "${scriptPath}"${LINE_ENDING}`;
-          case '.pl':
-            return `perl "${scriptPath}"${LINE_ENDING}`;
-          default:
-            // Use bash as fallback for .sh and unknown scripts
-            return `chmod +x "${scriptPath}" && bash "${scriptPath}"${LINE_ENDING}`;
-        }
-      }
-    };
-
-    const writeEnvVars = (ptyId: string) => {
-      if (card.env && card.env.length > 0) {
-        card.env.forEach(envVar => {
-          if (envVar.key && envVar.key.trim()) {
-            if (IS_WINDOWS) {
-              ptyIpc.write(ptyId, `$env:${envVar.key.trim()}="${envVar.value}"${LINE_ENDING}`);
-            } else {
-              ptyIpc.write(ptyId, `export ${envVar.key.trim()}="${envVar.value}"${LINE_ENDING}`);
+      const manageUrls = (ptyId: string, onDone?: () => void) => {
+        const {urlConfig} = targetCard;
+        if ((urlConfig.type === 'custom' || urlConfig.type === 'htmlFile') && urlConfig.customUrl) {
+          const openUrl = () => {
+            let address = urlConfig.customUrl!;
+            if (
+              urlConfig.type === 'htmlFile' ||
+              address.startsWith('file://') ||
+              address.match(/^[a-zA-Z]:[\\/]/) ||
+              address.startsWith('/')
+            ) {
+              address = formatLocalPathToUrl(address);
             }
+            dispatch(cardsActions.setRunningCardCustomAddress({tabId: activeTab, address}));
+            if (onDone) onDone();
+          };
+
+          if (urlConfig.openImmediately) {
+            openUrl();
+          } else {
+            setTimeout(() => openUrl(), (urlConfig.timeout || 0) * 1000);
+          }
+        } else if (urlConfig.type === 'findLine' && urlConfig.findLine) {
+          // Start URL catching session in redux (handled by CustomHooks)
+          dispatch(reducerActions.startUrlCatching({ptyId, tabId: activeTab, findLine: urlConfig.findLine}));
+        }
+      };
+
+      const getScriptCommand = (scriptPath: string): string => {
+        const ext = scriptPath.substring(scriptPath.lastIndexOf('.')).toLowerCase();
+
+        if (IS_WINDOWS) {
+          // Windows: Use appropriate interpreter based on extension
+          switch (ext) {
+            case '.py':
+              return `python "${scriptPath}"${LINE_ENDING}`;
+            case '.js':
+              return `node "${scriptPath}"${LINE_ENDING}`;
+            default:
+              return `& "${scriptPath}"${LINE_ENDING}`;
+          }
+        } else if (IS_MACOS) {
+          // macOS: Handle .app bundles and scripts
+          if (scriptPath.endsWith('.app')) {
+            return `open -W "${scriptPath}"${LINE_ENDING}`;
+          } else if (ext === '.command') {
+            return `chmod +x "${scriptPath}" && open "${scriptPath}"${LINE_ENDING}`;
+          } else if (ext === '.py') {
+            return `python3 "${scriptPath}"${LINE_ENDING}`;
+          } else if (ext === '.js') {
+            return `node "${scriptPath}"${LINE_ENDING}`;
+          } else {
+            // For .sh and other scripts, use bash as fallback interpreter
+            return `chmod +x "${scriptPath}" && bash "${scriptPath}"${LINE_ENDING}`;
+          }
+        } else {
+          // Linux: Detect interpreter based on extension or use bash as fallback
+          switch (ext) {
+            case '.py':
+              return `python3 "${scriptPath}"${LINE_ENDING}`;
+            case '.js':
+              return `node "${scriptPath}"${LINE_ENDING}`;
+            case '.rb':
+              return `ruby "${scriptPath}"${LINE_ENDING}`;
+            case '.pl':
+              return `perl "${scriptPath}"${LINE_ENDING}`;
+            default:
+              // Use bash as fallback for .sh and unknown scripts
+              return `chmod +x "${scriptPath}" && bash "${scriptPath}"${LINE_ENDING}`;
+          }
+        }
+      };
+
+      const writeEnvVars = (ptyId: string) => {
+        if (targetCard.env && targetCard.env.length > 0) {
+          targetCard.env.forEach(envVar => {
+            if (envVar.key && envVar.key.trim()) {
+              if (IS_WINDOWS) {
+                ptyIpc.write(ptyId, `$env:${envVar.key.trim()}="${envVar.value}"${LINE_ENDING}`);
+              } else {
+                ptyIpc.write(ptyId, `export ${envVar.key.trim()}="${envVar.value}"${LINE_ENDING}`);
+              }
+            }
+          });
+        }
+      };
+
+      const runCustomCommands = (ptyId: string) => {
+        writeEnvVars(ptyId);
+        activeActions.forEach(action => {
+          if (action.type === 'command') {
+            ptyIpc.write(ptyId, `${action.action}${LINE_ENDING}`);
+          } else if (action.type === 'script') {
+            ptyIpc.write(ptyId, getScriptCommand(action.action));
           }
         });
-      }
-    };
+      };
 
-    const runCustomCommands = (ptyId: string) => {
-      writeEnvVars(ptyId);
-      activeActions.forEach(action => {
-        if (action.type === 'command') {
-          ptyIpc.write(ptyId, `${action.action}${LINE_ENDING}`);
-        } else if (action.type === 'script') {
-          ptyIpc.write(ptyId, getScriptCommand(action.action));
+      switch (targetCard.cardType) {
+        case 'executable': {
+          const pathToExe = activeActions.find(action => action.type === 'exe')?.action;
+          if (!pathToExe) return;
+
+          const ptyID = `${activeTab}_both`;
+          const envObj: Record<string, string> = {};
+          targetCard.env?.forEach(item => {
+            if (item.key.trim()) envObj[item.key.trim()] = item.value;
+          });
+          window.electron.ipcRenderer.send(customActionsChannels.startExe, ptyID, pathToExe, envObj);
+
+          dispatch(cardsActions.addRunningCard({tabId: activeTab, id: ptyID}));
+          manageUrls(ptyID, () => {
+            dispatch(cardsActions.setRunningCardView({tabId: activeTab, view: 'browser'}));
+          });
+
+          break;
         }
-      });
-    };
-
-    switch (cardType) {
-      case 'executable': {
-        const pathToExe = activeActions.find(action => action.type === 'exe')?.action;
-        if (!pathToExe) return;
-
-        const ptyID = `${activeTab}_both`;
-        const envObj: Record<string, string> = {};
-        card.env?.forEach(item => {
-          if (item.key.trim()) envObj[item.key.trim()] = item.value;
-        });
-        window.electron.ipcRenderer.send(customActionsChannels.startExe, ptyID, pathToExe, envObj);
-
-        dispatch(cardsActions.addRunningCard({tabId: activeTab, id: ptyID}));
-        manageUrls(ptyID, () => {
-          dispatch(cardsActions.setRunningCardView({tabId: activeTab, view: 'browser'}));
-        });
-
-        break;
+        case 'browser': {
+          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'browser'}));
+          manageUrls(`${activeTab}_browser`);
+          break;
+        }
+        case 'terminal': {
+          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'terminal'}));
+          const ptyID = `${activeTab}_terminal`;
+          manageUrls(ptyID);
+          setTimeout(() => runCustomCommands(ptyID), 100);
+          break;
+        }
+        case 'terminal_browser': {
+          const ptyID = `${activeTab}_both`;
+          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'both'}));
+          manageUrls(ptyID, () => {
+            dispatch(cardsActions.setRunningCardView({tabId: activeTab, view: 'browser'}));
+          });
+          setTimeout(() => runCustomCommands(ptyID), 100);
+          break;
+        }
       }
-      case 'browser': {
-        dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'browser'}));
-        manageUrls(`${activeTab}_browser`);
-        break;
-      }
-      case 'terminal': {
-        dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'terminal'}));
-        const ptyID = `${activeTab}_terminal`;
-        manageUrls(ptyID);
-        setTimeout(() => runCustomCommands(ptyID), 100);
-        break;
-      }
-      case 'terminal_browser': {
-        const ptyID = `${activeTab}_both`;
-        dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'both'}));
-        manageUrls(ptyID, () => {
-          dispatch(cardsActions.setRunningCardView({tabId: activeTab, view: 'browser'}));
-        });
-        setTimeout(() => runCustomCommands(ptyID), 100);
-        break;
-      }
+    },
+    [activeTab, dispatch],
+  );
+
+  const handleCardPress = () => {
+    if (hasTemplateVariables(card)) {
+      promptModalState.open();
+    } else {
+      executeCard(card);
     }
   };
-
-  const modalState = useOverlayState();
 
   const openConfig = () => {
     dispatch(reducerActions.setEditingCard(card));
@@ -198,12 +212,20 @@ export default function ActionCard({icon: Icon, card}: Props) {
           'No description provided. Click to execute this action, run scripts, or open the' +
             ' configured URL in your workspace.'
         }
+        id={card.id}
         title={title}
-        onPress={onClick}
+        onPress={handleCardPress}
         avatarClassName="ring-cyan-500"
         icon={<Icon className="size-8" />}
       />
       <CustomActionsModal state={modalState} />
+      <VariablePromptModal
+        card={card}
+        onExecute={executeCard}
+        isOpen={promptModalState.isOpen}
+        onOpenChange={promptModalState.setOpen}
+        cardIcon={<Icon className="size-full" />}
+      />
     </>
   );
 }

@@ -14,7 +14,7 @@ import {
 import {AltArrowDownIcon, CheckSquareIcon} from '@solar-icons/react/linear';
 import {motion} from 'framer-motion';
 import {X} from 'lucide-react';
-import {useMemo, useState} from 'react';
+import {ReactNode, useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CustomCategory} from '../../../../cross/CrossTypes';
@@ -30,7 +30,7 @@ type Props = {
   onClearSelection: () => void;
 };
 
-const CATEGORY_OPTIONS: {id: CustomCategory; name: string; icon: React.ReactNode}[] = [
+const CATEGORY_OPTIONS: {id: CustomCategory; name: string; icon: ReactNode}[] = [
   {
     id: 'pinned',
     name: 'Pinned',

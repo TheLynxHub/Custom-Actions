@@ -1,9 +1,10 @@
 import {Checkbox} from '@heroui/react';
 import {PinIcon, StarIcon} from '@solar-icons/react/bold';
 import {PenIcon} from '@solar-icons/react/bold-duotone';
-import {ReactNode} from 'react';
+import {ReactNode, useMemo} from 'react';
 
 import {CustomCard} from '../../../../cross/CrossTypes';
+import {extractCardVariables} from '../../../../cross/templateVariables';
 
 type Props = {
   card: CustomCard;
@@ -15,6 +16,8 @@ type Props = {
 
 export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Props) {
   const {title, description, cardType, actions, categories, urlConfig} = card;
+
+  const variables = useMemo(() => extractCardVariables(card), [card]);
 
   const getTypeBadge = () => {
     switch (cardType) {
@@ -143,6 +146,16 @@ export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Prop
               className={'flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-accent/10 text-accent font-semibold'}>
               <StarIcon className="size-2.5" />
               Recent
+            </span>
+          )}
+          {variables.length > 0 && (
+            <span
+              className={
+                'flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-accent/10 ' +
+                'text-accent font-semibold font-mono text-[9px] border border-accent/20'
+              }
+              title={`${variables.length} template variable(s): ${variables.map(v => v.name).join(', ')}`}>
+              &#123;&#123;&#125;&#125; {variables.length} var{variables.length !== 1 ? 's' : ''}
             </span>
           )}
         </div>
