@@ -4,7 +4,7 @@ import {DocumentTextIcon, GalleryIcon, MusicNotesIcon, Widget6Icon} from '@solar
 import {ReactNode, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CustomCategory} from '../../../../cross/CrossTypes';
+import {CustomCategories, CustomCategory} from '../../../../cross/CrossTypes';
 import {reducerActions, selectEditingCard} from '../../../reducer';
 
 type CategoryItem = {
@@ -58,22 +58,30 @@ export function AddToCategories() {
   const editingCard = useSelector(selectEditingCard);
   const categories = useMemo(() => editingCard?.categories, [editingCard]);
 
-  const handleCategoryChange = (id: CustomCategory, value: boolean) => {
-    dispatch(reducerActions.setCategories({id, value}));
+  const selectedValues = useMemo(() => {
+    if (!categories) return [];
+    return (Object.keys(categories) as CustomCategory[]).filter(key => Boolean(categories[key]));
+  }, [categories]);
+
+  const handleGroupChange = (newValues: string[]) => {
+    const updatedCategories: CustomCategories = {};
+    CATEGORIES.forEach(cat => {
+      if (newValues.includes(cat.id)) {
+        updatedCategories[cat.id] = true;
+      }
+    });
+    dispatch(reducerActions.setAllCategories(updatedCategories));
   };
 
   return (
-    <CheckboxGroup aria-label="Categories & Placement" className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+    <CheckboxGroup
+      value={selectedValues}
+      onChange={handleGroupChange}
+      aria-label="Categories & Placement"
+      className="grid grid-cols-2 sm:grid-cols-3 gap-2">
       {CATEGORIES.map(cat => {
-        const isSelected = Boolean(categories?.[cat.id]);
         return (
-          <Checkbox
-            key={cat.id}
-            value={cat.id}
-            className="w-full"
-            aria-label={cat.name}
-            isSelected={isSelected}
-            onChange={val => handleCategoryChange(cat.id, val)}>
+          <Checkbox key={cat.id} value={cat.id} className="w-full" aria-label={cat.name}>
             {({isSelected: checked}) => (
               <Checkbox.Content
                 className={

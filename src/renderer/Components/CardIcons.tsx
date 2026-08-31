@@ -664,6 +664,6 @@ export const CardIcons = {
 export const CardIconsList = Object.keys(CardIcons);
 
 export function CardIconById(id: string | undefined): (props: SvgProps) => ReactElement {
-  if (!id) return Star_Icon;
-  return CardIcons[id] || Star_Icon;
+  if (!id) return Bot_Icon;
+  return CardIcons[id] || Bot_Icon;
 }

@@ -21,7 +21,7 @@ function CardsContainer({cards}: ContainerProps) {
 export function PinnedActions() {
   const customCards = useSelector(selectCustomCards);
   const pinnedCards = useMemo(
-    () => compact(customCards.map(card => (card.categories.pinned ? card : null))),
+    () => compact(customCards.map(card => (card.categories?.pinned ? card : null))),
     [customCards],
   );
 
@@ -30,7 +30,7 @@ export function PinnedActions() {
 export function RecentlyActions() {
   const customCards = useSelector(selectCustomCards);
   const pinnedCards = useMemo(
-    () => compact(customCards.map(card => (card.categories.recentlyUsed ? card : null))),
+    () => compact(customCards.map(card => (card.categories?.recentlyUsed ? card : null))),
     [customCards],
   );
 
@@ -39,7 +39,7 @@ export function RecentlyActions() {
 export function AllActions() {
   const customCards = useSelector(selectCustomCards);
   const pinnedCards = useMemo(
-    () => compact(customCards.map(card => (card.categories.all ? card : null))),
+    () => compact(customCards.map(card => (card.categories?.all ? card : null))),
     [customCards],
   );
 
@@ -48,7 +48,7 @@ export function AllActions() {
 export function ImageActions() {
   const customCards = useSelector(selectCustomCards);
   const pinnedCards = useMemo(
-    () => compact(customCards.map(card => (card.categories.image ? card : null))),
+    () => compact(customCards.map(card => (card.categories?.image ? card : null))),
     [customCards],
   );
 
@@ -57,7 +57,7 @@ export function ImageActions() {
 export function TextActions() {
   const customCards = useSelector(selectCustomCards);
   const pinnedCards = useMemo(
-    () => compact(customCards.map(card => (card.categories.text ? card : null))),
+    () => compact(customCards.map(card => (card.categories?.text ? card : null))),
     [customCards],
   );
 
@@ -66,7 +66,7 @@ export function TextActions() {
 export function AudioActions() {
   const customCards = useSelector(selectCustomCards);
   const pinnedCards = useMemo(
-    () => compact(customCards.map(card => (card.categories.audio ? card : null))),
+    () => compact(customCards.map(card => (card.categories?.audio ? card : null))),
     [customCards],
   );
 

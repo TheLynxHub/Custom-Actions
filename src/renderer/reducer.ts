@@ -4,6 +4,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
   CustomCard,
   CustomCardType,
+  CustomCategories,
   CustomCategory,
   CustomEnvVar,
   CustomExecuteActions,
@@ -51,6 +52,7 @@ const customActionsSlice = createSlice({
       state.editingCard = {
         id: crypto.randomUUID(),
         title: '',
+        icon: 'bot',
         cardType: 'terminal_browser',
         urlConfig: {type: 'nothing', openImmediately: true, timeout: 5},
         categories: {pinned: true},
@@ -107,7 +109,15 @@ const customActionsSlice = createSlice({
       state.view = action.payload;
     },
     setEditingCard: (state, action: PayloadAction<CustomCard | undefined>) => {
-      state.editingCard = action.payload;
+      if (action.payload) {
+        state.editingCard = {
+          ...action.payload,
+          icon: action.payload.icon || 'bot',
+          categories: action.payload.categories || {},
+        };
+      } else {
+        state.editingCard = undefined;
+      }
     },
     setUrlConfigType: (state, action: PayloadAction<CustomUrlConfigType>) => {
       if (state.editingCard) state.editingCard.urlConfig.type = action.payload;
@@ -125,7 +135,17 @@ const customActionsSlice = createSlice({
       if (state.editingCard) state.editingCard.urlConfig.findLine = action.payload;
     },
     setCategories: (state, action: PayloadAction<{id: CustomCategory; value: boolean}>) => {
-      if (state.editingCard) state.editingCard.categories[action.payload.id] = action.payload.value;
+      if (state.editingCard) {
+        if (!state.editingCard.categories) {
+          state.editingCard.categories = {};
+        }
+        state.editingCard.categories[action.payload.id] = action.payload.value;
+      }
+    },
+    setAllCategories: (state, action: PayloadAction<CustomCategories>) => {
+      if (state.editingCard) {
+        state.editingCard.categories = action.payload;
+      }
     },
     setActions: (state, action: PayloadAction<CustomExecuteActions[]>) => {
       if (state.editingCard) state.editingCard.actions = action.payload;

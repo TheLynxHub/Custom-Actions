@@ -53,7 +53,7 @@ export function CardDetails() {
     }, 150);
   }, [desc]);
 
-  const selectedIcon = editingCard?.icon || 'star';
+  const selectedIcon = editingCard?.icon || 'bot';
 
   return (
     <div className="flex flex-col gap-y-3.5">
