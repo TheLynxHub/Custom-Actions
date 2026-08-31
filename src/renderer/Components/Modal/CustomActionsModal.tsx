@@ -2,7 +2,6 @@ import {Button, Dropdown, Label, Modal, ScrollShadow, UseOverlayStateReturn} fro
 import TabModal from '@lynx/components/TabModal';
 import {AppDispatch} from '@lynx/redux/store';
 import {
-  ArrowLeftIcon,
   ClipboardIcon,
   CopyIcon,
   DisketteIcon,
@@ -10,6 +9,7 @@ import {
   ImportIcon,
   TrashBin2Icon,
 } from '@solar-icons/react/bold-duotone';
+import {ArrowLeftIcon} from '@solar-icons/react/line-duotone';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
