@@ -5,7 +5,7 @@ import {CheckCircleIcon, CloseCircleIcon, PlayCircleIcon} from '@solar-icons/rea
 import {Code2Icon, FileCheckIcon, FolderOpenIcon, PenIcon, TrashBin2Icon} from '@solar-icons/react/bold-duotone';
 import {Reorder} from 'framer-motion';
 import {GripVertical, Plus} from 'lucide-react';
-import {KeyboardEvent, useMemo, useState} from 'react';
+import {KeyboardEvent, useEffect, useMemo, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CustomExecuteActions} from '../../../../cross/CrossTypes';
@@ -24,8 +24,16 @@ export function ExecuteActions() {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingValue, setEditingValue] = useState<string>('');
 
-  const actions = useMemo(() => editingCard?.actions || [], [editingCard]);
-  const cardType = useMemo(() => editingCard?.cardType || 'terminal_browser', [editingCard]);
+  const rawActions = useMemo(() => editingCard?.actions || [], [editingCard?.actions]);
+  const cardType = useMemo(() => editingCard?.cardType || 'terminal_browser', [editingCard?.cardType]);
+
+  const [actions, setActions] = useState<CustomExecuteActions[]>(rawActions);
+  const actionsRef = useRef(actions);
+
+  useEffect(() => {
+    setActions(rawActions);
+    actionsRef.current = rawActions;
+  }, [rawActions]);
 
   const handleAddCommand = () => {
     if (commandInput.trim()) {
@@ -73,11 +81,13 @@ export function ExecuteActions() {
     }
   };
 
-  const onReorder = (items: string[]) => {
-    const newOrder = items.map(actionName => actions.find(action => action.action === actionName));
-    if (newOrder.every(item => item !== undefined)) {
-      dispatch(reducerActions.setActions(newOrder));
-    }
+  const onReorder = (newOrder: CustomExecuteActions[]) => {
+    actionsRef.current = newOrder;
+    setActions(newOrder);
+  };
+
+  const handleDragEnd = () => {
+    dispatch(reducerActions.setActions(actionsRef.current));
   };
 
   const handleAddFile = () => {
@@ -244,11 +254,7 @@ export function ExecuteActions() {
             <span>No actions configured. Add a shell command, script, or path above.</span>
           </div>
         ) : (
-          <Reorder.Group
-            axis="y"
-            onReorder={onReorder}
-            className="flex flex-col gap-y-2"
-            values={actions.map(item => item.action)}>
+          <Reorder.Group axis="y" values={actions} onReorder={onReorder} className="flex flex-col gap-y-2">
             {actions.map((item, index) => {
               const isEditing = editingIndex === index;
               return (
@@ -256,10 +262,12 @@ export function ExecuteActions() {
                   className={
                     'group relative flex items-center justify-between gap-x-3 p-2.5 rounded-xl ' +
                     'border border-border/60 bg-surface/70 hover:border-border hover:bg-surface-hover/70 ' +
-                    'transition-colors shadow-2xs'
+                    'shadow-2xs select-none'
                   }
-                  key={item.action}
-                  value={item.action}>
+                  value={item}
+                  onDragEnd={handleDragEnd}
+                  key={item.id || `action-${index}`}
+                  whileDrag={{scale: 1.015, zIndex: 50, boxShadow: '0 8px 20px rgba(0,0,0,0.15)'}}>
                   <div className="flex items-center gap-x-2 min-w-0 flex-1">
                     <div
                       className={

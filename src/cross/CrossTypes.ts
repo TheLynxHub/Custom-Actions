@@ -21,7 +21,7 @@ export type CustomUrlConfig = {
   findLine?: string;
 };
 
-export type CustomExecuteActions = {action: string; type: 'script' | 'exe' | 'open' | 'command'};
+export type CustomExecuteActions = {id?: string; action: string; type: 'script' | 'exe' | 'open' | 'command'};
 
 export type CustomEnvVar = {key: string; value: string};
 

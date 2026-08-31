@@ -114,6 +114,10 @@ const customActionsSlice = createSlice({
           ...action.payload,
           icon: action.payload.icon || 'bot',
           categories: action.payload.categories || {},
+          actions: (action.payload.actions || []).map(a => ({
+            ...a,
+            id: a.id || crypto.randomUUID(),
+          })),
         };
       } else {
         state.editingCard = undefined;
@@ -148,7 +152,9 @@ const customActionsSlice = createSlice({
       }
     },
     setActions: (state, action: PayloadAction<CustomExecuteActions[]>) => {
-      if (state.editingCard) state.editingCard.actions = action.payload;
+      if (state.editingCard) {
+        state.editingCard.actions = action.payload;
+      }
     },
     removeAction: (state, action: PayloadAction<number>) => {
       if (state.editingCard) {
@@ -156,7 +162,13 @@ const customActionsSlice = createSlice({
       }
     },
     addAction: (state, action: PayloadAction<CustomExecuteActions>) => {
-      if (state.editingCard) state.editingCard.actions = [...state.editingCard.actions, action.payload];
+      if (state.editingCard) {
+        const item: CustomExecuteActions = {
+          id: action.payload.id || crypto.randomUUID(),
+          ...action.payload,
+        };
+        state.editingCard.actions = [...state.editingCard.actions, item];
+      }
     },
     updateAction: (state, action: PayloadAction<{index: number; newAction: string}>) => {
       if (state.editingCard && state.editingCard.actions[action.payload.index]) {
@@ -215,7 +227,11 @@ const customActionsSlice = createSlice({
           counter++;
         }
         existingIds.add(newId);
-        return {...card, id: newId, title: newTitle};
+        const actions = (card.actions || []).map(a => ({
+          ...a,
+          id: a.id || crypto.randomUUID(),
+        }));
+        return {...card, id: newId, title: newTitle, actions};
       });
       state.customCards = [...state.customCards, ...newCards];
       state.saveCards = true;
