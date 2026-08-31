@@ -34,7 +34,7 @@ export function CardType() {
             <ListBox.Item id="executable" key="executable" textValue="Executable">
               <div className="flex flex-col">
                 <Label className="flex items-center gap-x-2">
-                  <PlayIcon />
+                  <PlayIcon className="size-4" />
                   Executable
                 </Label>
                 <Description>Run and manage a program</Description>
@@ -45,8 +45,8 @@ export function CardType() {
               <div className="flex flex-col">
                 <Label className="flex items-center gap-x-2">
                   <div className="flex flex-row items-center gap-x-1">
-                    <Terminal_Icon />
-                    <EarthIcon />
+                    <Terminal_Icon className="size-4" />
+                    <EarthIcon className="size-4" />
                   </div>
                   Terminal & Browser
                 </Label>
@@ -57,7 +57,7 @@ export function CardType() {
             <ListBox.Item id="browser" key="browser" textValue="Browser">
               <div className="flex flex-col">
                 <Label className="flex items-center gap-x-2">
-                  <EarthIcon />
+                  <EarthIcon className="size-4" />
                   Browser
                 </Label>
                 <Description>Open a browser with a custom URL.</Description>
@@ -67,7 +67,7 @@ export function CardType() {
             <ListBox.Item id="terminal" key="terminal" textValue="Terminal">
               <div className="flex flex-col">
                 <Label className="flex items-center gap-x-2">
-                  <Terminal_Icon />
+                  <Terminal_Icon className="size-4" />
                   Terminal
                 </Label>
                 <Description>Open a terminal to run custom commands or scripts.</Description>
