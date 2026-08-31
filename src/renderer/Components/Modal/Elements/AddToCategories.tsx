@@ -1,4 +1,5 @@
-import {CheckCircleIcon, PinIcon, StarIcon} from '@solar-icons/react/bold';
+import {Checkbox, CheckboxGroup} from '@heroui/react';
+import {PinIcon, StarIcon} from '@solar-icons/react/bold';
 import {DocumentTextIcon, GalleryIcon, MusicNotesIcon, Widget6Icon} from '@solar-icons/react/bold-duotone';
 import {ReactNode, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -57,50 +58,54 @@ export function AddToCategories() {
   const editingCard = useSelector(selectEditingCard);
   const categories = useMemo(() => editingCard?.categories, [editingCard]);
 
-  const handleCategoryToggle = (id: CustomCategory) => {
-    const currentValue = categories?.[id] || false;
-    dispatch(reducerActions.setCategories({id, value: !currentValue}));
+  const handleCategoryChange = (id: CustomCategory, value: boolean) => {
+    dispatch(reducerActions.setCategories({id, value}));
   };
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+    <CheckboxGroup aria-label="Categories & Placement" className="grid grid-cols-2 sm:grid-cols-3 gap-2">
       {CATEGORIES.map(cat => {
-        const isSelected = categories?.[cat.id] || false;
+        const isSelected = Boolean(categories?.[cat.id]);
         return (
-          <button
-            className={
-              'group flex items-center justify-between p-2.5 rounded-3xl border text-left ' +
-              'transition-all duration-150 cursor-pointer ' +
-              (isSelected
-                ? 'border-accent bg-accent/15 ring-1 ring-accent/30 shadow-xs'
-                : 'border-border/50 bg-surface/50 hover:bg-surface-hover hover:border-border')
-            }
+          <Checkbox
             key={cat.id}
-            type="button"
-            onClick={() => handleCategoryToggle(cat.id)}>
-            <div className="flex items-center gap-x-2.5 min-w-0">
-              <div
-                className={`flex size-7 items-center justify-center rounded-full shrink-0 ${
-                  isSelected ? 'bg-accent/20' : 'bg-surface-tertiary/70'
-                }`}>
-                {cat.icon}
-              </div>
-              <div className="flex flex-col min-w-0">
-                <span className="text-xs font-semibold text-foreground truncate">{cat.name}</span>
-                <span className="text-[10px] text-muted truncate">{cat.desc}</span>
-              </div>
-            </div>
+            value={cat.id}
+            className="w-full"
+            aria-label={cat.name}
+            isSelected={isSelected}
+            onChange={val => handleCategoryChange(cat.id, val)}>
+            {({isSelected: checked}) => (
+              <Checkbox.Content
+                className={
+                  'group flex items-center justify-between p-2.5 rounded-3xl border text-left ' +
+                  'transition-all duration-150 cursor-pointer w-full ' +
+                  (checked
+                    ? 'border-accent bg-accent/15 ring-1 ring-accent/30 shadow-xs'
+                    : 'border-border/50 bg-surface/50 hover:bg-surface-hover hover:border-border')
+                }>
+                <div className="flex items-center gap-x-2.5 min-w-0">
+                  <div
+                    className={`flex size-7 items-center justify-center rounded-full shrink-0 ${
+                      checked ? 'bg-accent/20' : 'bg-surface-tertiary/70'
+                    }`}>
+                    {cat.icon}
+                  </div>
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-xs font-semibold text-foreground truncate">{cat.name}</span>
+                    <span className="text-[10px] text-muted truncate">{cat.desc}</span>
+                  </div>
+                </div>
 
-            <div className="shrink-0 ml-1.5">
-              {isSelected ? (
-                <CheckCircleIcon className="size-4 text-accent animate-in fade-in zoom-in-75 duration-150" />
-              ) : (
-                <div className="size-3.5 rounded-full border border-muted/40 group-hover:border-muted" />
-              )}
-            </div>
-          </button>
+                <div className="shrink-0 ml-1.5">
+                  <Checkbox.Control className="rounded-full before:rounded-full">
+                    <Checkbox.Indicator />
+                  </Checkbox.Control>
+                </div>
+              </Checkbox.Content>
+            )}
+          </Checkbox>
         );
       })}
-    </div>
+    </CheckboxGroup>
   );
 }
