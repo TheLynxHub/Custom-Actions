@@ -233,6 +233,68 @@ const customActionsSlice = createSlice({
       state.customCards = [...state.customCards, ...newCards];
       state.saveCards = true;
     },
+    batchDeleteCards: (state, action: PayloadAction<string[]>) => {
+      const idsToDelete = new Set(action.payload);
+      state.customCards = state.customCards.filter(card => !idsToDelete.has(card.id));
+      if (state.editingCard && idsToDelete.has(state.editingCard.id)) {
+        state.editingCard = undefined;
+        state.view = 'list';
+      }
+      state.saveCards = true;
+    },
+    batchDuplicateCards: (state, action: PayloadAction<string[]>) => {
+      const idsToDuplicate = new Set(action.payload);
+      const duplicatedCards: CustomCard[] = [];
+
+      for (const card of state.customCards) {
+        if (idsToDuplicate.has(card.id)) {
+          const newCard: CustomCard = {
+            ...card,
+            id: crypto.randomUUID(),
+            title: `${card.title} (Copy)`,
+            urlConfig: {...card.urlConfig},
+            categories: {...card.categories},
+            actions: (card.actions || []).map(actionItem => ({
+              ...actionItem,
+              id: crypto.randomUUID(),
+            })),
+            env: card.env ? card.env.map(e => ({...e})) : undefined,
+          };
+          duplicatedCards.push(newCard);
+        }
+      }
+
+      if (duplicatedCards.length > 0) {
+        state.customCards = [...state.customCards, ...duplicatedCards];
+        state.saveCards = true;
+      }
+    },
+    batchSetCategory: (state, action: PayloadAction<{cardIds: string[]; category: CustomCategory; value: boolean}>) => {
+      const targetIds = new Set(action.payload.cardIds);
+      state.customCards = state.customCards.map(card => {
+        if (!targetIds.has(card.id)) return card;
+        const categories = card.categories ? {...card.categories} : {};
+        categories[action.payload.category] = action.payload.value;
+        return {...card, categories};
+      });
+      state.saveCards = true;
+    },
+    batchToggleCategory: (state, action: PayloadAction<{cardIds: string[]; category: CustomCategory}>) => {
+      const targetIds = new Set(action.payload.cardIds);
+      const selectedCards = state.customCards.filter(card => targetIds.has(card.id));
+      if (selectedCards.length === 0) return;
+
+      const allEnabled = selectedCards.every(card => Boolean(card.categories?.[action.payload.category]));
+      const newValue = !allEnabled;
+
+      state.customCards = state.customCards.map(card => {
+        if (!targetIds.has(card.id)) return card;
+        const categories = card.categories ? {...card.categories} : {};
+        categories[action.payload.category] = newValue;
+        return {...card, categories};
+      });
+      state.saveCards = true;
+    },
   },
 });
 

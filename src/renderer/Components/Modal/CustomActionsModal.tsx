@@ -139,6 +139,14 @@ export default function CustomActionsModal({state}: Props) {
     setSelectedCardIds(prev => (prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]));
   };
 
+  const handleSelectAll = useCallback((ids: string[]) => {
+    setSelectedCardIds(ids);
+  }, []);
+
+  const handleClearSelect = useCallback(() => {
+    setSelectedCardIds([]);
+  }, []);
+
   const saveDisabled = useMemo(() => !editingCard?.title || !editingCard.icon, [editingCard]);
 
   const isExistingCard = useMemo(
@@ -240,7 +248,12 @@ export default function CustomActionsModal({state}: Props) {
       {/* Body */}
       <Modal.Body className="overflow-hidden">
         <ScrollShadow className="size-full px-5 py-4 max-h-[72vh]">
-          <CustomActionsManager selectedCardIds={selectedCardIds} onToggleSelect={handleToggleSelectCard} />
+          <CustomActionsManager
+            onSelectAll={handleSelectAll}
+            selectedCardIds={selectedCardIds}
+            onClearSelect={handleClearSelect}
+            onToggleSelect={handleToggleSelectCard}
+          />
         </ScrollShadow>
       </Modal.Body>
 

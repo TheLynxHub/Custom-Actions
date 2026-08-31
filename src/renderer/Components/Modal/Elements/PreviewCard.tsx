@@ -23,7 +23,7 @@ export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Prop
           <span
             className={
               'px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ' +
-              'bg-cyan-500/15 text-cyan-400 border border-cyan-500/15'
+              'bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20'
             }>
             Both
           </span>
@@ -33,7 +33,7 @@ export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Prop
           <span
             className={
               'px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ' +
-              'bg-emerald-500/15 text-emerald-400 border border-emerald-500/15'
+              'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
             }>
             CLI
           </span>
@@ -43,7 +43,7 @@ export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Prop
           <span
             className={
               'px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ' +
-              'bg-accent/15 text-accent border border-accent/15'
+              'bg-accent/15 text-accent border border-accent/20'
             }>
             Web
           </span>
@@ -53,7 +53,7 @@ export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Prop
           <span
             className={
               'px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ' +
-              'bg-amber-500/15 text-amber-400 border border-amber-500/15'
+              'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/20'
             }>
             EXE
           </span>

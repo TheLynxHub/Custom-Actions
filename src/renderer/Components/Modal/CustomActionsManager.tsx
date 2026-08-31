@@ -17,6 +17,7 @@ import {CustomCard, CustomCardType} from '../../../cross/CrossTypes';
 import {reducerActions, selectCustomCards, selectEditingCard, selectView} from '../../reducer';
 import {CardIconById} from '../CardIcons';
 import {AddToCategories} from './Elements/AddToCategories';
+import {BatchActionBar} from './Elements/BatchActionBar';
 import {CardDetails} from './Elements/CardDetails';
 import {CardType} from './Elements/CardType';
 import {EnvConfig} from './Elements/EnvConfig';
@@ -29,11 +30,18 @@ import {UrlConfig} from './Elements/UrlConfig';
 type Props = {
   selectedCardIds?: string[];
   onToggleSelect?: (id: string) => void;
+  onSelectAll?: (ids: string[]) => void;
+  onClearSelect?: () => void;
 };
 
 type FilterCategory = 'all' | 'pinned' | CustomCardType;
 
-export default function CustomActionsManager({selectedCardIds, onToggleSelect}: Props) {
+export default function CustomActionsManager({
+  selectedCardIds = [],
+  onToggleSelect,
+  onSelectAll,
+  onClearSelect,
+}: Props) {
   const dispatch = useDispatch();
 
   const cards = useSelector(selectCustomCards);
@@ -255,6 +263,18 @@ export default function CustomActionsManager({selectedCardIds, onToggleSelect}: 
               })}
             </div>
           )}
+
+          {/* Floating Batch Action Bar */}
+          <AnimatePresence>
+            {selectedCardIds && selectedCardIds.length > 0 && (
+              <BatchActionBar
+                selectedCardIds={selectedCardIds}
+                totalVisibleCount={filteredCards.length}
+                onClearSelection={() => onClearSelect?.()}
+                onSelectAllVisible={() => onSelectAll?.(filteredCards.map(c => c.id))}
+              />
+            )}
+          </AnimatePresence>
         </div>
       ) : (
         /* Form View */
