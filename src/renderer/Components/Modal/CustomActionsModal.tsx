@@ -191,7 +191,7 @@ export default function CustomActionsModal({state}: Props) {
       onOpenChange={state.setOpen}
       dialogClassName="px-0 max-w-5xl"
       isKeyboardDismissDisabled={true}>
-      {view !== 'form' && <Modal.CloseTrigger />}
+      <Modal.CloseTrigger />
 
       {/* Header */}
       <Modal.Header className="flex-row items-center gap-x-3 px-5">
