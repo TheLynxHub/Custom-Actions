@@ -1,6 +1,6 @@
 import {Button} from '@heroui/react';
 import filesIpc from '@lynx_shared/ipc/files';
-import {CodeIcon} from '@solar-icons/react/bold-duotone';
+import {Code2Icon} from '@solar-icons/react/bold-duotone';
 import {useState} from 'react';
 import {useDispatch} from 'react-redux';
 
@@ -8,7 +8,6 @@ import {reducerActions} from '../../../reducer';
 
 export function AddScript() {
   const dispatch = useDispatch();
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleAdd = () => {
@@ -27,9 +26,14 @@ export function AddScript() {
   };
 
   return (
-    <Button onPress={handleAdd} isPending={isLoading} fullWidth>
-      <CodeIcon />
-      Add Script
+    <Button
+      size="sm"
+      onPress={handleAdd}
+      variant="secondary"
+      isPending={isLoading}
+      className="bg-surface shadow-surface hover:bg-surface/50">
+      <Code2Icon className="size-4 text-accent" />
+      Run Script File
     </Button>
   );
 }

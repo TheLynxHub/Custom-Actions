@@ -1,7 +1,6 @@
-import {Button, Input, TextArea} from '@heroui/react';
+import {Input, Label, TextField} from '@heroui/react';
 import {useEffect, useRef, useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {reducerActions, selectEditingCard} from '../../../reducer';
 import {CardIconById, CardIconsList} from '../../CardIcons';
@@ -40,6 +39,7 @@ export function CardDetails() {
       dispatch(reducerActions.setTitle(title));
     }, 150);
   }, [title]);
+
   useEffect(() => {
     if (isFirstDescRender.current) {
       isFirstDescRender.current = false;
@@ -53,38 +53,69 @@ export function CardDetails() {
     }, 150);
   }, [desc]);
 
-  return (
-    <div className="flex flex-col gap-y-4">
-      <div className="md:col-span-2 space-y-4">
-        <Input
-          value={title || ''}
-          placeholder="Card Title (required)"
-          onChange={e => setTitle(e.target.value)}
-          fullWidth
-        />
+  const selectedIcon = editingCard?.icon || 'star';
 
-        <TextArea
-          value={desc || ''}
-          onChange={e => setDesc(e.target.value)}
-          placeholder="Card Description (optional)"
-          fullWidth
-        />
+  return (
+    <div className="flex flex-col gap-y-3.5">
+      {/* Title & Description Inputs */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <TextField value={title} onChange={setTitle} isRequired>
+          <Label className="text-xs font-semibold text-foreground flex items-center justify-between">
+            <span>Action Title</span>
+            <span className="text-[10px] text-muted font-normal">Required</span>
+          </Label>
+          <Input placeholder="e.g. Start Dev Server" fullWidth />
+        </TextField>
+
+        <TextField value={desc} onChange={setDesc}>
+          <Label className="text-xs font-semibold text-foreground flex items-center justify-between">
+            <span>Description</span>
+            <span className="text-[10px] text-muted font-normal">Optional</span>
+          </Label>
+          <Input placeholder="Optional short summary..." fullWidth />
+        </TextField>
       </div>
-      <div className="flex flex-col items-start justify-center gap-y-4">
-        <div className="flex flex-row flex-wrap gap-2">
+
+      {/* Icon Picker Section */}
+      <div className="flex flex-col gap-y-2 pt-1">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-semibold text-foreground">Icon</span>
+          <div
+            className={
+              'flex items-center gap-1.5 px-2 py-0.5 rounded-full ' + 'bg-surface-tertiary border border-border/50'
+            }>
+            <div className="size-3.5 shrink-0 flex items-center justify-center">
+              {CardIconById(selectedIcon)({className: 'size-full'})}
+            </div>
+            <span className="font-semibold text-foreground capitalize text-[11px]">{selectedIcon}</span>
+          </div>
+        </div>
+
+        {/* Compact Icon Strip */}
+        <div
+          className={
+            'flex flex-wrap justify-center items-center gap-1.5 p-3 rounded-3xl bg-surface/40 border border-border/30'
+          }>
           {CardIconsList.map(icon => {
-            const Target = CardIconById(icon);
-            const isSelected = editingCard?.icon === icon;
+            const isSelected = selectedIcon === icon;
             return (
-              <Button
-                size="lg"
+              <button
+                className={
+                  'flex size-13.5 shrink-0 items-center justify-center rounded-full border ' +
+                  'transition-all duration-150 cursor-pointer ' +
+                  (isSelected
+                    ? 'border-accent bg-accent/20 ring-1 ring-accent text-accent shadow-xs scale-105'
+                    : 'border-border/40 bg-surface/60 hover:bg-surface-hover hover:border-border ' +
+                      'text-muted hover:text-foreground shadow-surface')
+                }
                 key={icon}
-                variant={'ghost'}
-                onPress={() => changeIcon(icon)}
-                className={`size-20 ${isSelected ? 'bg-accent-soft-hover' : ''}`}
-                isIconOnly>
-                <Target className="size-14" />
-              </Button>
+                title={icon}
+                type="button"
+                onClick={() => changeIcon(icon)}>
+                <div className="size-7 flex items-center justify-center">
+                  {CardIconById(icon)({className: 'size-full'})}
+                </div>
+              </button>
             );
           })}
         </div>

@@ -1,6 +1,6 @@
 import {Button} from '@heroui/react';
 import filesIpc from '@lynx_shared/ipc/files';
-import {PlayIcon} from '@solar-icons/react/bold';
+import {PlayCircleIcon} from '@solar-icons/react/bold';
 import {useState} from 'react';
 import {useDispatch} from 'react-redux';
 
@@ -8,7 +8,6 @@ import {reducerActions} from '../../../reducer';
 
 export function AddExe() {
   const dispatch = useDispatch();
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleAdd = () => {
@@ -20,9 +19,14 @@ export function AddExe() {
   };
 
   return (
-    <Button onPress={handleAdd} isPending={isLoading} fullWidth>
-      <PlayIcon />
-      Add Executable
+    <Button
+      size="sm"
+      onPress={handleAdd}
+      variant="secondary"
+      isPending={isLoading}
+      className="bg-surface shadow-surface hover:bg-surface/50">
+      <PlayCircleIcon className="size-4 text-amber-400" />
+      Choose Program (.exe)
     </Button>
   );
 }

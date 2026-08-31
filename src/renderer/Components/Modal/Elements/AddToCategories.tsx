@@ -1,91 +1,106 @@
-import {Checkbox} from '@heroui/react';
-import {useMemo} from 'react';
-import {useDispatch} from 'react-redux';
-import {useSelector} from 'react-redux';
+import {CheckCircleIcon, PinIcon, StarIcon} from '@solar-icons/react/bold';
+import {DocumentTextIcon, GalleryIcon, MusicNotesIcon, Widget6Icon} from '@solar-icons/react/bold-duotone';
+import {ReactNode, useMemo} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {CustomCategory} from '../../../../cross/CrossTypes';
 import {reducerActions, selectEditingCard} from '../../../reducer';
 
+type CategoryItem = {
+  id: CustomCategory;
+  name: string;
+  desc: string;
+  icon: ReactNode;
+};
+
+const CATEGORIES: CategoryItem[] = [
+  {
+    id: 'pinned',
+    name: 'Pinned',
+    desc: 'Top of home workspace',
+    icon: <PinIcon className="size-4 text-amber-400" />,
+  },
+  {
+    id: 'recentlyUsed',
+    name: 'Recently Used',
+    desc: 'Quick access history',
+    icon: <StarIcon className="size-4 text-accent" />,
+  },
+  {
+    id: 'all',
+    name: 'All Categories',
+    desc: 'Included in global list',
+    icon: <Widget6Icon className="size-4 text-purple-400" />,
+  },
+  {
+    id: 'image',
+    name: 'Image Gen',
+    desc: 'Image tools page',
+    icon: <GalleryIcon className="size-4 text-cyan-400" />,
+  },
+  {
+    id: 'text',
+    name: 'Text Gen',
+    desc: 'Text & LLM tools page',
+    icon: <DocumentTextIcon className="size-4 text-emerald-400" />,
+  },
+  {
+    id: 'audio',
+    name: 'Audio Gen',
+    desc: 'Audio & speech tools page',
+    icon: <MusicNotesIcon className="size-4 text-pink-400" />,
+  },
+];
+
 export function AddToCategories() {
   const dispatch = useDispatch();
-
   const editingCard = useSelector(selectEditingCard);
   const categories = useMemo(() => editingCard?.categories, [editingCard]);
 
-  const handleCategoryChange = (id: CustomCategory, value: boolean) => {
-    dispatch(reducerActions.setCategories({id, value}));
+  const handleCategoryToggle = (id: CustomCategory) => {
+    const currentValue = categories?.[id] || false;
+    dispatch(reducerActions.setCategories({id, value: !currentValue}));
   };
 
   return (
-    <div className="grid grid-cols-3 gap-4">
-      <Checkbox
-        id="pinned"
-        isSelected={categories?.pinned || false}
-        onChange={value => handleCategoryChange('pinned', value)}>
-        <Checkbox.Content>
-          <Checkbox.Control>
-            <Checkbox.Indicator />
-          </Checkbox.Control>
-          Pinned
-        </Checkbox.Content>
-      </Checkbox>
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      {CATEGORIES.map(cat => {
+        const isSelected = categories?.[cat.id] || false;
+        return (
+          <button
+            className={
+              'group flex items-center justify-between p-2.5 rounded-3xl border text-left ' +
+              'transition-all duration-150 cursor-pointer ' +
+              (isSelected
+                ? 'border-accent bg-accent/15 ring-1 ring-accent/30 shadow-xs'
+                : 'border-border/50 bg-surface/50 hover:bg-surface-hover hover:border-border')
+            }
+            key={cat.id}
+            type="button"
+            onClick={() => handleCategoryToggle(cat.id)}>
+            <div className="flex items-center gap-x-2.5 min-w-0">
+              <div
+                className={`flex size-7 items-center justify-center rounded-full shrink-0 ${
+                  isSelected ? 'bg-accent/20' : 'bg-surface-tertiary/70'
+                }`}>
+                {cat.icon}
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs font-semibold text-foreground truncate">{cat.name}</span>
+                <span className="text-[10px] text-muted truncate">{cat.desc}</span>
+              </div>
+            </div>
 
-      <Checkbox
-        id="recentlyUsed"
-        isSelected={categories?.recentlyUsed || false}
-        onChange={value => handleCategoryChange('recentlyUsed', value)}>
-        <Checkbox.Content>
-          <Checkbox.Control>
-            <Checkbox.Indicator />
-          </Checkbox.Control>
-          Recently Used
-        </Checkbox.Content>
-      </Checkbox>
-
-      <Checkbox id="all" isSelected={categories?.all || false} onChange={value => handleCategoryChange('all', value)}>
-        <Checkbox.Content>
-          <Checkbox.Control>
-            <Checkbox.Indicator />
-          </Checkbox.Control>
-          All
-        </Checkbox.Content>
-      </Checkbox>
-
-      <Checkbox
-        id="image"
-        isSelected={categories?.image || false}
-        onChange={value => handleCategoryChange('image', value)}>
-        <Checkbox.Content>
-          <Checkbox.Control>
-            <Checkbox.Indicator />
-          </Checkbox.Control>
-          Image Generation
-        </Checkbox.Content>
-      </Checkbox>
-
-      <Checkbox
-        id="text"
-        isSelected={categories?.text || false}
-        onChange={value => handleCategoryChange('text', value)}>
-        <Checkbox.Content>
-          <Checkbox.Control>
-            <Checkbox.Indicator />
-          </Checkbox.Control>
-          Text Generation
-        </Checkbox.Content>
-      </Checkbox>
-
-      <Checkbox
-        id="audio"
-        isSelected={categories?.audio || false}
-        onChange={value => handleCategoryChange('audio', value)}>
-        <Checkbox.Content>
-          <Checkbox.Control>
-            <Checkbox.Indicator />
-          </Checkbox.Control>
-          Audio Generation
-        </Checkbox.Content>
-      </Checkbox>
+            <div className="shrink-0 ml-1.5">
+              {isSelected ? (
+                <CheckCircleIcon className="size-4 text-accent animate-in fade-in zoom-in-75 duration-150" />
+              ) : (
+                <div className="size-3.5 rounded-full border border-muted/40 group-hover:border-muted" />
+              )}
+            </div>
+          </button>
+        );
+      })}
     </div>
   );
 }

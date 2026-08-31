@@ -32,38 +32,51 @@ export function EnvConfig() {
   };
 
   return (
-    <div className="flex flex-col gap-y-4">
-      {env.length > 0 && (
+    <div className="flex flex-col gap-y-3">
+      {env.length > 0 ? (
         <div className="flex flex-col gap-y-2">
           {env.map((item, index) => (
             <div key={index} className="flex items-center gap-x-2 w-full">
               <Input
                 value={item.key}
-                className="w-1/3"
-                placeholder="KEY (e.g., PORT)"
+                placeholder="KEY"
+                className="w-2/5 sm:w-1/3 font-JetBrainsMono text-xs"
                 onChange={e => handleUpdate(index, e.target.value, item.value)}
               />
+              <span className="text-muted text-xs font-mono font-bold">=</span>
               <Input
                 value={item.value}
-                className="flex-1"
                 placeholder="VALUE"
+                className="flex-1 font-JetBrainsMono text-xs"
                 onChange={e => handleUpdate(index, item.key, e.target.value)}
               />
-              <Button size="sm" variant="danger-soft" onPress={() => handleRemove(index)} isIconOnly>
-                <TrashBin2Icon className="size-4" />
+              <Button
+                size="sm"
+                variant="danger-soft"
+                aria-label="Remove variable"
+                onPress={() => handleRemove(index)}
+                isIconOnly>
+                <TrashBin2Icon className="size-3.5 text-danger" />
               </Button>
             </div>
           ))}
         </div>
+      ) : (
+        <div
+          className={'p-3 rounded-3xl border border-border border-dashed bg-surface/70 text-center text-xs text-muted'}>
+          No custom environment variables added.
+        </div>
       )}
 
-      <div className="flex items-center gap-x-2 w-full">
+      {/* Add New Variable Row */}
+      <div className="flex items-center gap-x-2 w-full pt-2 border-t border-border/40">
         <Input
           value={newKey}
-          className="w-1/3"
-          placeholder="New Key (e.g., NODE_ENV)"
+          placeholder="NEW_KEY (e.g. PORT)"
           onChange={e => setNewKey(e.target.value)}
+          className="w-2/5 sm:w-1/3 font-JetBrainsMono text-xs"
         />
+        <span className="text-muted text-xs font-mono font-bold">=</span>
         <Input
           onKeyDown={e => {
             if (e.key === 'Enter') {
@@ -72,12 +85,19 @@ export function EnvConfig() {
             }
           }}
           value={newValue}
-          className="flex-1"
-          placeholder="Value (e.g., production)"
+          placeholder="value (e.g. 8080)"
           onChange={e => setNewValue(e.target.value)}
+          className="flex-1 font-JetBrainsMono text-xs"
         />
-        <Button size="sm" variant="tertiary" onPress={handleAdd} isIconOnly>
+        <Button
+          size="sm"
+          variant="secondary"
+          onPress={handleAdd}
+          isDisabled={!newKey.trim()}
+          aria-label="Add environment variable"
+          className="bg-surface shadow-surface hover:bg-surface-secondary">
           <Plus className="size-4" />
+          Add
         </Button>
       </div>
     </div>

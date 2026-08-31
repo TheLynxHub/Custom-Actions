@@ -8,11 +8,11 @@ import {
   ExportIcon,
   ImportIcon,
   TrashBin2Icon,
+  Widget6Icon,
 } from '@solar-icons/react/bold-duotone';
 import {ArrowLeftIcon} from '@solar-icons/react/line-duotone';
-import {useEffect, useMemo, useRef, useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {useSelector} from 'react-redux';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {customActionsChannels} from '../../../cross/CrossUtils';
 import {reducerActions, selectCustomCards, selectEditingCard, selectView} from '../../reducer';
@@ -131,43 +131,40 @@ export default function CustomActionsModal({state}: Props) {
     setSelectedCardIds(prev => (prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]));
   };
 
-  const formTitle = useMemo(
-    () =>
-      view === 'list'
-        ? 'Custom Actions'
-        : editingCard
-          ? `Editing ${editingCard.title || 'New Card'}`
-          : 'Create New Custom Card',
-    [editingCard, view],
-  );
-
   const saveDisabled = useMemo(() => !editingCard?.title || !editingCard.icon, [editingCard]);
 
-  const handleBackToList = () => {
+  const handleBackToList = useCallback(() => {
     dispatch(reducerActions.setView('list'));
     dispatch(reducerActions.setEditingCard(undefined));
-  };
+  }, [dispatch]);
 
-  const saveCard = () => {
+  const saveCard = useCallback(() => {
+    if (saveDisabled) return;
     dispatch(reducerActions.saveCard());
     toastHolder?.top.success('Card saved successfully!');
-  };
+  }, [dispatch, saveDisabled]);
+
   const deleteCard = () => dispatch(reducerActions.removeCard());
 
   useEffect(() => {
-    const onKeyUp = (e: KeyboardEvent) => {
+    const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         if (view === 'form') {
           handleBackToList();
         } else {
           state.close();
         }
+      } else if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        if (view === 'form') {
+          e.preventDefault();
+          saveCard();
+        }
       }
     };
 
-    document.addEventListener('keyup', onKeyUp);
-    return () => document.removeEventListener('keyup', onKeyUp);
-  }, [handleBackToList, view, state]);
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [handleBackToList, saveCard, view, state]);
 
   const prevIsOpen = useRef(state.isOpen);
 
@@ -191,56 +188,97 @@ export default function CustomActionsModal({state}: Props) {
   return (
     <TabModal
       isOpen={state.isOpen}
-      dialogClassName="px-0"
       onOpenChange={state.setOpen}
+      dialogClassName="px-0 max-w-5xl"
       isKeyboardDismissDisabled={true}>
       {view !== 'form' && <Modal.CloseTrigger />}
-      <Modal.Header className="flex-row items-center gap-x-2 px-4">
-        <div className="w-10 h-10 flex items-center justify-center">
-          {view === 'form' && (
-            <Button variant="ghost" onPress={handleBackToList} isIconOnly>
-              <ArrowLeftIcon className="size-5" />
-            </Button>
-          )}
-        </div>
 
-        <Modal.Heading>{formTitle}</Modal.Heading>
+      {/* Header */}
+      <Modal.Header className="flex-row items-center gap-x-3 px-5">
+        {view === 'form' ? (
+          <div className="flex items-center gap-x-3 w-full">
+            <Button size="sm" variant="ghost" onPress={handleBackToList} aria-label="Back to Actions (Esc)" isIconOnly>
+              <ArrowLeftIcon className="size-4.5" />
+            </Button>
+            <div className="flex items-center gap-x-2 text-sm font-semibold">
+              <span
+                onClick={handleBackToList}
+                className="text-muted hover:text-foreground cursor-pointer transition-colors">
+                Custom Actions
+              </span>
+              <span className="text-muted/50">/</span>
+              <span className="text-foreground truncate max-w-md">
+                {editingCard?.id && editingCard.id !== 'temp'
+                  ? `Edit "${editingCard.title || 'Untitled'}"`
+                  : 'Create New Action'}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-x-2.5">
+            <div className="size-8 text-accent flex items-center justify-center">
+              <Widget6Icon className="size-5" />
+            </div>
+            <div className="flex flex-col">
+              <Modal.Heading className="text-sm font-bold text-foreground">Custom Actions</Modal.Heading>
+            </div>
+          </div>
+        )}
       </Modal.Header>
 
+      {/* Body */}
       <Modal.Body className="overflow-hidden">
-        <ScrollShadow className="size-full px-4">
+        <ScrollShadow className="size-full px-5 py-4 max-h-[72vh]">
           <CustomActionsManager selectedCardIds={selectedCardIds} onToggleSelect={handleToggleSelectCard} />
         </ScrollShadow>
       </Modal.Body>
 
-      <Modal.Footer className="justify-between px-4">
+      {/* Footer */}
+      <Modal.Footer className="justify-between px-5">
         {view === 'form' ? (
-          <>
-            <Button onPress={deleteCard} variant="danger-soft">
-              <TrashBin2Icon />
-              Delete
-            </Button>
-            <div className="flex flex-row items-center gap-x-2">
-              <Button onPress={saveCard} isDisabled={saveDisabled}>
-                <DisketteIcon />
-                Save Card
+          <div className="flex items-center justify-between w-full">
+            {editingCard?.id && editingCard.id !== 'temp' ? (
+              <Button size="md" onPress={deleteCard} variant="danger-soft">
+                <TrashBin2Icon className="size-4 text-danger" />
+                Delete Action
               </Button>
-              <Button variant="secondary" onPress={handleBackToList}>
+            ) : (
+              <div />
+            )}
+            <div className="flex items-center gap-x-2">
+              <Button size="md" variant="secondary" onPress={handleBackToList}>
                 Cancel
               </Button>
+              <Button size="md" onPress={saveCard} isDisabled={saveDisabled}>
+                <DisketteIcon className="size-4" />
+                Save Action
+              </Button>
             </div>
-          </>
+          </div>
         ) : (
           <div className="flex flex-row justify-between items-center w-full">
-            <span className="text-xs text-muted">
-              {customCards.length} card{customCards.length !== 1 ? 's' : ''} configured
-              {selectedCardIds.length > 0 && ` (${selectedCardIds.length} selected)`}
-            </span>
-            <div className="flex flex-row items-center gap-x-2">
+            <div className="flex items-center gap-x-2">
+              <span className="text-xs font-mono text-muted">
+                {customCards.length} action{customCards.length !== 1 ? 's' : ''}
+              </span>
+              {selectedCardIds.length > 0 && (
+                <span className="text-xs px-2 py-0.5 rounded-full bg-accent/15 text-accent font-semibold">
+                  {selectedCardIds.length} selected
+                </span>
+              )}
+            </div>
+
+            <div className="flex items-center gap-x-2">
+              {selectedCardIds.length > 0 && (
+                <Button size="sm" variant="ghost" onPress={() => setSelectedCardIds([])}>
+                  Clear Selection
+                </Button>
+              )}
+
               <Dropdown>
                 <Dropdown.Trigger>
                   <Button size="sm" variant="secondary">
-                    <ImportIcon className="size-4 text-cyan-500" />
+                    <ImportIcon className="size-4 text-accent" />
                     Manage Cards
                   </Button>
                 </Dropdown.Trigger>
@@ -277,7 +315,7 @@ export default function CustomActionsModal({state}: Props) {
                       <ClipboardIcon className="size-4 shrink-0 text-muted" />
                       <Label>Import from Clipboard</Label>
                     </Dropdown.Item>
-                    <Dropdown.Item id="import-file" textValue="Import from File">
+                    <Dropdown.Item id="import-file" textValue="Import from JSON File">
                       <ImportIcon className="size-4 shrink-0 text-muted" />
                       <Label>Import from File</Label>
                     </Dropdown.Item>
@@ -285,7 +323,7 @@ export default function CustomActionsModal({state}: Props) {
                       <CopyIcon className="size-4 shrink-0 text-muted" />
                       <Label>Export All to Clipboard</Label>
                     </Dropdown.Item>
-                    <Dropdown.Item id="export-file-all" textValue="Export All to File">
+                    <Dropdown.Item id="export-file-all" textValue="Export All to JSON File">
                       <ExportIcon className="size-4 shrink-0 text-muted" />
                       <Label>Export All to File</Label>
                     </Dropdown.Item>

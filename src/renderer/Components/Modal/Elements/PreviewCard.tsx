@@ -1,5 +1,6 @@
-import {Card, Checkbox} from '@heroui/react';
-import {motion} from 'framer-motion';
+import {Checkbox} from '@heroui/react';
+import {PinIcon, StarIcon} from '@solar-icons/react/bold';
+import {PenIcon} from '@solar-icons/react/bold-duotone';
 import {ReactNode} from 'react';
 
 import {CustomCard} from '../../../../cross/CrossTypes';
@@ -9,30 +10,152 @@ type Props = {
   handleEdit: (card: CustomCard) => void;
   icon: ReactNode;
   isSelected?: boolean;
-  onSelect?: (checked: boolean) => void;
+  onSelect?: () => void;
 };
 
 export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Props) {
+  const {title, description, cardType, actions, categories, urlConfig} = card;
+
+  const getTypeBadge = () => {
+    switch (cardType) {
+      case 'terminal_browser':
+        return (
+          <span
+            className={
+              'px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ' +
+              'bg-cyan-500/15 text-cyan-400 border border-cyan-500/15'
+            }>
+            Both
+          </span>
+        );
+      case 'terminal':
+        return (
+          <span
+            className={
+              'px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ' +
+              'bg-emerald-500/15 text-emerald-400 border border-emerald-500/15'
+            }>
+            CLI
+          </span>
+        );
+      case 'browser':
+        return (
+          <span
+            className={
+              'px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ' +
+              'bg-accent/15 text-accent border border-accent/15'
+            }>
+            Web
+          </span>
+        );
+      case 'executable':
+        return (
+          <span
+            className={
+              'px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ' +
+              'bg-amber-500/15 text-amber-400 border border-amber-500/15'
+            }>
+            EXE
+          </span>
+        );
+    }
+  };
+
+  const getSummary = () => {
+    if (actions.length > 0) {
+      return `${actions.length} step${actions.length !== 1 ? 's' : ''}`;
+    }
+    if (urlConfig.customUrl) {
+      return urlConfig.customUrl.replace(/^https?:\/\//, '');
+    }
+    return '1 action';
+  };
+
   return (
-    <motion.div className="relative" transition={{duration: 0.2}} whileHover={{y: -2, scale: 1.02}}>
-      <Card
-        variant="secondary"
-        onClick={() => handleEdit(card)}
-        className="w-42.5 h-37.5 cursor-pointer items-center justify-center group transition duration-200">
-        <div className="flex size-[3.3rem] items-center justify-center shrink-0">{icon}</div>
-        <p className="font-semibold text-center px-2">{card.title}</p>
-      </Card>
-      {onSelect && (
-        <div onClick={e => e.stopPropagation()} className="absolute top-2 right-2 z-10">
-          <Checkbox onChange={onSelect} isSelected={isSelected} aria-label={`Select ${card.title}`}>
-            <Checkbox.Content>
-              <Checkbox.Control>
-                <Checkbox.Indicator />
-              </Checkbox.Control>
-            </Checkbox.Content>
-          </Checkbox>
+    <div
+      className={
+        'group relative flex flex-col justify-between p-3.5 rounded-3xl border ' +
+        'transition-all duration-200 cursor-pointer min-h-40 ' +
+        (isSelected
+          ? 'border-accent bg-accent/10 shadow-sm ring-1 ring-accent/30'
+          : 'border-border/70 bg-surface/75 hover:bg-surface/90 hover:border-accent/30 hover:shadow-md')
+      }
+      onClick={() => handleEdit(card)}>
+      {/* Header */}
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex items-center gap-x-2.5 min-w-0">
+          <div
+            className={
+              'flex size-9 shrink-0 items-center justify-center rounded-full ' +
+              'bg-surface-tertiary/80 p-1.5 ring-1 ring-border/50 group-hover:ring-accent/40 ' +
+              'group-hover:bg-accent/15 transition-all'
+            }>
+            <div className="size-5.5">{icon}</div>
+          </div>
+          <div className="flex flex-col min-w-0">
+            <span className="text-xs font-bold text-foreground group-hover:text-accent transition-colors truncate">
+              {title || 'Untitled Action'}
+            </span>
+            <span className="text-[10px] font-mono text-muted truncate">{getSummary()}</span>
+          </div>
         </div>
-      )}
-    </motion.div>
+
+        <div onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 shrink-0">
+          {getTypeBadge()}
+          {onSelect && (
+            <div className="size-5 flex items-center justify-center">
+              <Checkbox
+                variant="secondary"
+                onChange={onSelect}
+                isSelected={isSelected}
+                aria-label={`Select ${title}`}
+                className={isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 transition-opacity'}>
+                <Checkbox.Content>
+                  <Checkbox.Control className="rounded-full size-4.5">
+                    <Checkbox.Indicator />
+                  </Checkbox.Control>
+                </Checkbox.Content>
+              </Checkbox>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Description */}
+      <p className="text-xs text-muted line-clamp-2 leading-relaxed my-2">
+        {description || 'No description provided.'}
+      </p>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between gap-2 pt-2 border-t border-border/40 text-[10px] text-muted">
+        <div className="flex items-center gap-1.5 overflow-hidden">
+          {categories?.pinned && (
+            <span
+              className={
+                'flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-semibold'
+              }>
+              <PinIcon className="size-2.5" />
+              Pinned
+            </span>
+          )}
+          {categories?.recentlyUsed && (
+            <span
+              className={'flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-accent/10 text-accent font-semibold'}>
+              <StarIcon className="size-2.5" />
+              Recent
+            </span>
+          )}
+        </div>
+
+        <div
+          className={
+            'flex items-center gap-1 shrink-0 opacity-0 ' + 'group-hover:opacity-100 transition-opacity text-foreground'
+          }>
+          <span className="flex items-center gap-1 text-[11px] font-semibold text-accent">
+            <PenIcon className="size-3" />
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }
