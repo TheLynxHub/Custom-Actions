@@ -1,7 +1,14 @@
-import {formatWebAddress} from '@lynx_common/utils';
+import {formatLocalPathToUrl, formatWebAddress} from '@lynx_common/utils';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-import {CustomCard, CustomCardType, CustomCategory, CustomEnvVar, CustomExecuteActions} from '../cross/CrossTypes';
+import {
+  CustomCard,
+  CustomCardType,
+  CustomCategory,
+  CustomEnvVar,
+  CustomExecuteActions,
+  CustomUrlConfigType,
+} from '../cross/CrossTypes';
 
 export type UrlCatchingSession = {
   ptyId: string;
@@ -63,7 +70,11 @@ const customActionsSlice = createSlice({
 
       let targetUrl = targetCard.urlConfig.customUrl;
       if (targetUrl) {
-        targetUrl = formatWebAddress(targetUrl);
+        if (targetCard.urlConfig.type === 'htmlFile') {
+          targetUrl = formatLocalPathToUrl(targetUrl);
+        } else {
+          targetUrl = formatWebAddress(targetUrl);
+        }
         targetCard.urlConfig.customUrl = targetUrl;
       }
 
@@ -103,7 +114,7 @@ const customActionsSlice = createSlice({
     setEditingCard: (state, action: PayloadAction<CustomCard | undefined>) => {
       state.editingCard = action.payload;
     },
-    setUrlConfigType: (state, action: PayloadAction<'custom' | 'findLine' | 'nothing'>) => {
+    setUrlConfigType: (state, action: PayloadAction<CustomUrlConfigType>) => {
       if (state.editingCard) state.editingCard.urlConfig.type = action.payload;
     },
     setCustomUrl: (state, action: PayloadAction<string>) => {

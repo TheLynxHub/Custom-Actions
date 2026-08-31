@@ -1,6 +1,8 @@
 import {Button, ButtonGroup, Description, Input, Label, NumberField, Separator, TextField} from '@heroui/react';
+import filesIpc from '@lynx_shared/ipc/files';
+import {FolderOpenIcon} from '@solar-icons/react/bold-duotone';
 import {AnimatePresence, motion} from 'framer-motion';
-import {useMemo} from 'react';
+import {useMemo, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 
@@ -10,6 +12,7 @@ import {reducerActions, selectEditingCard} from '../../../reducer';
 export function UrlConfig() {
   const dispatch = useDispatch();
   const editingCard = useSelector(selectEditingCard);
+  const [isSelectingFile, setIsSelectingFile] = useState(false);
 
   const urlConfigType = useMemo(() => editingCard?.urlConfig.type || 'nothing', [editingCard]);
   const customUrl = useMemo(() => editingCard?.urlConfig.customUrl, [editingCard]);
@@ -22,6 +25,24 @@ export function UrlConfig() {
   const setOpenImmediately = (value: boolean) => dispatch(reducerActions.setOpenImmediately(value));
   const setTimeoutValue = (value: number) => dispatch(reducerActions.setTimeoutValue(value));
   const setFindLine = (value: string) => dispatch(reducerActions.setFindLine(value));
+
+  const handleSelectHtmlFile = () => {
+    setIsSelectingFile(true);
+    filesIpc
+      .openDlg({
+        properties: ['openFile'],
+        filters: [
+          {name: 'HTML Files', extensions: ['html', 'htm']},
+          {name: 'All Files', extensions: ['*']},
+        ],
+      })
+      .then(action => {
+        if (action) {
+          setCustomUrl(action);
+        }
+        setIsSelectingFile(false);
+      });
+  };
 
   return (
     <div className="flex flex-col gap-y-3">
@@ -36,6 +57,11 @@ export function UrlConfig() {
           onPress={() => setUrlConfigType('custom')}
           variant={urlConfigType === 'custom' ? 'primary' : 'secondary'}>
           Custom URL
+        </Button>
+        <Button
+          onPress={() => setUrlConfigType('htmlFile')}
+          variant={urlConfigType === 'htmlFile' ? 'primary' : 'secondary'}>
+          HTML File
         </Button>
         <Button
           onPress={() => setUrlConfigType('findLine')}
@@ -57,6 +83,62 @@ export function UrlConfig() {
               <Input placeholder="Enter custom URL (e.g., http://localhost:7860)" />
               <Description>Specify the exact URL to open in the browser</Description>
             </TextField>
+            <div className="flex items-center gap-x-4 w-full">
+              <span className="text-sm text-muted shrink-0">Open URL:</span>
+              <div className="flex items-center space-x-2">
+                <Button
+                  size="sm"
+                  onPress={() => setOpenImmediately(true)}
+                  variant={openImmediately ? 'primary' : 'secondary'}>
+                  Immediately
+                </Button>
+                <Button
+                  size="sm"
+                  onPress={() => setOpenImmediately(false)}
+                  variant={openImmediately ? 'secondary' : 'primary'}>
+                  After Timeout (Seconds)
+                </Button>
+              </div>
+              {!openImmediately && (
+                <NumberField minValue={1} maxValue={999} value={timeout} onChange={setTimeoutValue} fullWidth>
+                  <NumberField.Group>
+                    <NumberField.DecrementButton />
+                    <NumberField.Input />
+                    <NumberField.IncrementButton />
+                  </NumberField.Group>
+                </NumberField>
+              )}
+            </div>
+          </motion.div>
+        )}
+
+        {urlConfigType === 'htmlFile' && (
+          <motion.div
+            exit={{opacity: 0, height: 0}}
+            initial={{opacity: 0, height: 0}}
+            className="flex flex-col gap-y-3"
+            animate={{opacity: 1, height: 'auto'}}>
+            <Separator />
+            <div className="flex flex-col gap-y-1.5">
+              <Label className="text-sm font-medium">HTML File</Label>
+              <div className="flex items-center gap-x-2 w-full">
+                <Input
+                  value={customUrl || ''}
+                  onChange={e => setCustomUrl(e.target.value)}
+                  placeholder="Select or enter path to HTML file..."
+                  fullWidth
+                />
+                <Button
+                  variant="secondary"
+                  className="shrink-0"
+                  isPending={isSelectingFile}
+                  onPress={handleSelectHtmlFile}>
+                  <FolderOpenIcon />
+                  Browse
+                </Button>
+              </div>
+              <Description>Specify the local HTML file to open in the app browser tab</Description>
+            </div>
             <div className="flex items-center gap-x-4 w-full">
               <span className="text-sm text-muted shrink-0">Open URL:</span>
               <div className="flex items-center space-x-2">

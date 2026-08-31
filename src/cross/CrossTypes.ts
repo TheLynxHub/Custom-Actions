@@ -11,7 +11,7 @@ export type CustomCategory = keyof CustomCategories;
 
 export type CustomCardType = 'executable' | 'browser' | 'terminal' | 'terminal_browser';
 
-export type CustomUrlConfigType = 'custom' | 'findLine' | 'nothing';
+export type CustomUrlConfigType = 'custom' | 'findLine' | 'nothing' | 'htmlFile';
 
 export type CustomUrlConfig = {
   type: CustomUrlConfigType;

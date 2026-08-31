@@ -3,6 +3,7 @@ import {ToolsCard} from '@lynx/components/ToolsCard';
 import {cardsActions} from '@lynx/redux/reducers/cards';
 import {useTabsState} from '@lynx/redux/reducers/tabs';
 import {SvgProps} from '@lynx_assets/icons/types';
+import {formatLocalPathToUrl} from '@lynx_common/utils';
 import filesIpc from '@lynx_shared/ipc/files';
 import ptyIpc from '@lynx_shared/ipc/pty';
 import {PenIcon} from '@solar-icons/react/bold-duotone';
@@ -36,9 +37,18 @@ export default function ActionCard({icon: Icon, card}: Props) {
     opens.forEach(open => filesIpc.openPath(open.action));
 
     const manageUrls = (ptyId: string, onDone?: () => void) => {
-      if (urlConfig.type === 'custom' && urlConfig.customUrl) {
+      if ((urlConfig.type === 'custom' || urlConfig.type === 'htmlFile') && urlConfig.customUrl) {
         const openUrl = () => {
-          dispatch(cardsActions.setRunningCardCustomAddress({tabId: activeTab, address: urlConfig.customUrl!}));
+          let address = urlConfig.customUrl!;
+          if (
+            urlConfig.type === 'htmlFile' ||
+            address.startsWith('file://') ||
+            address.match(/^[a-zA-Z]:[\\/]/) ||
+            address.startsWith('/')
+          ) {
+            address = formatLocalPathToUrl(address);
+          }
+          dispatch(cardsActions.setRunningCardCustomAddress({tabId: activeTab, address}));
           if (onDone) onDone();
         };
 
