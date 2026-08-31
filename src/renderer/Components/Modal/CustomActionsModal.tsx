@@ -14,6 +14,7 @@ import {ArrowLeftIcon} from '@solar-icons/react/line-duotone';
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {sanitizeCards} from '../../../cross/cardSanitizer';
 import {customActionsChannels} from '../../../cross/CrossUtils';
 import {reducerActions, selectCustomCards, selectEditingCard, selectView} from '../../reducer';
 import {toastHolder} from '../../toastHolder';
@@ -68,15 +69,22 @@ export default function CustomActionsModal({state}: Props) {
         toastHolder?.top.danger('Clipboard is empty.');
         return;
       }
-      const parsed = JSON.parse(text);
-      if (Array.isArray(parsed)) {
-        dispatch(reducerActions.importCards(parsed));
-        toastHolder?.top.success(`Successfully imported ${parsed.length} cards!`);
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        toastHolder?.top.danger('Failed to import from clipboard. Ensure valid JSON format.');
+        return;
+      }
+      const sanitized = sanitizeCards(parsed);
+      if (sanitized.length > 0) {
+        dispatch(reducerActions.importCards(sanitized));
+        toastHolder?.top.success(`Successfully imported ${sanitized.length} card(s)!`);
       } else {
-        toastHolder?.top.danger('Clipboard content is not a valid list of cards.');
+        toastHolder?.top.danger('Clipboard content does not contain valid custom action cards.');
       }
     } catch (err) {
-      toastHolder?.top.danger('Failed to import from clipboard. Ensure valid JSON format.');
+      toastHolder?.top.danger('Failed to import from clipboard.');
       console.error(err);
     }
   };

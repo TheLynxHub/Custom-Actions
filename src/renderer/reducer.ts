@@ -1,6 +1,7 @@
 import {formatLocalPathToUrl, formatWebAddress} from '@lynx_common/utils';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
+import {sanitizeCard, sanitizeCards} from '../cross/cardSanitizer';
 import {
   CustomCard,
   CustomCardType,
@@ -110,15 +111,8 @@ const customActionsSlice = createSlice({
     },
     setEditingCard: (state, action: PayloadAction<CustomCard | undefined>) => {
       if (action.payload) {
-        state.editingCard = {
-          ...action.payload,
-          icon: action.payload.icon || 'bot',
-          categories: action.payload.categories || {},
-          actions: (action.payload.actions || []).map(a => ({
-            ...a,
-            id: a.id || crypto.randomUUID(),
-          })),
-        };
+        const sanitized = sanitizeCard(action.payload);
+        state.editingCard = sanitized ?? undefined;
       } else {
         state.editingCard = undefined;
       }
@@ -215,9 +209,12 @@ const customActionsSlice = createSlice({
         state.urlCatchingSession.urlFound = true;
       }
     },
-    importCards: (state, action: PayloadAction<CustomCard[]>) => {
+    importCards: (state, action: PayloadAction<CustomCard[] | unknown>) => {
+      const sanitized = sanitizeCards(action.payload);
+      if (sanitized.length === 0) return;
+
       const existingIds = new Set(state.customCards.map(c => c.id));
-      const newCards = action.payload.map(card => {
+      const newCards = sanitized.map(card => {
         let newId = card.id || crypto.randomUUID();
         let newTitle = card.title;
         let counter = 1;

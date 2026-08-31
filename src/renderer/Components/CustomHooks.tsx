@@ -5,7 +5,7 @@ import {Fragment, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 
-import {CustomCard} from '../../cross/CrossTypes';
+import {sanitizeCards} from '../../cross/cardSanitizer';
 import {customActionsChannels} from '../../cross/CrossUtils';
 import {reducerActions, selectCustomCards, selectSaveCards, selectUrlCatchingSession} from '../reducer';
 import {catchTerminalAddress} from './ActionCard/ActionCard_TerminalUtils';
@@ -26,10 +26,10 @@ export function CustomHook() {
 
   // Load cards from storage on mount
   useEffect(() => {
-    window.electron.ipcRenderer.invoke(customActionsChannels.getCards).then((cards: CustomCard[]) => {
-      dispatch(reducerActions.updateState({key: 'customCards', value: cards}));
+    window.electron.ipcRenderer.invoke(customActionsChannels.getCards).then((cards: unknown) => {
+      dispatch(reducerActions.updateState({key: 'customCards', value: sanitizeCards(cards)}));
     });
-  }, []);
+  }, [dispatch]);
 
   // Listen for terminal data when URL catching session is active
   useEffect(() => {
