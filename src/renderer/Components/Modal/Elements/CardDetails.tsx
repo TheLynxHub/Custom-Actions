@@ -148,7 +148,7 @@ export function CardDetails() {
         {/* Compact Icon Strip */}
         <div
           className={
-            'flex flex-wrap justify-center items-center gap-1.5 p-3 rounded-3xl bg-surface/40 border border-border/30'
+            'flex flex-wrap justify-center items-center gap-2 p-3 rounded-3xl bg-surface/40 border border-border/30'
           }>
           {CardIconsList.map(icon => {
             const isSelected = selectedIcon === icon;
