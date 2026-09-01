@@ -210,7 +210,7 @@ export default function CustomActionsModal({state}: Props) {
     <TabModal
       isOpen={state.isOpen}
       onOpenChange={state.setOpen}
-      dialogClassName="px-0 max-w-5xl"
+      dialogClassName="px-0 max-w-6xl"
       isKeyboardDismissDisabled={true}>
       <Modal.CloseTrigger />
 
