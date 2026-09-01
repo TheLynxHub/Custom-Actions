@@ -7,7 +7,7 @@ import {formatLocalPathToUrl} from '@lynx_common/utils';
 import filesIpc from '@lynx_shared/ipc/files';
 import ptyIpc from '@lynx_shared/ipc/pty';
 import {PenIcon} from '@solar-icons/react/bold-duotone';
-import {ReactElement, useCallback} from 'react';
+import {ReactElement, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CustomCard} from '../../../cross/CrossTypes';
@@ -16,6 +16,7 @@ import {resolvePathShortcuts} from '../../../cross/pathShortcuts';
 import {hasTemplateVariables} from '../../../cross/templateVariables';
 import {reducerActions, selectSystemPaths} from '../../reducer';
 import CustomActionsModal from '../Modal/CustomActionsModal';
+import {SafetyConfirmationModal} from '../Modal/SafetyConfirmationModal';
 import {VariablePromptModal} from '../Modal/VariablePromptModal';
 
 type Props = {
@@ -35,6 +36,9 @@ export default function ActionCard({icon: Icon, card}: Props) {
   const activeTab = useTabsState('activeTab');
   const modalState = useOverlayState();
   const promptModalState = useOverlayState();
+  const confirmModalState = useOverlayState();
+
+  const [pendingCard, setPendingCard] = useState<CustomCard>(card);
 
   const {title, description} = card;
 
@@ -195,8 +199,20 @@ export default function ActionCard({icon: Icon, card}: Props) {
   const handleCardPress = () => {
     if (hasTemplateVariables(card)) {
       promptModalState.open();
+    } else if (card.requireConfirmation) {
+      setPendingCard(card);
+      confirmModalState.open();
     } else {
       executeCard(card);
+    }
+  };
+
+  const handleVariableExecute = (resolvedCard: CustomCard) => {
+    if (card.requireConfirmation) {
+      setPendingCard(resolvedCard);
+      confirmModalState.open();
+    } else {
+      executeCard(resolvedCard);
     }
   };
 
@@ -228,10 +244,16 @@ export default function ActionCard({icon: Icon, card}: Props) {
       <CustomActionsModal state={modalState} />
       <VariablePromptModal
         card={card}
-        onExecute={executeCard}
         isOpen={promptModalState.isOpen}
+        onExecute={handleVariableExecute}
         onOpenChange={promptModalState.setOpen}
         cardIcon={<Icon className="size-full" />}
+      />
+      <SafetyConfirmationModal
+        card={pendingCard}
+        isOpen={confirmModalState.isOpen}
+        onOpenChange={confirmModalState.setOpen}
+        onConfirm={() => executeCard(pendingCard)}
       />
     </>
   );

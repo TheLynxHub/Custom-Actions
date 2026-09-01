@@ -1,6 +1,12 @@
 import {Button, Form, Input, Label, Modal, ScrollShadow, TextField} from '@heroui/react';
 import TabModal from '@lynx/components/TabModal';
-import {CheckCircleIcon, CopyIcon, PlayCircleIcon, RestartIcon} from '@solar-icons/react/bold-duotone';
+import {
+  CheckCircleIcon,
+  CopyIcon,
+  PlayCircleIcon,
+  RestartIcon,
+  ShieldWarningIcon,
+} from '@solar-icons/react/bold-duotone';
 import {FormEvent, ReactNode, useEffect, useMemo, useState} from 'react';
 
 import {CustomCard} from '../../../cross/CrossTypes';
@@ -103,9 +109,22 @@ export function VariablePromptModal({isOpen, onOpenChange, card, cardIcon, onExe
               {cardIcon || <PlayCircleIcon className="size-6" />}
             </div>
             <div className="flex flex-col min-w-0">
-              <Modal.Heading className="text-sm font-bold text-foreground truncate">
-                Run &quot;{card.title || 'Untitled Action'}&quot;
-              </Modal.Heading>
+              <div className="flex items-center gap-2">
+                <Modal.Heading className="text-sm font-bold text-foreground truncate">
+                  Run &quot;{card.title || 'Untitled Action'}&quot;
+                </Modal.Heading>
+                {card.requireConfirmation && (
+                  <span
+                    className={
+                      'flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-bold ' +
+                      'bg-warning/15 text-warning border border-warning/30 shrink-0'
+                    }
+                    title={card.confirmationMessage || 'Safety confirmation required'}>
+                    <ShieldWarningIcon className="size-2.5" />
+                    Protected
+                  </span>
+                )}
+              </div>
               <p className="text-xs text-muted leading-tight mt-0.5">
                 Configure {variables.length} template variable{variables.length !== 1 ? 's' : ''} before running.
               </p>

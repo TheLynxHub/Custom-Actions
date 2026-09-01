@@ -144,6 +144,11 @@ export function sanitizeCard(raw: unknown): CustomCard | null {
   const description = typeof obj.description === 'string' ? obj.description : undefined;
   const icon = typeof obj.icon === 'string' && obj.icon.trim() ? obj.icon.trim() : 'bot';
   const cwd = typeof obj.cwd === 'string' && obj.cwd.trim() ? obj.cwd.trim() : undefined;
+  const requireConfirmation = typeof obj.requireConfirmation === 'boolean' ? obj.requireConfirmation : undefined;
+  const confirmationMessage =
+    typeof obj.confirmationMessage === 'string' && obj.confirmationMessage.trim()
+      ? obj.confirmationMessage.trim()
+      : undefined;
   const cardType = VALID_CARD_TYPES.includes(obj.cardType as CustomCardType)
     ? (obj.cardType as CustomCardType)
     : 'terminal_browser';
@@ -159,6 +164,8 @@ export function sanitizeCard(raw: unknown): CustomCard | null {
     description,
     icon,
     cwd,
+    requireConfirmation,
+    confirmationMessage,
     cardType,
     urlConfig,
     categories,

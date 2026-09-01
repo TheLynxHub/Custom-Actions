@@ -111,6 +111,12 @@ const customActionsSlice = createSlice({
     setCwd: (state, action: PayloadAction<string>) => {
       if (state.editingCard) state.editingCard.cwd = action.payload;
     },
+    setRequireConfirmation: (state, action: PayloadAction<boolean>) => {
+      if (state.editingCard) state.editingCard.requireConfirmation = action.payload;
+    },
+    setConfirmationMessage: (state, action: PayloadAction<string>) => {
+      if (state.editingCard) state.editingCard.confirmationMessage = action.payload;
+    },
     setSystemPaths: (state, action: PayloadAction<SystemPathMap>) => {
       state.systemPaths = action.payload;
     },
@@ -278,6 +284,8 @@ const customActionsSlice = createSlice({
             id: crypto.randomUUID(),
             title: `${card.title} (Copy)`,
             cwd: card.cwd,
+            requireConfirmation: card.requireConfirmation,
+            confirmationMessage: card.confirmationMessage,
             urlConfig: {...card.urlConfig},
             categories: {...card.categories},
             actions: (card.actions || []).map(actionItem => ({

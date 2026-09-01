@@ -39,6 +39,8 @@ export type CustomCard = {
   description?: string;
   icon?: string;
   cwd?: string;
+  requireConfirmation?: boolean;
+  confirmationMessage?: string;
   categories: CustomCategories;
   actions: CustomExecuteActions[];
   env?: CustomEnvVar[];

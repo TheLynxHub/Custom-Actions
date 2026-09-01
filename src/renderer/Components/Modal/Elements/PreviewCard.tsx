@@ -1,6 +1,6 @@
 import {Checkbox} from '@heroui/react';
 import {PinIcon, StarIcon} from '@solar-icons/react/bold';
-import {Folder2Icon, PenIcon} from '@solar-icons/react/bold-duotone';
+import {Folder2Icon, PenIcon, ShieldWarningIcon} from '@solar-icons/react/bold-duotone';
 import {ReactNode, useMemo} from 'react';
 
 import {CustomCard} from '../../../../cross/CrossTypes';
@@ -167,6 +167,21 @@ export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Prop
               }
               title={`${variables.length} template variable(s): ${variables.map(v => v.name).join(', ')}`}>
               &#123;&#123;&#125;&#125; {variables.length} var{variables.length !== 1 ? 's' : ''}
+            </span>
+          )}
+          {card.requireConfirmation && (
+            <span
+              className={
+                'flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-warning/10 ' +
+                'text-warning font-semibold text-[9px] border border-warning/20'
+              }
+              title={
+                card.confirmationMessage
+                  ? `Safety Confirmation: ${card.confirmationMessage}`
+                  : 'Requires safety confirmation before execution'
+              }>
+              <ShieldWarningIcon className="size-2.5" />
+              Protected
             </span>
           )}
         </div>

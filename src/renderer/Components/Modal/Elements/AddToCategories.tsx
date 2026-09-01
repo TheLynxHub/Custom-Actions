@@ -77,11 +77,11 @@ export function AddToCategories() {
     <CheckboxGroup
       value={selectedValues}
       onChange={handleGroupChange}
-      aria-label="Categories & Placement"
-      className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      className="grid grid-cols-3 gap-2"
+      aria-label="Categories & Placement">
       {CATEGORIES.map(cat => {
         return (
-          <Checkbox key={cat.id} value={cat.id} className="w-full" aria-label={cat.name}>
+          <Checkbox key={cat.id} value={cat.id} aria-label={cat.name} className="w-full mt-0!">
             {({isSelected: checked}) => (
               <Checkbox.Content
                 className={
