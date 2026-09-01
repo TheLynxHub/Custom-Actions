@@ -1,4 +1,4 @@
-import {Button, Checkbox, Tooltip} from '@heroui/react';
+import {Checkbox, Tooltip} from '@heroui/react';
 import {PinIcon, StarIcon} from '@solar-icons/react/bold';
 import {Code2Icon, Folder2Icon, PenIcon, ShieldWarningIcon} from '@solar-icons/react/bold-duotone';
 import {ReactNode, useMemo} from 'react';
