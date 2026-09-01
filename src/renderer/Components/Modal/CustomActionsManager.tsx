@@ -15,7 +15,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {CustomCard, CustomCardType} from '../../../cross/CrossTypes';
 import {reducerActions, selectCustomCards, selectEditingCard, selectView} from '../../reducer';
-import {CardIconById} from '../CardIcons';
+import {CardIcon} from '../CardIcons';
 import {AddToCategories} from './Elements/AddToCategories';
 import {BatchActionBar} from './Elements/BatchActionBar';
 import {CardDetails} from './Elements/CardDetails';
@@ -258,7 +258,7 @@ export default function CustomActionsManager({
                     key={card.id}
                     handleEdit={handleEdit}
                     isSelected={selectedCardIds?.includes(card.id)}
-                    icon={CardIconById(card.icon)({className: 'size-full'})}
+                    icon={<CardIcon id={card.icon} className="size-full" />}
                     onSelect={onToggleSelect ? () => onToggleSelect(card.id) : undefined}
                   />
                 );

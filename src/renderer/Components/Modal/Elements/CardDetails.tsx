@@ -4,7 +4,7 @@ import {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {reducerActions, selectEditingCard} from '../../../reducer';
-import {CardIconById, CardIconsList} from '../../CardIcons';
+import {CardIcon, CardIconsList} from '../../CardIcons';
 
 export function CardDetails() {
   const dispatch = useDispatch();
@@ -139,7 +139,7 @@ export function CardDetails() {
               'flex items-center gap-1.5 px-2 py-0.5 rounded-full ' + 'bg-surface-tertiary border border-border/50'
             }>
             <div className="size-3.5 shrink-0 flex items-center justify-center">
-              {CardIconById(selectedIcon)({className: 'size-full'})}
+              <CardIcon id={selectedIcon} className="size-full" />
             </div>
             <span className="font-semibold text-foreground capitalize text-[11px]">{selectedIcon}</span>
           </div>
@@ -167,7 +167,7 @@ export function CardDetails() {
                 type="button"
                 onClick={() => changeIcon(icon)}>
                 <div className="size-7 flex items-center justify-center">
-                  {CardIconById(icon)({className: 'size-full'})}
+                  <CardIcon id={icon} className="size-full" />
                 </div>
               </button>
             );
