@@ -32,7 +32,7 @@ export function SafetyConfirmationModal({isOpen, onOpenChange, card, onConfirm}:
   };
 
   return (
-    <TabAlertDialog isOpen={isOpen} onOpenChange={onOpenChange} dialogClassName="sm:max-w-lg">
+    <TabAlertDialog isOpen={isOpen} dialogClassName="max-w-lg" onOpenChange={onOpenChange}>
       <AlertDialog.CloseTrigger />
       <AlertDialog.Header className="flex items-center gap-x-2.5">
         <div

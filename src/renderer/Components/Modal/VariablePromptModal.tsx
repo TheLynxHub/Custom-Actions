@@ -94,7 +94,7 @@ export function VariablePromptModal({isOpen, onOpenChange, card, cardIcon, onExe
   }, [variables]);
 
   return (
-    <TabModal isOpen={isOpen} isDismissable={true} onOpenChange={onOpenChange} dialogClassName="sm:max-w-xl">
+    <TabModal isOpen={isOpen} isDismissable={true} dialogClassName="max-w-xl" onOpenChange={onOpenChange}>
       <Modal.CloseTrigger />
 
       {/* Header with Pinned Live Command Preview */}

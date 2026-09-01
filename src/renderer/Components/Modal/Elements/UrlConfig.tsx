@@ -83,11 +83,7 @@ export function UrlConfig() {
   };
 
   const renderTimingSelector = () => (
-    <div
-      className={
-        'flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-2.5 sm:p-3 ' +
-        'rounded-3xl bg-surface/70 shadow-surface'
-      }>
+    <div className="flex flex-row items-center justify-between gap-3 p-3 rounded-3xl bg-surface/70 shadow-surface">
       <div className="flex items-center gap-2">
         <ClockCircleIcon className="size-4 text-accent shrink-0" />
         <span className="text-xs font-semibold text-foreground">Open Browser Tab</span>
@@ -140,7 +136,7 @@ export function UrlConfig() {
   return (
     <div className="flex flex-col gap-y-3.5">
       {/* Strategy selector pills */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <div className="grid grid-cols-4 gap-2">
         {STRATEGIES.map(item => {
           const isSelected = urlConfigType === item.id;
           return (

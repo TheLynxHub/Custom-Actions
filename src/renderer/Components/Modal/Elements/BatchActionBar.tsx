@@ -138,7 +138,7 @@ export function BatchActionBar({selectedCardIds, totalVisibleCount, onSelectAllV
         className={
           'sticky bottom-2 z-30 mx-auto mt-3 w-full max-w-2xl rounded-2xl border border-border/80 ' +
           'bg-surface/95 p-2 shadow-2xl backdrop-blur-lg ring-1 ring-border/50 ' +
-          'flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5'
+          'flex flex-row items-center justify-between gap-2.5'
         }
         animate={{opacity: 1, y: 0, scale: 1}}
         exit={{opacity: 0, y: 24, scale: 0.96}}
@@ -164,7 +164,7 @@ export function BatchActionBar({selectedCardIds, totalVisibleCount, onSelectAllV
         </div>
 
         {/* Right: Actions */}
-        <div className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap justify-end">
+        <div className="flex items-center gap-1.5 flex-nowrap justify-end">
           {/* Categories Dropdown */}
           <Dropdown>
             <Dropdown.Trigger>

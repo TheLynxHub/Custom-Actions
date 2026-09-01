@@ -40,7 +40,7 @@ export function EnvConfig() {
               <Input
                 value={item.key}
                 placeholder="KEY"
-                className="w-2/5 sm:w-1/3 font-JetBrainsMono text-xs"
+                className="w-1/3 font-JetBrainsMono text-xs"
                 onChange={e => handleUpdate(index, e.target.value, item.value)}
               />
               <span className="text-muted text-xs font-mono font-bold">=</span>
@@ -74,7 +74,7 @@ export function EnvConfig() {
           value={newKey}
           placeholder="NEW_KEY (e.g. PORT)"
           onChange={e => setNewKey(e.target.value)}
-          className="w-2/5 sm:w-1/3 font-JetBrainsMono text-xs"
+          className="w-1/3 font-JetBrainsMono text-xs"
         />
         <span className="text-muted text-xs font-mono font-bold">=</span>
         <Input

@@ -101,8 +101,8 @@ export default function CustomActionsManager({
       {view === 'list' ? (
         <div className="flex flex-col gap-y-4">
           {/* Top Search & Filter Bar */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-1">
-            <InputGroup variant="secondary" className="w-full sm:max-w-xs">
+          <div className="flex flex-row items-center justify-between gap-3 p-1">
+            <InputGroup variant="secondary" className="w-full max-w-xs">
               <InputGroup.Prefix className="text-muted">
                 <MagnifierIcon className="size-4" />
               </InputGroup.Prefix>
@@ -115,7 +115,7 @@ export default function CustomActionsManager({
             </InputGroup>
 
             {/* Category Filter Pills */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-hide">
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-0 scrollbar-hide">
               <button
                 className={
                   'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ' +
@@ -249,7 +249,7 @@ export default function CustomActionsManager({
               </Button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5">
+            <div className="grid grid-cols-4 gap-3.5">
               <NewCard />
               {filteredCards.map(card => {
                 return (

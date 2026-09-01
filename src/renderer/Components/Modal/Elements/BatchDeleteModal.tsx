@@ -12,7 +12,7 @@ type Props = {
 
 export function BatchDeleteModal({isOpen, onOpenChange, selectedCount, cardTitles, onConfirm}: Props) {
   return (
-    <TabAlertDialog isOpen={isOpen} onOpenChange={onOpenChange} dialogClassName="sm:max-w-md">
+    <TabAlertDialog isOpen={isOpen} dialogClassName="max-w-md" onOpenChange={onOpenChange}>
       <AlertDialog.CloseTrigger />
       <AlertDialog.Header>
         <AlertDialog.Icon status="danger" />

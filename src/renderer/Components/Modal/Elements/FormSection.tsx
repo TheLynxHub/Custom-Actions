@@ -24,9 +24,7 @@ export default function FormSection({title, description, icon, badge, headerActi
         {headerAction}
       </div>
       {description && <p className="text-xs text-muted -mt-1 px-0.5">{description}</p>}
-      <div className={'flex flex-col gap-y-3.5 rounded-3xl bg-surface-secondary p-3.5 sm:p-4 transition-colors'}>
-        {children}
-      </div>
+      <div className={'flex flex-col gap-y-3.5 rounded-3xl bg-surface-secondary p-4 transition-colors'}>{children}</div>
     </section>
   );
 }

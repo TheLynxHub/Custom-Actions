@@ -76,7 +76,7 @@ export function CardDetails() {
   return (
     <div className="flex flex-col gap-y-3.5">
       {/* Title & Description Inputs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3">
         <TextField value={title} onChange={setTitle} isRequired>
           <Label className="text-xs font-semibold text-foreground flex items-center justify-between">
             <span>Action Title</span>
