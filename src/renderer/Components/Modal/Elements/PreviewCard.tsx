@@ -2,9 +2,11 @@ import {Checkbox} from '@heroui/react';
 import {PinIcon, StarIcon} from '@solar-icons/react/bold';
 import {Folder2Icon, PenIcon, ShieldWarningIcon} from '@solar-icons/react/bold-duotone';
 import {ReactNode, useMemo} from 'react';
+import {useSelector} from 'react-redux';
 
 import {CustomCard} from '../../../../cross/CrossTypes';
 import {extractCardVariables} from '../../../../cross/templateVariables';
+import {selectRunningExecutions} from '../../../reducer';
 
 type Props = {
   card: CustomCard;
@@ -16,6 +18,12 @@ type Props = {
 
 export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Props) {
   const {title, description, cardType, actions, categories, urlConfig, cwd} = card;
+
+  const runningExecutions = useSelector(selectRunningExecutions);
+  const isRunning = useMemo(
+    () => runningExecutions.some(item => item.cardId === card.id),
+    [runningExecutions, card.id],
+  );
 
   const variables = useMemo(() => extractCardVariables(card), [card]);
 
@@ -90,8 +98,10 @@ export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Prop
           <div
             className={
               'flex size-9 shrink-0 items-center justify-center rounded-full ' +
-              'bg-surface-tertiary/80 p-1.5 ring-1 ring-border/50 group-hover:ring-accent/40 ' +
-              'group-hover:bg-accent/15 transition-all'
+              (isRunning
+                ? 'bg-emerald-500/15 ring-2 ring-emerald-500 dark:ring-emerald-400 animate-pulse '
+                : 'bg-surface-tertiary/80 ring-1 ring-border/50 group-hover:ring-accent/40 group-hover:bg-accent/15 ') +
+              'p-1.5 transition-all'
             }>
             <div className="size-5.5">{icon}</div>
           </div>
@@ -132,6 +142,20 @@ export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Prop
       {/* Footer */}
       <div className="flex items-center justify-between gap-2 pt-2 border-t border-border/40 text-[10px] text-muted">
         <div className="flex items-center gap-1.5 overflow-hidden">
+          {isRunning && (
+            <span
+              className={
+                'flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/10 ' +
+                'text-emerald-600 dark:text-emerald-400 font-semibold text-[9px] border border-emerald-500/20'
+              }>
+              <span className="relative flex size-1.5">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
+              </span>
+              Running
+            </span>
+          )}
+
           {categories?.pinned && (
             <span
               className={

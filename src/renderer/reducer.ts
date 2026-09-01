@@ -10,6 +10,7 @@ import {
   CustomEnvVar,
   CustomExecuteActions,
   CustomUrlConfigType,
+  RunningExecution,
 } from '../cross/CrossTypes';
 import {SystemPathMap} from '../cross/pathShortcuts';
 
@@ -27,6 +28,7 @@ export type CustomActionsState = {
   saveCards?: boolean;
   urlCatchingSession?: UrlCatchingSession;
   systemPaths?: SystemPathMap;
+  runningExecutions: RunningExecution[];
 };
 
 const initialState: CustomActionsState = {
@@ -36,6 +38,7 @@ const initialState: CustomActionsState = {
   saveCards: false,
   urlCatchingSession: undefined,
   systemPaths: undefined,
+  runningExecutions: [],
 };
 
 const customActionsSlice = createSlice({
@@ -329,6 +332,24 @@ const customActionsSlice = createSlice({
       });
       state.saveCards = true;
     },
+    addRunningExecution: (state, action: PayloadAction<RunningExecution>) => {
+      const filtered = (state.runningExecutions || []).filter(
+        item => item.cardId !== action.payload.cardId && item.tabId !== action.payload.tabId,
+      );
+      state.runningExecutions = [...filtered, action.payload];
+    },
+    removeRunningExecution: (state, action: PayloadAction<{cardId?: string; ptyId?: string; tabId?: string}>) => {
+      const {cardId, ptyId, tabId} = action.payload;
+      state.runningExecutions = (state.runningExecutions || []).filter(item => {
+        if (cardId && item.cardId === cardId) return false;
+        if (ptyId && item.ptyId === ptyId) return false;
+        if (tabId && item.tabId === tabId) return false;
+        return true;
+      });
+    },
+    clearRunningExecutions: state => {
+      state.runningExecutions = [];
+    },
   },
 });
 
@@ -339,6 +360,7 @@ export const selectSaveCards = (state: any): boolean | undefined => state.custom
 export const selectUrlCatchingSession = (state: any): UrlCatchingSession | undefined =>
   state.customActions.urlCatchingSession;
 export const selectSystemPaths = (state: any): SystemPathMap | undefined => state.customActions.systemPaths;
+export const selectRunningExecutions = (state: any): RunningExecution[] => state.customActions.runningExecutions || [];
 
 export const reducerActions = customActionsSlice.actions;
 

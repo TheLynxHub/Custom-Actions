@@ -45,3 +45,11 @@ export type CustomCard = {
   actions: CustomExecuteActions[];
   env?: CustomEnvVar[];
 };
+
+export type RunningExecution = {
+  cardId: string;
+  tabId: string;
+  ptyId: string;
+  cardType: CustomCardType;
+  startedAt: number;
+};

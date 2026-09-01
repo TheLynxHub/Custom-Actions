@@ -1,20 +1,24 @@
-import {Button, useOverlayState} from '@heroui/react';
+import {Button, Tooltip, useOverlayState} from '@heroui/react';
 import {ToolsCard} from '@lynx/components/ToolsCard';
 import {cardsActions} from '@lynx/redux/reducers/cards';
-import {useTabsState} from '@lynx/redux/reducers/tabs';
+import {tabsActions, useTabsState} from '@lynx/redux/reducers/tabs';
 import {SvgProps} from '@lynx_assets/icons/types';
+import {PageTitleByPageId} from '@lynx_common/consts';
+import {ptyChannels} from '@lynx_common/consts/ipcChannels/pty';
 import {formatLocalPathToUrl} from '@lynx_common/utils';
+import browserIpc from '@lynx_shared/ipc/browser';
 import filesIpc from '@lynx_shared/ipc/files';
 import ptyIpc from '@lynx_shared/ipc/pty';
+import {StopIcon} from '@solar-icons/react/bold';
 import {PenIcon} from '@solar-icons/react/bold-duotone';
-import {ReactElement, useCallback, useState} from 'react';
+import {ReactElement, useCallback, useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CustomCard} from '../../../cross/CrossTypes';
 import {customActionsChannels} from '../../../cross/CrossUtils';
 import {resolvePathShortcuts} from '../../../cross/pathShortcuts';
 import {hasTemplateVariables} from '../../../cross/templateVariables';
-import {reducerActions, selectSystemPaths} from '../../reducer';
+import {reducerActions, selectRunningExecutions, selectSystemPaths} from '../../reducer';
 import CustomActionsModal from '../Modal/CustomActionsModal';
 import {SafetyConfirmationModal} from '../Modal/SafetyConfirmationModal';
 import {VariablePromptModal} from '../Modal/VariablePromptModal';
@@ -32,8 +36,10 @@ const IS_WINDOWS = window.osPlatform === 'win32';
 export default function ActionCard({icon: Icon, card}: Props) {
   const dispatch = useDispatch();
   const systemPaths = useSelector(selectSystemPaths);
+  const runningExecutions = useSelector(selectRunningExecutions);
 
   const activeTab = useTabsState('activeTab');
+  const tabs = useTabsState('tabs');
   const modalState = useOverlayState();
   const promptModalState = useOverlayState();
   const confirmModalState = useOverlayState();
@@ -41,6 +47,12 @@ export default function ActionCard({icon: Icon, card}: Props) {
   const [pendingCard, setPendingCard] = useState<CustomCard>(card);
 
   const {title, description} = card;
+
+  const runningExecution = useMemo(
+    () => runningExecutions.find(item => item.cardId === card.id),
+    [runningExecutions, card.id],
+  );
+  const isRunning = Boolean(runningExecution);
 
   const executeCard = useCallback(
     (targetCard: CustomCard) => {
@@ -164,6 +176,15 @@ export default function ActionCard({icon: Icon, card}: Props) {
           window.electron.ipcRenderer.send(customActionsChannels.startExe, ptyID, resolvedExe, envObj, resolvedCwd);
 
           dispatch(cardsActions.addRunningCard({tabId: activeTab, id: ptyID}));
+          dispatch(
+            reducerActions.addRunningExecution({
+              cardId: targetCard.id,
+              tabId: activeTab,
+              ptyId: ptyID,
+              cardType: targetCard.cardType,
+              startedAt: Date.now(),
+            }),
+          );
           manageUrls(ptyID, () => {
             dispatch(cardsActions.setRunningCardView({tabId: activeTab, view: 'browser'}));
           });
@@ -171,13 +192,32 @@ export default function ActionCard({icon: Icon, card}: Props) {
           break;
         }
         case 'browser': {
+          const ptyID = `${activeTab}_browser`;
           dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'browser', dir: resolvedCwd}));
-          manageUrls(`${activeTab}_browser`);
+          dispatch(
+            reducerActions.addRunningExecution({
+              cardId: targetCard.id,
+              tabId: activeTab,
+              ptyId: ptyID,
+              cardType: targetCard.cardType,
+              startedAt: Date.now(),
+            }),
+          );
+          manageUrls(ptyID);
           break;
         }
         case 'terminal': {
-          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'terminal', dir: resolvedCwd}));
           const ptyID = `${activeTab}_terminal`;
+          dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'terminal', dir: resolvedCwd}));
+          dispatch(
+            reducerActions.addRunningExecution({
+              cardId: targetCard.id,
+              tabId: activeTab,
+              ptyId: ptyID,
+              cardType: targetCard.cardType,
+              startedAt: Date.now(),
+            }),
+          );
           manageUrls(ptyID);
           setTimeout(() => runCustomCommands(ptyID), 100);
           break;
@@ -185,6 +225,15 @@ export default function ActionCard({icon: Icon, card}: Props) {
         case 'terminal_browser': {
           const ptyID = `${activeTab}_both`;
           dispatch(cardsActions.addRunningEmpty({tabId: activeTab, type: 'both', dir: resolvedCwd}));
+          dispatch(
+            reducerActions.addRunningExecution({
+              cardId: targetCard.id,
+              tabId: activeTab,
+              ptyId: ptyID,
+              cardType: targetCard.cardType,
+              startedAt: Date.now(),
+            }),
+          );
           manageUrls(ptyID, () => {
             dispatch(cardsActions.setRunningCardView({tabId: activeTab, view: 'browser'}));
           });
@@ -196,7 +245,55 @@ export default function ActionCard({icon: Icon, card}: Props) {
     [activeTab, dispatch, systemPaths],
   );
 
+  const handleStopExecution = useCallback(
+    (e?: unknown) => {
+      if (e && typeof (e as {stopPropagation?: () => void}).stopPropagation === 'function') {
+        (e as {stopPropagation: () => void}).stopPropagation();
+      }
+      if (!runningExecution) return;
+
+      const {ptyId, tabId, cardType} = runningExecution;
+
+      // 1. Send interrupt signal and stop PTY / child process tree
+      if (cardType !== 'browser') {
+        try {
+          ptyIpc.write(ptyId, '\x03');
+        } catch {
+          // Process might already be closing
+        }
+        ptyIpc.stop(ptyId);
+        if (cardType === 'executable') {
+          window.electron.ipcRenderer.send(ptyChannels.stopProcess, ptyId);
+        }
+      }
+
+      // 2. Remove browser view if any
+      browserIpc.send.removeBrowser(ptyId);
+
+      // 3. Stop running card in LynxHub Redux state
+      dispatch(cardsActions.stopRunningCard({tabId}));
+
+      // 4. Restore tab title and reset tab terminal/progress/favicon state
+      const targetTab = tabs.find(t => t.id === tabId);
+      const restoredTitle =
+        (targetTab && PageTitleByPageId[targetTab.pageID as keyof typeof PageTitleByPageId]) || 'Home';
+      dispatch(tabsActions.setTabTitle({tabID: tabId, title: restoredTitle}));
+      dispatch(tabsActions.setTabIsTerminal({tabID: tabId, isTerminal: false}));
+      dispatch(tabsActions.setTabFavIcon({tabID: tabId, show: false, url: ''}));
+      dispatch(tabsActions.setTabProgress({tabID: tabId, progress: undefined}));
+
+      // 5. Remove execution from custom actions state
+      dispatch(reducerActions.removeRunningExecution({cardId: card.id}));
+    },
+    [runningExecution, card.id, tabs, dispatch],
+  );
+
   const handleCardPress = () => {
+    if (isRunning && runningExecution) {
+      dispatch(tabsActions.setActiveTab(runningExecution.tabId));
+      return;
+    }
+
     if (hasTemplateVariables(card)) {
       promptModalState.open();
     } else if (card.requireConfirmation) {
@@ -216,20 +313,98 @@ export default function ActionCard({icon: Icon, card}: Props) {
     }
   };
 
-  const openConfig = () => {
+  const openConfig = (e?: unknown) => {
+    if (e && typeof (e as {stopPropagation?: () => void}).stopPropagation === 'function') {
+      (e as {stopPropagation: () => void}).stopPropagation();
+    }
     dispatch(reducerActions.setEditingCard(card));
     dispatch(reducerActions.setView('form'));
     modalState.open();
   };
 
+  const renderIcon = () => {
+    if (!isRunning) {
+      return <Icon className="size-8" id={runningExecution?.tabId} />;
+    }
+
+    return (
+      <Tooltip delay={150}>
+        <Tooltip.Trigger>
+          <div className="relative size-8 flex items-center justify-center">
+            <Icon className="size-8 text-emerald-500 dark:text-emerald-400" />
+          </div>
+        </Tooltip.Trigger>
+        <Tooltip.Content>
+          <p className="font-semibold text-xs text-emerald-600 dark:text-emerald-400">Process Running</p>
+          <p className="text-[10px] text-muted">Click card to view session tab</p>
+        </Tooltip.Content>
+      </Tooltip>
+    );
+  };
+
+  const renderFooter = () => {
+    if (isRunning) {
+      return (
+        <div onClick={e => e.stopPropagation()} className="flex items-center justify-between w-full">
+          <div
+            className={
+              'flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 absolute top-4 right-4 ' +
+              'border border-emerald-500/25 text-emerald-600 dark:text-emerald-400 text-xs font-semibold select-none'
+            }>
+            <span>Running</span>
+          </div>
+
+          <div />
+
+          <div className="flex items-center gap-1.5">
+            <Tooltip delay={150}>
+              <Tooltip.Trigger>
+                <Button
+                  size="sm"
+                  variant="danger-soft"
+                  onPress={handleStopExecution}
+                  className="shrink-0 font-medium"
+                  aria-label="Stop running process"
+                  isIconOnly>
+                  <StopIcon className="size-3.5" />
+                </Button>
+              </Tooltip.Trigger>
+              <Tooltip.Content>
+                <p className="text-xs font-medium">Stop Process</p>
+              </Tooltip.Content>
+            </Tooltip>
+
+            <Tooltip delay={150}>
+              <Tooltip.Trigger>
+                <Button
+                  size="sm"
+                  variant="tertiary"
+                  onPress={openConfig}
+                  className="shrink-0"
+                  aria-label="Edit card"
+                  isIconOnly>
+                  <PenIcon className="text-semi-muted size-3.5" />
+                </Button>
+              </Tooltip.Trigger>
+              <Tooltip.Content>
+                <p className="text-xs">Edit Action</p>
+              </Tooltip.Content>
+            </Tooltip>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <Button size="sm" variant="tertiary" onPress={openConfig} className="shrink-0" aria-label="Edit card" isIconOnly>
+        <PenIcon className="text-semi-muted size-3.5" />
+      </Button>
+    );
+  };
+
   return (
     <>
       <ToolsCard
-        footer={
-          <Button variant="tertiary" onPress={openConfig} className="shrink-0" isIconOnly>
-            <PenIcon className="text-semi-muted" />
-          </Button>
-        }
         description={
           description ||
           'No description provided. Click to execute this action, run scripts, or open the' +
@@ -237,9 +412,10 @@ export default function ActionCard({icon: Icon, card}: Props) {
         }
         id={card.id}
         title={title}
+        icon={renderIcon()}
+        footer={renderFooter()}
         onPress={handleCardPress}
-        avatarClassName="ring-cyan-500"
-        icon={<Icon className="size-8" />}
+        avatarClassName={isRunning ? 'ring-emerald-500 dark:ring-emerald-400 ring-2 animate-pulse' : 'ring-cyan-500'}
       />
       <CustomActionsModal state={modalState} />
       <VariablePromptModal
