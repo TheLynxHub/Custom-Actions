@@ -1,8 +1,8 @@
 import './index.css';
 
 import {ExtensionRendererApi} from '@lynx/plugins/extensions/types/api';
+import {SENTRY_DSN} from '@lynx_extension/common/consts';
 
-import {SENTRY_DSN} from '../cross/constants';
 import {
   AllActions,
   AudioActions,
@@ -10,16 +10,16 @@ import {
   PinnedActions,
   RecentlyActions,
   TextActions,
-} from './Components/CardsContainer';
-import {CustomHook} from './Components/CustomHooks';
-import CustomActionsCard from './Components/ToolsPage';
-import reducer from './reducer';
-import {setToast} from './toastHolder';
+  ToolsPageCard,
+} from './components/cards';
+import {useCustomActionsLifecycle} from './hooks';
+import {setToast} from './services';
+import {customActionsReducer} from './store';
 
 export function InitialExtensions(lynxAPI: ExtensionRendererApi) {
   lynxAPI.initBrowserSentry(SENTRY_DSN);
 
-  lynxAPI.addReducer([{name: 'customActions', reducer}]);
+  lynxAPI.addReducer([{name: 'customActions', reducer: customActionsReducer}]);
   if (lynxAPI.toast) setToast(lynxAPI.toast);
 
   lynxAPI.cards.registerToolsCard?.({
@@ -28,12 +28,12 @@ export function InitialExtensions(lynxAPI: ExtensionRendererApi) {
     description:
       'Create, customize, and manage custom shortcut cards with your own scripts, ' +
       'APIs, or shell commands to automate your daily developer workflows.',
-    component: CustomActionsCard,
+    component: ToolsPageCard,
     where: 'tools_page',
   });
 
   if (!lynxAPI.cards.registerToolsCard) {
-    lynxAPI.customizePages.tools.add.cardsContainer(CustomActionsCard);
+    lynxAPI.customizePages.tools.add.cardsContainer(ToolsPageCard);
   }
 
   lynxAPI.customizePages.home.add.pinCategory(PinnedActions);
@@ -43,5 +43,5 @@ export function InitialExtensions(lynxAPI: ExtensionRendererApi) {
   lynxAPI.customizePages.text.add.cardsContainer(TextActions);
   lynxAPI.customizePages.audio.add.cardsContainer(AudioActions);
 
-  lynxAPI.addCustomHook(CustomHook);
+  lynxAPI.addCustomHook(useCustomActionsLifecycle);
 }

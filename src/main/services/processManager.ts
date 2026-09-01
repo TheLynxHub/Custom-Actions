@@ -1,0 +1,184 @@
+import {ChildProcess, spawn} from 'node:child_process';
+import fs from 'node:fs';
+import {platform} from 'node:os';
+import path from 'node:path';
+
+import {ptyChannels} from '@lynx_common/consts/ipcChannels/pty';
+import type MainWindowManager from '@lynx_main/mainWindow';
+import treeKill from 'tree-kill';
+
+/**
+ * Manages child processes for executables, handling output streaming to PTY channels
+ * and clean process tree termination.
+ */
+export default class ProcessManager {
+  private isRunning: boolean;
+  private process: ChildProcess | undefined;
+
+  public id: string;
+
+  constructor(
+    id: string,
+    exePath: string,
+    appManager: MainWindowManager,
+    onExitCallback?: (id: string) => void,
+    env?: Record<string, string>,
+    cwd?: string,
+  ) {
+    this.id = id;
+
+    let validatedExe: string | undefined = undefined;
+    if (exePath && exePath.length > 0) {
+      try {
+        fs.accessSync(exePath, fs.constants.R_OK);
+        validatedExe = path.resolve(exePath);
+      } catch (error) {
+        console.warn(`Exe file ${exePath} is not accessible.`);
+      }
+    } else {
+      console.warn(`Exe path is empty.`);
+    }
+
+    if (!validatedExe) {
+      appManager?.getWebContent()?.send(ptyChannels.onExit, this.id);
+      this.isRunning = false;
+      return;
+    }
+
+    const currentPlatform = platform();
+    let commandToRun: string;
+    let spawnArgs: string[] = [];
+
+    if (currentPlatform === 'darwin' && validatedExe.endsWith('.app')) {
+      // macOS: Use 'open' command for .app bundles
+      commandToRun = 'open';
+      spawnArgs = ['-W', validatedExe]; // -W waits for the app to close
+    } else {
+      // Windows, Linux, or non-.app files on macOS
+      commandToRun = validatedExe;
+      if (commandToRun.includes(' ')) {
+        commandToRun = `"${commandToRun}"`;
+      }
+    }
+
+    let workingDir = path.dirname(validatedExe);
+    if (cwd && cwd.trim().length > 0) {
+      try {
+        if (fs.existsSync(cwd.trim())) {
+          workingDir = path.resolve(cwd.trim());
+        }
+      } catch (err) {
+        console.warn(`Provided cwd "${cwd}" is invalid, defaulting to exe directory:`, err);
+      }
+    }
+
+    // Spawn the process using Node's child_process module
+    this.process = spawn(commandToRun, spawnArgs, {
+      env: {...process.env, ...env},
+      shell: spawnArgs.length === 0, // Only use shell when not using 'open' command
+      cwd: workingDir,
+    });
+
+    this.isRunning = true;
+
+    // Listen for data on standard output
+    this.process.stdout?.on('data', (data: Buffer) => {
+      appManager?.getWebContent()?.send(ptyChannels.onData, this.id, data.toString());
+    });
+
+    // Listen for data on standard error
+    this.process.stderr?.on('data', (data: Buffer) => {
+      console.error(`[${this.id}] stderr:`, data.toString());
+      // Send stderr to the same channel to display it in the terminal UI
+      appManager?.getWebContent()?.send(ptyChannels.onData, this.id, data.toString());
+    });
+
+    // Send the executable path as the title
+    appManager?.getWebContent()?.send(ptyChannels.onTitle, this.id, this.process?.spawnfile);
+
+    // Handle process errors (e.g., command not found)
+    this.process.on('error', err => {
+      console.error(`Failed to start process for ${validatedExe}:`, err);
+      appManager
+        ?.getWebContent()
+        ?.send(ptyChannels.onData, this.id, `\r\nError: Could not start process. ${err.message}\r\n`);
+      appManager?.getWebContent()?.send(ptyChannels.onExit, this.id);
+      this.isRunning = false;
+      if (onExitCallback) {
+        onExitCallback(this.id);
+      }
+    });
+
+    // Listen for the process exit event
+    this.process.on('exit', () => {
+      appManager?.getWebContent()?.send(ptyChannels.onExit, this.id);
+      this.isRunning = false;
+      if (onExitCallback) {
+        onExitCallback(this.id);
+      }
+    });
+  }
+
+  public async stopAsync(): Promise<void> {
+    return new Promise<void>(resolve => {
+      if (this.isRunning && this.process) {
+        this.process.once('exit', () => {
+          this.process = undefined;
+          resolve();
+        });
+
+        // Kill the process and its entire process tree
+        if (this.process.pid) {
+          treeKill(this.process.pid);
+        } else {
+          this.process.kill();
+        }
+        this.isRunning = false;
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  /**
+   * Stops the current child process.
+   */
+  public stop(): void {
+    if (this.isRunning && this.process) {
+      this.process.once('exit', () => {
+        this.process = undefined;
+      });
+
+      if (this.process.pid) {
+        treeKill(this.process.pid);
+      } else {
+        this.process.kill();
+      }
+      this.isRunning = false;
+    }
+  }
+
+  /**
+   * Clears the terminal by sending the appropriate command ('cls' or 'clear') to the process's input.
+   */
+  public clear(): void {
+    if (this.isRunning && this.process?.stdin) {
+      const command = platform() === 'win32' ? 'cls' : 'clear';
+      const lineEnding = platform() === 'win32' ? '\r\n' : '\n';
+      this.write(`${command}${lineEnding}`);
+    }
+  }
+
+  /**
+   * Writes data to the child process's standard input.
+   */
+  public write(data: string | string[]): void {
+    if (!this.isRunning || !this.process?.stdin) return;
+
+    if (Array.isArray(data)) {
+      data.forEach(text => this.process?.stdin?.write(text));
+    } else {
+      this.process?.stdin?.write(data);
+    }
+  }
+}

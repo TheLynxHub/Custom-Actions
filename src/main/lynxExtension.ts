@@ -1,12 +1,9 @@
 import {ExtensionMainApi, MainExtensionUtils} from '@lynx_main/plugins/extensions/types';
 import {app, ipcMain} from 'electron';
 
-import {SENTRY_DSN} from '../cross/constants';
-import {CustomCard} from '../cross/CrossTypes';
-import {customActionsChannels} from '../cross/CrossUtils';
-import {SystemPathMap} from '../cross/pathShortcuts';
-import {exportToFile, getCards, importFromFile, setCards} from './Methods/CardsManager';
-import startExecute from './Methods/StartExecute';
+import {customActionsChannels, SENTRY_DSN} from '../common/consts';
+import {CustomCard, SystemPathMap} from '../common/types';
+import {exportToFile, getCards, importFromFile, registerExecutionHandlers, setCards} from './services';
 
 export async function initialExtension(lynxApi: ExtensionMainApi, utils: MainExtensionUtils) {
   lynxApi.initNodeSentry(SENTRY_DSN);
@@ -30,7 +27,7 @@ export async function initialExtension(lynxApi: ExtensionMainApi, utils: MainExt
       });
     });
     utils.getAppManager().then(appManager => {
-      startExecute(appManager);
+      registerExecutionHandlers(appManager);
     });
   });
 }
