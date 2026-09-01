@@ -47,6 +47,11 @@ export default function ActionCard({icon: Icon, card}: Props) {
   const [pendingCard, setPendingCard] = useState<CustomCard>(card);
 
   const {title, description} = card;
+  const isPinned = Boolean(card.categories?.pinned);
+
+  const handleTogglePin = useCallback(() => {
+    dispatch(reducerActions.batchToggleCategory({cardIds: [card.id], category: 'pinned'}));
+  }, [card.id, dispatch]);
 
   const runningExecution = useMemo(
     () => runningExecutions.find(item => item.cardId === card.id),
@@ -413,8 +418,10 @@ export default function ActionCard({icon: Icon, card}: Props) {
         id={card.id}
         title={title}
         icon={renderIcon()}
+        isPinned={isPinned}
         footer={renderFooter()}
         onPress={handleCardPress}
+        onPinPress={handleTogglePin}
         avatarClassName={isRunning ? 'ring-emerald-500 dark:ring-emerald-400 ring-2 animate-pulse' : 'ring-cyan-500'}
       />
       <CustomActionsModal state={modalState} />
