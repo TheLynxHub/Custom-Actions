@@ -271,24 +271,14 @@ export function PreviewCard({card, handleEdit, icon, isSelected, onSelect}: Prop
             </Tooltip>
           )}
 
-          <Tooltip delay={150}>
-            <Tooltip.Trigger>
-              <Button
-                className={
-                  'size-5.5 min-w-0 p-0 rounded-full text-muted hover:text-accent ' +
-                  'hover:bg-accent/15 opacity-0 group-hover:opacity-100 transition-all duration-150'
-                }
-                size="sm"
-                variant="ghost"
-                aria-label="Edit action"
-                isIconOnly>
-                <PenIcon className="size-3" />
-              </Button>
-            </Tooltip.Trigger>
-            <Tooltip.Content>
-              <p className="text-xs">Edit Action</p>
-            </Tooltip.Content>
-          </Tooltip>
+          <div
+            className={
+              'size-5.5 min-w-0 p-0 rounded-full text-muted flex items-center justify-center ' +
+              'opacity-0 group-hover:opacity-100 transition-all duration-150'
+            }
+            aria-label="Edit action">
+            <PenIcon className="size-3" />
+          </div>
         </div>
       </div>
     </div>
