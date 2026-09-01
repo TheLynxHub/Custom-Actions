@@ -11,17 +11,18 @@ export function NewCard() {
   return (
     <button
       className={
-        'group relative flex flex-col items-center justify-center text-center p-4 rounded-3xl ' +
-        'border-2 border-dashed border-border/70 hover:border-accent/60 bg-surface ' +
-        'hover:bg-accent/5 transition-all duration-200 cursor-pointer min-h-40 w-full'
+        'group relative flex flex-col items-center justify-center text-center p-3.5 rounded-3xl ' +
+        'border-2 border-dashed border-border/70 hover:border-accent/60 bg-surface-secondary/30 ' +
+        'hover:bg-accent/5 hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200 ' +
+        'cursor-pointer min-h-42 w-full select-none'
       }
       type="button"
       onClick={handleCreateNew}>
       <div
         className={
-          'flex size-10 items-center justify-center rounded-full bg-surface-tertiary text-muted ' +
-          'group-hover:bg-accent/20 group-hover:text-accent transition-all duration-200 mb-2 ' +
-          'shadow-2xs group-hover:scale-110'
+          'flex size-10 items-center justify-center rounded-full bg-surface-tertiary/80 text-muted ' +
+          'group-hover:bg-accent/20 group-hover:text-accent group-hover:scale-105 border border-border/50 ' +
+          'group-hover:border-accent/30 transition-all duration-200 mb-2.5 shadow-2xs'
         }>
         <Plus className="size-5" />
       </div>
