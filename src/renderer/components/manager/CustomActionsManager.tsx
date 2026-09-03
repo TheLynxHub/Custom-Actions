@@ -11,7 +11,7 @@ import {
   MagnifierIcon,
   Widget6Icon,
 } from '@solar-icons/react/bold-duotone';
-import {AnimatePresence, motion} from 'framer-motion';
+import {AnimatePresence, motion, Variants} from 'framer-motion';
 import {useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -36,6 +36,25 @@ type Props = {
 };
 
 type FilterCategory = 'all' | 'pinned' | CustomCardType;
+
+const previewCardVariants: Variants = {
+  initial: {opacity: 0, scale: 0.94, translateY: 10},
+  animate: (index: number) => ({
+    opacity: 1,
+    scale: 1,
+    translateY: 0,
+    transition: {
+      delay: Math.min(index, 12) * 0.03,
+      duration: 0.2,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  }),
+  exit: {
+    opacity: 0,
+    scale: 0.92,
+    transition: {duration: 0.15},
+  },
+};
 
 export function CustomActionsManager({selectedCardIds = [], onToggleSelect, onSelectAll, onClearSelect}: Props) {
   const dispatch = useDispatch();
@@ -246,18 +265,27 @@ export function CustomActionsManager({selectedCardIds = [], onToggleSelect, onSe
           ) : (
             <div className="grid grid-cols-4 gap-3.5">
               <NewCardButton />
-              {filteredCards.map(card => {
-                return (
-                  <PreviewCard
-                    card={card}
+              <AnimatePresence mode="popLayout">
+                {filteredCards.map((card, index) => (
+                  <motion.div
+                    exit="exit"
                     key={card.id}
-                    handleEdit={handleEdit}
-                    isSelected={selectedCardIds?.includes(card.id)}
-                    icon={<CardIcon id={card.icon} className="size-full" />}
-                    onSelect={onToggleSelect ? () => onToggleSelect(card.id) : undefined}
-                  />
-                );
-              })}
+                    custom={index}
+                    layout="position"
+                    initial="initial"
+                    animate="animate"
+                    className="flex flex-col"
+                    variants={previewCardVariants}>
+                    <PreviewCard
+                      card={card}
+                      handleEdit={handleEdit}
+                      isSelected={selectedCardIds?.includes(card.id)}
+                      icon={<CardIcon id={card.icon} className="size-full" />}
+                      onSelect={onToggleSelect ? () => onToggleSelect(card.id) : undefined}
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
           )}
 
